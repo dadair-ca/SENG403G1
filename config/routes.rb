@@ -1,4 +1,4 @@
-WebLib::Application.routes.draw do
+SENG403G1::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

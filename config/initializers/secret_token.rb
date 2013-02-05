@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-WebLib::Application.config.secret_token = 'a7b180dfcb083893c29505fc0a32dcf7923834ec9d70f728d224c47ac8730b5fe14cf02e96f61031108de74371e2963a34b723ec4860d477ba1501a8aa059ea1'
+SENG403G1::Application.config.secret_token = 'a1ab6bc85367fc2c811045853be41337cefb56465f76c397f0a7667ab2147f1fc57e5235c94b5d71a9dc003279484c8be855439c634dae3892d6fcb287c81e5f'
