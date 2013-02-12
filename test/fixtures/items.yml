@@ -1,7 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  title: MyText
-
-two:
-  title: MyText
+  title: The Hobbit
+  year: 1937
+  genre: Fiction
+  publisher: George Allen & Unwin
+  isbn13: 1234567890123
+  isbn10: 1234567890

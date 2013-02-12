@@ -10,12 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130207233632) do
+ActiveRecord::Schema.define(:version => 20130212214353) do
 
   create_table "items", :force => true do |t|
     t.text     "title"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.text     "genre"
+    t.text     "isbn13"
+    t.text     "isbn10"
+    t.text     "publisher"
+    t.integer  "year"
   end
 
 end

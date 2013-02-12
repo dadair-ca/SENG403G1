@@ -3,8 +3,17 @@
 <p>
   <b>Title:</b>
   <%= @item.title %>
+  <b>Year:</b>
+  <%= @item.year %>
+  <b>Genre:</b>
+  <%= @item.genre %>
+  <b>Publisher:</b>
+  <%= @item.publisher %>
+  <b>ISBN-13:</b>
+  <%= @item.isbn13 %>
+  <b>ISBN-10:</b>
+  <%= @item.isbn10 %>
 </p>
-
 
 <%= link_to 'Edit', edit_item_path(@item) %> |
 <%= link_to 'Back', items_path %>
