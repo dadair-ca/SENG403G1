@@ -3,12 +3,49 @@
 <head>
   <title>SENG403G1</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag    "application", "http://fonts.googleapis.com/css?family=Oswald", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+<div id="container">
+	<div id="header">
+		<%= link_to "", root_path, :class => "logo" %>
+		<div class="header-mid">
+			<%= link_to root_path, :class => "weblib" do %>
+				Web<span class="weblib-right">Lib</span>
+			<% end %>
+			<% if request.path_parameters[:controller] == "home" %>
+				<div class="welcome">
+					Welcome to WebLib, a library management system!
+				</div>
+			<% else %>
+				<%# TODO: link_to %>
+				<div class="navigation">
+					Search Catalog | Browse Genre | Admin Panel
+				</div>
+			<% end %>
+		</div>
+		<div class="header-right">
+			Login Panel
+		</div>
+	</div>
+
+	<div id="content">
+		<div class="wrapper">
+			<%= yield %>
+		</div>
+	</div>
+	
+	<div id="footer">
+		<div class="wrapper">
+			<p>Search Catalog | Browse Genre | Admin Panel</p>
+			<p>Created by Infomatics Team (David Adair, Shena Fortozo, Naomi Hiebert, Gellert Kispal, Sydney Pratte, Ho Wai Yung)</p>
+			<p>SENG 403, Winter 2013</p>
+		</div>
+	</div>
+</div>
 
 </body>
 </html>

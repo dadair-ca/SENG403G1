@@ -1,0 +1,22 @@
+// Place all the styles related to the Items controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#login {
+	float: left;
+	width: 325px;
+	margin-right: 50px;
+	border-radius: 5px;
+	background-color: #ebebeb;
+	.wrap {
+		padding: 10px;
+	}
+}
+
+#btn_catalog {
+	float: left;
+	width: 316px;
+	height: 168px;
+	display: block;
+	background: image-url("btn_catalog.png") no-repeat;
+}
