@@ -7,3 +7,125 @@ one:
   publisher: George Allen & Unwin
   isbn13: 1234567890123
   isbn10: 1234567890
+  
+two:
+  title: Lord of the Rings
+  year: 1954
+  genre: Fantasy
+  publisher: J.R.R. Tolkien
+  isbn13: 9780618517657
+  isbn10: 0618517650
+  
+three:
+  title: Steve Jobs: A Biography
+  year: 2011
+  genre: Biography
+  publisher: Walter Isaacson
+  isbn13: 5632147998612
+  isbn10: 1456865688
+  
+four:
+  title: World war Z
+  year: 2006
+  genre: Drama
+  publisher: Max Brooks
+  isbn13: 6465464654455
+  isbn10: 6465464654
+
+five:
+  title: Fahrenheit 451
+  year: 1984
+  genre: Satire
+  publisher: Ray Bradbury
+  isbn13: 1597463489642
+  isbn10: 1597463489
+
+six:
+  title: War and Peace
+  year: 1869
+  genre: Romance
+  publisher: Leo Tolstoy
+  isbn13: 3572586454561
+  isbn10: 3572586454
+
+seven:
+  title: Cooking Italian Food
+  year: 1976
+  genre: Nonfiction
+  publisher: Marie Petit
+  isbn13: 5465465465555
+  isbn10: 5465465465
+
+eight:
+  title: How to: Fix computers
+  year: 1985
+  genre: Nonfiction
+  publisher: David Shelby
+  isbn13: 4526527859854
+  isbn10: 4526527859
+
+nine:
+  title: Mice: Fact or fiction 
+  year: 1945
+  genre: Comedy
+  publisher: 
+  isbn13: 8452856225481
+  isbn10: 8452856225
+
+ten:
+  title: The one that flew over the cuckoo's nest
+  year: 1964
+  genre: Satire
+  publisher: Ken Kesey
+  isbn13: 7458985665231
+  isbn10: 7458985665
+
+noTitle:
+  title:
+  year: 1968
+  genre: Biography
+  publisher: Penguin
+  isbn13: 1012023652849
+  isbn10: 1012023652
+
+noYear:
+  title: Tour around the world
+  year:
+  genre: Travel
+  publisher: House
+  isbn13: 4109756256347
+  isbn10: 4109756256
+
+noGenre:
+  title: Turkey vs Chicken
+  year: 1986
+  genre:
+  publisher: Random
+  isbn13: 7458963652149
+  isbn10: 7458963652
+
+noPub:
+  title: Where is Waldo
+  year: 1972
+  genre: Humor
+  publisher:
+  isbn13: 5268254820319
+  isbn10: 5268254820
+  
+noisbn13:
+  title: The invisible hand
+  year: 1852
+  genre: David Hume
+  publisher: Unknown
+  isbn13: 
+  isbn10: 
+
+noIsbn10:
+  title:
+  year:
+  genre:
+  publisher:
+  isbn13:
+  isbn10:
+
+
