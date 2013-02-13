@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212214353) do
+ActiveRecord::Schema.define(:version => 20130212233644) do
 
   create_table "items", :force => true do |t|
     t.text     "title"
@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(:version => 20130212214353) do
     t.text     "isbn10"
     t.text     "publisher"
     t.integer  "year"
+  end
+
+  create_table "physical_items", :force => true do |t|
+    t.integer  "barcode_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "item_id"
   end
 
 end

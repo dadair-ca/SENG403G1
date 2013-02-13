@@ -6,8 +6,9 @@
     <th>Year</th>
     <th>Genre</th>
     <th>Publisher</th>
-    <th>isbn13</th>
-    <th>isbn10</th>
+    <th>ISBN-13</th>
+    <th>ISBN-10</th>
+    <th>Copies</th>
   </tr>
 
 <% @items.each do |item| %>
@@ -18,6 +19,7 @@
     <td><%= item.publisher %></td>
     <td><%= item.isbn13 %></td>
     <td><%= item.isbn10 %></td>
+    <td><%= item.physical_items.count %></td>
     <td><%= link_to 'Show', item %></td>
     <td><%= link_to 'Edit', edit_item_path(item) %></td>
     <td><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>

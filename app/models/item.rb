@@ -1,4 +1,6 @@
 class Item < ActiveRecord::Base
+  has_many :physical_items, :dependent => :destroy
+
   attr_accessible :title, :genre, :isbn13, :isbn10, :publisher, :year
 
   validates :title,  :presence => true
