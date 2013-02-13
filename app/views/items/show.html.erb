@@ -25,13 +25,13 @@
     <tr>
       <td><%= c.barcode_id %></td>
       <td><%= link_to 'Edit', edit_item_physical_item_path(@item, c) %></td>
-      <td><%= link_to 'Destroy', '#' %></td>
+      <td><%= link_to 'Destroy', [@item, c], :confirm => 'Are you sure?', :method => :delete %></td>
     </tr>
   <% end %>
   </table>
   <br />
 <% end %>
 
-<%= link_to 'Add Copy', '#' %> |
+<%= link_to 'Add Copy', new_item_physical_item_path(@item) %> |
 <%= link_to 'Edit', edit_item_path(@item) %> |
 <%= link_to 'Back', items_path %>

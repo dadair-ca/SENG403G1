@@ -12,21 +12,21 @@ class PhysicalItemsController < ApplicationController
     end
   end
 
+  def new
+    @copy = @item.physical_items.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render :json => @copy }
+    end
+  end
+
   # Show the current physical item
   def show
     @copy = @item.physical_items.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @copy }
-    end
-  end
-
-  def new
-    @copy = @item.physical_items.new(params[:physical_item])
-
-    respond_to do |format|
-      format.html # new.html.erb
       format.json { render :json => @copy }
     end
   end
@@ -46,6 +46,13 @@ class PhysicalItemsController < ApplicationController
   end
 
   def destroy
+    @copy = @item.physical_items.find(params[:id])
+    @copy.destroy
+
+    respond_to do |format|
+      format.html { redirect_to @item }
+      format.json { head :no_content }
+    end
   end
 
   def edit
