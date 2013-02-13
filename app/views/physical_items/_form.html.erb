@@ -1,0 +1,9 @@
+<%= form_for [@item, @copy] do |f| %>
+  <div class="field">
+    <%= f.label :barcode_id %><br />
+    <%= f.text_field :barcode_id %><br />
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

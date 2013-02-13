@@ -9,18 +9,17 @@
     <th>ISBN-13</th>
     <th>ISBN-10</th>
     <th>Copies</th>
-    <th colspan="3">Action</th>
+    <th colspan="2">Action</th>
   </tr>
 <% @items.each do |item| %>
   <tr>
-    <td><%= item.title %></td>
+    <td><%= link_to item.title, item %></td>
     <td><%= item.year %></td>
     <td><%= item.genre %></td>
     <td><%= item.publisher %></td>
     <td><%= item.isbn13 %></td>
     <td><%= item.isbn10 %></td>
     <td><%= item.physical_items.count %></td>
-    <td><%= link_to 'Show', item %></td>
     <td><%= link_to 'Edit', edit_item_path(item) %></td>
     <td><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

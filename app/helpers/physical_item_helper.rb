@@ -1,0 +1,2 @@
+module PhysicalItemHelper
+end

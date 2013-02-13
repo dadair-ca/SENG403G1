@@ -1,5 +1,7 @@
 SENG403G1::Application.routes.draw do
-  resources :items
+  resources :items do
+    resources :physical_items
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
