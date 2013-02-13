@@ -167,9 +167,6 @@ h1 {
 		text-align: left;
 	}
 }
-.td-even {
-	background-color: #f0f0f0;
-}
-.td-odd {
-	background-color: #e7e7e7;
-}
+
+table td:nth-child(even) { background-color: #F0F0F0; }
+table td:nth-child(odd) { background-color: #E7E7E7; }

@@ -13,16 +13,16 @@
   </tr>
 <% @items.each do |item| %>
   <tr>
-    <td class="td-odd"><%= item.title %></td>
-    <td class="td-even"><%= item.year %></td>
-    <td class="td-odd"><%= item.genre %></td>
-    <td class="td-even"><%= item.publisher %></td>
-    <td class="td-odd"><%= item.isbn13 %></td>
-    <td class="td-even"><%= item.isbn10 %></td>
-    <td class="td-even"><%= item.physical_items.count %></td>
-    <td class="td-odd"><%= link_to 'Show', item %></td>
-    <td class="td-even"><%= link_to 'Edit', edit_item_path(item) %></td>
-    <td class="td-odd"><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    <td><%= item.title %></td>
+    <td><%= item.year %></td>
+    <td><%= item.genre %></td>
+    <td><%= item.publisher %></td>
+    <td><%= item.isbn13 %></td>
+    <td><%= item.isbn10 %></td>
+    <td><%= item.physical_items.count %></td>
+    <td><%= link_to 'Show', item %></td>
+    <td><%= link_to 'Edit', edit_item_path(item) %></td>
+    <td><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
