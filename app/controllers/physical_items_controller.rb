@@ -23,7 +23,7 @@ class PhysicalItemsController < ApplicationController
   end
 
   def new
-    @copy = @item.physical_items.new
+    @copy = @item.physical_items.new(params[:physical_item])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -32,7 +32,7 @@ class PhysicalItemsController < ApplicationController
   end
 
   def create
-    @copy = @item.physical_items.new(params[:copy])
+    @copy = @item.physical_items.new(params[:physical_item])
 
     respond_to do |format|
       if @copy.save
@@ -56,7 +56,7 @@ class PhysicalItemsController < ApplicationController
     @copy = @item.physical_items.find(params[:id])
 
     respond_to do |format|
-      if @copy.update_attributes(params[:copy])
+      if @copy.update_attributes(params[:physical_item])
         format.html { redirect_to [@item, @copy], :notice => 'Item was successfully updated.' }
         format.json { head :no_content }
       else
