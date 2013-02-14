@@ -14,6 +14,14 @@
   <div class="field">
     <%= f.label :title %><br />
     <%= f.text_field :title %><br />
+
+    <%= f.fields_for :author do |a| %>
+      <%= a.label "Author's First Name" %><br />
+      <%= a.text_field :given_name %><br />
+      <%= a.label "Author's Last Name" %><br />
+      <%= a.text_field :surname %><br />
+    <% end %>
+
     <%= f.label :year %><br />
     <%= f.text_field :year %><br />
     <%= f.label :genre %><br />

@@ -26,6 +26,7 @@ class ItemsController < ApplicationController
   # GET /items/new.json
   def new
     @item = Item.new
+    @author = @item.authors.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,6 +43,10 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = Item.new(params[:item])
+
+    unless @item.authors.find(params[:author])
+      @author = @item.authors.new(params[:author])
+    end
 
     respond_to do |format|
       if @item.save
