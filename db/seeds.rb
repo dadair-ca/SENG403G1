@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+
+hobbit = Item.create(:title => "The Hobbit", :genre => "Fantasy", :isbn13 => 13, :isbn10 => 10)
+hobbit.authors.create(:given_name => "J.R.R.", :surname => "Tolkien")
