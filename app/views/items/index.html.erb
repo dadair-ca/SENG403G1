@@ -3,6 +3,7 @@
 <table class="vertical-table">
   <tr>
     <th>Title</th>
+    <th>Author</th>
     <th>Year</th>
     <th>Genre</th>
     <th>Publisher</th>
@@ -14,6 +15,11 @@
 <% @items.each do |item| %>
   <tr>
     <td><%= link_to item.title, item %></td>
+    <td>
+      <% item.authors.each do |a| %>
+        <%= link_to a.given_name + ' ' + a.surname, a %>
+      <% end %>
+    </td>
     <td><%= item.year %></td>
     <td><%= item.genre %></td>
     <td><%= item.publisher %></td>

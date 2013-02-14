@@ -1,4 +1,5 @@
 SENG403G1::Application.routes.draw do
+  resources :authors
   resources :items do
     resources :physical_items
   end
