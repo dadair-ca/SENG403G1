@@ -1,9 +1,7 @@
 require 'test_helper'
 
 class PhysicalItemControllerTest < ActionController::TestCase
-  test "should get show" do
-    get :show
-    assert_response :success
+  setup do
+    @physical_item = physical_items(:one)
   end
-
 end
