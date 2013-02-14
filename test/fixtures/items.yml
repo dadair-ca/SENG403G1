@@ -113,19 +113,19 @@ noPub:
   isbn10: 5268254820
   
 noisbn13:
-  title: The invisible hand
+  title: The Invisible Hand
   year: 1852
   genre: David Hume
   publisher: Unknown
   isbn13: 
-  isbn10: 
+  isbn10: 2945694512
 
 noIsbn10:
-  title:
-  year:
-  genre:
-  publisher:
-  isbn13:
+  title: Finding a way home
+  year:  1364
+  genre: Fiction
+  publisher: Some old drunk person
+  isbn13: 5412896314010
   isbn10:
 
 
