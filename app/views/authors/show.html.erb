@@ -1,21 +1,31 @@
+<h1>Books by <span><%= @author.given_name %> <%= @author.surname %></span></h1>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Given name:</b>
-  <%= @author.given_name %>
-</p>
+<table class="vertical-table">
+  <tr>
+    <th>Title</th>
+    <th>Year</th>
+    <th>Genre</th>
+    <th>Publisher</th>
+    <th>ISBN-13</th>
+    <th>ISBN-10</th>
+    <th>Copies</th>
+  </tr>
+ <% @books.each do |b| %>
+  <tr>
+    <td><%= link_to b.title, b %></td>
+    <td><%= b.year %></td>
+    <td><%= b.genre %></td>
+    <td><%= b.publisher %></td>
+    <td><%= b.isbn13 %></td>
+    <td><%= b.isbn10 %></td>
+    <td><%= b.physical_items.count %></td>
+  </tr>
+ <% end %>
+</table>
 
-<p>
-  <b>Surname:</b>
-  <%= @author.surname %>
-</p>
-
-<ul>
-<% @books.each do |b| %>
-  <li><%= link_to b.title, b %></li>
-<% end %>
-</ul>
-
+<br/>
 
 <%= link_to 'Edit', edit_author_path(@author) %> |
 <%= link_to 'Back', :back %>

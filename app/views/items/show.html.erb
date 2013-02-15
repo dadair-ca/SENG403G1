@@ -1,21 +1,41 @@
+<h1>Viewing <span><%= @item.title %></span></h1>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Title:</b>
-  <%= @item.title %>
-  <b>Year:</b>
-  <%= @item.year %>
-  <b>Genre:</b>
-  <%= @item.genre %>
-  <b>Publisher:</b>
-  <%= @item.publisher %>
-  <b>ISBN-13:</b>
-  <%= @item.isbn13 %>
-  <b>ISBN-10:</b>
-  <%= @item.isbn10 %>
-</p>
+<h2>Item Information</h2>
+<table class="horizontal-table">
+  <tr>
+    <th>Title</th>
+    <td><%= @item.title %></td>
+  </tr>
+  <tr>
+    <th>Author</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Year</th>
+    <td><%= @item.year %></td>
+  </tr>
+  <tr>
+    <th>Genre</th>
+    <td><%= @item.genre %></td>
+  </tr>
+  <tr>
+    <th>Publisher</th>
+    <td><%= @item.publisher %></td>
+  </tr>
+  <tr>
+    <th>ISBN-13</th>
+    <td><%= @item.isbn13 %></td>
+  </tr>
+  <tr>
+    <th>ISBN-10</th>
+    <td><%= @item.isbn10 %></td>
+  </tr>
+</table>
 
 <% unless @copies.size == 0 %>
+  <h2>Item Copies</h2>
   <table class="vertical-table">
     <tr>
       <th>Barcode</th>
@@ -29,8 +49,9 @@
     </tr>
   <% end %>
   </table>
-  <br />
 <% end %>
+
+<br />
 
 <%= link_to 'Add Copy', new_item_physical_item_path(@item) %> |
 <%= link_to 'Edit', edit_item_path(@item) %> |

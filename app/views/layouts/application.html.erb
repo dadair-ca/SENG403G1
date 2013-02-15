@@ -27,9 +27,11 @@
 				</div>
 			<% end %>
 		</div>
+		<% if request.path_parameters[:controller] != "home" %>
 		<div class="header-right">
 			Login Panel
 		</div>
+		<% end %>
 	</div>
 
 	<div id="content">
