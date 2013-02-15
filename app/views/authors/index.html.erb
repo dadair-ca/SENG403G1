@@ -1,19 +1,14 @@
 <h1>Listing Authors</h1>
 
-<table>
+<table class="vertical-table">
   <tr>
-    <th>Given name</th>
-    <th>Surname</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Author</th>
+    <th colspan="2">Action</th>
   </tr>
 
 <% @authors.each do |author| %>
   <tr>
-    <td><%= author.given_name %></td>
-    <td><%= author.surname %></td>
-    <td><%= link_to 'Show', author %></td>
+    <td><%= link_to author.given_name + ' ' + author.surname %></td>
     <td><%= link_to 'Edit', edit_author_path(author) %></td>
     <td><%= link_to 'Destroy', author, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>
