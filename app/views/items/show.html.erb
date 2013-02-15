@@ -10,7 +10,11 @@
   </tr>
   <tr>
     <th>Author</th>
-    <td></td>
+    <td>
+      <% @item.authors.each do |a| %>
+        <%= link_to a.given_name + ' ' + a.surname, a %>
+      <% end %>
+    </td>
   </tr>
   <tr>
     <th>Year</th>
