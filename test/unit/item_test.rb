@@ -14,6 +14,11 @@ class ItemTest < ActiveSupport::TestCase
      assert !item2.save
    end
    
+   test "should not save items with the same isbn13 number" do
+      item3 = Item.new(:title => "L", :genre => "R", :publisher => "T", :isbn13 => 29, :isbn10 => 32)
+      item3.save
+      item4 = Item.new(:title => "Y", :genre => "K", :publisher => "P", :isbn13 => 29, :isbn10 => 32)
+   
    
 end
 
