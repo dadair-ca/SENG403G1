@@ -23,12 +23,7 @@ class PhysicalItemsController < ApplicationController
 
   # Show the current physical item
   def show
-    @copy = @item.physical_items.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @copy }
-    end
+    redirect_to @item
   end
 
   def create
