@@ -26,6 +26,7 @@ class ItemsController < ApplicationController
   # GET /items/new.json
   def new
     @item = Item.new
+    @item.build_author
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,7 +42,7 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(params[:item])
+    @item = Item.create(params[:item])
 
     respond_to do |format|
       if @item.save
