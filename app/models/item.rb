@@ -3,15 +3,15 @@ class Item < ActiveRecord::Base
   before_save :replace_existing_author!
 
   has_many :physical_items, :dependent => :destroy
-
   belongs_to :author
 
-  #attr_accessible :title, :genre, :isbn13, :isbn10, :publisher, :year
-  #attr_accessible :author_id
+  validates_presence_of :title
+  validates_presence_of :isbn13
+  validates_presence_of :isbn10
+  validates_presence_of :year
+  validates_presence_of :publisher
 
-  validates :title,  :presence => true
-  validates :isbn13, :presence => true
-  validates :isbn10, :presence => true
+  validates_uniqueness_of :title, :scope => [:isbn13, :isbn10, :year]
 
   accepts_nested_attributes_for :author
 
