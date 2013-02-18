@@ -18,8 +18,6 @@ class ItemTest < ActiveSupport::TestCase
       item3 = Item.new(:title => "L", :genre => "R", :publisher => "T", :isbn13 => 29, :isbn10 => 32)
       item3.save
       item4 = Item.new(:title => "Y", :genre => "K", :publisher => "P", :isbn13 => 29, :isbn10 => 32)
-   
-   
+      assert !item4.save
+   end
 end
-
-       

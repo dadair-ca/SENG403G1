@@ -37,5 +37,4 @@ ActiveRecord::Schema.define(:version => 20130218014505) do
     t.datetime "updated_at", :null => false
     t.integer  "item_id"
   end
-
 end
