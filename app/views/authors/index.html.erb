@@ -8,7 +8,7 @@
 
 <% @authors.each do |author| %>
   <tr>
-    <td><%= link_to author.given_name + ' ' + author.surname %></td>
+    <td><%= link_to author.given_name + ' ' + author.surname, author %></td>
     <td><%= link_to 'Edit', edit_author_path(author) %></td>
     <td><%= link_to 'Destroy', author, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

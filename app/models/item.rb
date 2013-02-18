@@ -1,8 +1,7 @@
 class Item < ActiveRecord::Base
   has_many :physical_items, :dependent => :destroy
 
-  has_many :authoreds
-  has_many :authors, :through => :authoreds
+  belongs_to :author
 
   attr_accessible :title, :genre, :isbn13, :isbn10, :publisher, :year
 

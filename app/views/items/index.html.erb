@@ -15,11 +15,7 @@
 <% @items.each do |item| %>
   <tr>
     <td><%= link_to item.title, item %></td>
-    <td>
-      <% item.authors.each do |a| %>
-        <%= link_to a.given_name + ' ' + a.surname, a %>
-      <% end %>
-    </td>
+    <td><%= link_to item.author.given_name + ' ' + item.author.surname, item.author %></td>
     <td><%= item.year %></td>
     <td><%= item.genre %></td>
     <td><%= item.publisher %></td>
