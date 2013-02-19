@@ -126,6 +126,13 @@ h2 {
 		font-size: 11pt;
 		height: 40px;
 		line-height: 40px;
+		a {
+			color: #fff; 
+		}
+		a:hover {
+			color: #e6f5fe;
+			border-bottom: 1px dashed #e6f5fe;
+		}
 	}
 	.header-right {
 		float: right;
