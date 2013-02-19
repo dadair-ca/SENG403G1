@@ -11,27 +11,45 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title %><br />
-    <%= f.fields_for :author do |af| %>
-      <%= af.label "Author's first name" %>
-      <%= af.text_field :given_name %><br />  
-      <%= af.label "Author's last name" %>
-      <%= af.text_field :surname %><br />  
-    <% end %>
-    <%= f.label :year %><br />
-    <%= f.text_field :year %><br />
-    <%= f.label :genre %><br />
-    <%= f.text_field :genre %><br />
-    <%= f.label :publisher %><br />
-    <%= f.text_field :publisher %><br />
-    <%= f.label :isbn13 %><br />
-    <%= f.text_field :isbn13 %><br />
-    <%= f.label :isbn10 %><br />
-    <%= f.text_field :isbn10 %><br />
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+	<div class="field">
+		<table class="vertical-form">
+		<tr>
+			<th><%= f.label :title %></th>
+			<td><%= f.text_field :title %></td>
+		</tr>
+		<%= f.fields_for :author do |af| %>
+		<tr>
+			<th><%= af.label :given_name, "Author First Name" %></th>
+			<td><%= af.text_field :given_name %></td>
+		</tr>
+		<tr>
+			<th><%= af.label :surname, "Author Last Name" %></th>
+			<td><%= af.text_field :surname %></td>
+		</tr>
+		<% end %>
+		<tr>
+			<th><%= f.label :year %></th>
+			<td><%= f.text_field :year %></td>
+		</tr>
+		<tr>
+			<th><%= f.label :genre %></th>
+			<td><%= f.text_field :genre %></td>
+		</tr>
+		<tr>
+			<th><%= f.label :publisher %></th>
+			<td><%= f.text_field :publisher %></td>
+		</tr>
+		<tr>
+			<th><%= f.label :isbn13, "ISBN13" %></th>
+			<td><%= f.text_field :isbn13 %></td>
+		</tr>
+		<tr>
+			<th><%= f.label :isbn10, "ISBN10" %></th>
+			<td><%= f.text_field :isbn10 %></td>
+		</tr>
+		</table>
+	</div>
+	<div class="actions">
+		<%= f.submit %>
+	</div>
 <% end %>

@@ -194,4 +194,12 @@ h2 {
 	tr:nth-child(odd) td { background-color: #E7E7E7; }
 }
 
-input { padding: 2px 5px; }
+.vertical-form {
+	th { text-align: left }
+}
+
+input {
+	padding: 5px;
+	border: 1px solid #d2d7da;
+	background-color: #e9eef1;
+}
