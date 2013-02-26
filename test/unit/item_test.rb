@@ -174,31 +174,31 @@ class ItemTest < ActiveSupport::TestCase
    end
    
    
-# This test code caused a lot of problems
+# This piece of test code is oddly causing issues with the database
 #   test "should not save items with EOF characters for the title" do
 #      item35 = Item.new(:title => "\0\0\0", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
 #      assert !item35.save
 #   end
    
-#   test "should not save items with EOF characters for the genre" do
-#      item36 = Item.new(:title => "K", :genre => "\0\0\0", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
-#      assert !item36.save
-#   end
+   test "should not save items with EOF characters for the genre" do
+      item36 = Item.new(:title => "K", :genre => "\0\0\0", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
+      assert !item36.save
+   end
    
-#   test "should not save items with EOF characters for the publisher" do
-#      item37 = Item.new(:title => "K", :genre => "Q", :publisher => "\0\0\0", :isbn10 => 29, :isbn13 => 32)
-#      assert !item37.save
-#   end
+   test "should not save items with EOF characters for the publisher" do
+      item37 = Item.new(:title => "K", :genre => "Q", :publisher => "\0\0\0", :isbn10 => 29, :isbn13 => 32)
+      assert !item37.save
+   end
    
-#   test "should not save items with EOF characters the isbn10" do
-#      item38 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '\0\0\0', :isbn13 => 32)
-#      assert !item38.save
-#   end
+   test "should not save items with EOF characters the isbn10" do
+      item38 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '\0\0\0', :isbn13 => 32)
+      assert !item38.save
+   end
    
-#   test "should not save items with EOF characters for the isbn13" do
-#      item39 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => '\0\0\0')
-#      assert !item39.save
-#   end
+   test "should not save items with EOF characters for the isbn13" do
+      item39 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => '\0\0\0')
+      assert !item39.save
+   end
    
    
    
