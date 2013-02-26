@@ -230,4 +230,34 @@ class ItemTest < ActiveSupport::TestCase
    
    
    
+   test "should not save items with a command that executes basic mathematical instructions within the title" do
+      item45 = Item.new(:title => "#{3+3}", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 36)
+      assert !item45.save
+    end
+      
+   test "should not save items with question mark x for the title" do
+      item46 = Item.new(:title => "?x", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 36)
+      assert !item46.save
+   end
+   
+   test "should not save items with a syntax line for the title" do
+      item47 = Item.new(:title => "?\M-\C-a", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 36)
+      assert !item47.save
+   end
+   
+   
+   test "should not save items with a command that executes basic mathematical instructions within isbn10" do
+      item48 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '#{3+3}', :isbn13 => 36)
+      assert !item48.save
+   end
+    
+   test "should not save items with the command octal value for isbn10" do
+      item49 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '\007', :isbn13 => 36)
+      assert !item49.save
+   end
+   
+   test "should not save items with the command hexadecimal value for isbn10" do
+      item50 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '\x12', :isbn13 => 36)
+      assert !item50.save
+   end
 end
