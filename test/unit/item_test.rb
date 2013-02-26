@@ -67,7 +67,7 @@ class ItemTest < ActiveSupport::TestCase
    end
    
    test "should not save items with tabs for the title" do
-      item14 = Item.new(:title => "\t\t\t", :genre => "Q", :publisher => 'drop table t;', :isbn10 => 29, :isbn13 => 32)
+      item14 = Item.new(:title => "\t\t\t", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
       assert !item14.save
    end
    
@@ -94,7 +94,7 @@ class ItemTest < ActiveSupport::TestCase
    
    
    test "should not save items with spaces for the title" do
-      item20 = Item.new(:title => "\s\s\s", :genre => "Q", :publisher => 'drop table t;', :isbn10 => 29, :isbn13 => 32)
+      item20 = Item.new(:title => "\s\s\s", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
       assert !item20.save
    end
    
@@ -122,7 +122,7 @@ class ItemTest < ActiveSupport::TestCase
    
    
    test "should not save items with new line characters for the title" do
-      item25 = Item.new(:title => "\n\n\n", :genre => "Q", :publisher => 'drop table t;', :isbn10 => 29, :isbn13 => 32)
+      item25 = Item.new(:title => "\n\n\n", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
       assert !item25.save
    end
    
@@ -148,15 +148,86 @@ class ItemTest < ActiveSupport::TestCase
    
    
    
-   test "should not save items with hexadecimal numbers for isbn10" do
-      item30 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 0x0056A12, :isbn13 => 32)
+   test "should not save items with return keys for the title" do
+      item30 = Item.new(:title => "\r\r\r", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
       assert !item30.save
    end
    
-   test "should not save items with hexadecimal numbers for isbn13" do
-      item31 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 0x00AF1236)
+   test "should not save items with return keys for the genre" do
+      item31 = Item.new(:title => "K", :genre => "\r\r\r", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
       assert !item31.save
    end
+   
+   test "should not save items with return keys for the publisher" do
+      item32 = Item.new(:title => "K", :genre => "Q", :publisher => "\r\r\r", :isbn10 => 29, :isbn13 => 32)
+      assert !item32.save
+   end
+   
+   test "should not save items with return keys for the isbn10" do
+      item33 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '\r\r\r', :isbn13 => 32)
+      assert !item33.save
+   end
+   
+   test "should not save items with return keys for the isbn13" do
+      item34 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => '\r\r\r')
+      assert !item34.save
+   end
+   
+   
+# This test code caused a lot of problems
+#   test "should not save items with EOF characters for the title" do
+#      item35 = Item.new(:title => "\0\0\0", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
+#      assert !item35.save
+#   end
+   
+#   test "should not save items with EOF characters for the genre" do
+#      item36 = Item.new(:title => "K", :genre => "\0\0\0", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
+#      assert !item36.save
+#   end
+   
+#   test "should not save items with EOF characters for the publisher" do
+#      item37 = Item.new(:title => "K", :genre => "Q", :publisher => "\0\0\0", :isbn10 => 29, :isbn13 => 32)
+#      assert !item37.save
+#   end
+   
+#   test "should not save items with EOF characters the isbn10" do
+#      item38 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '\0\0\0', :isbn13 => 32)
+#      assert !item38.save
+#   end
+   
+#   test "should not save items with EOF characters for the isbn13" do
+#      item39 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => '\0\0\0')
+#      assert !item39.save
+#   end
+   
+   
+   
+   
+   test "should not save items with a hexadecimal number for the title" do
+      item40 = Item.new(:title => "0x41", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
+      assert !item40.save
+   end
+   
+   test "should not save items with a hexadecimal number for the genre" do
+      item41 = Item.new(:title => "K", :genre => "0x42", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
+      assert !item41.save
+   end
+   
+   test "should not save items with a hexadecimal number for the publisher" do
+      item42 = Item.new(:title => "K", :genre => "Q", :publisher => "0x43", :isbn10 => 29, :isbn13 => 32)
+      assert !item42.save
+   end
+   
+   test "should not save items with hexadecimal numbers for isbn10" do
+      item43 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 0x0056A12, :isbn13 => 32)
+      assert !item43.save
+   end
+   
+   test "should not save items with hexadecimal numbers for isbn13" do
+      item44 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 0x00AF1236)
+      assert !item44.save
+   end
+   
    
    
 end
