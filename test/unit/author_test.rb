@@ -21,12 +21,14 @@ class AuthorTest < ActiveSupport::TestCase
         assert !author.save
     end
 
-#    test "associate author with an item" do
-#        author = Author.new(:given_name => "Frank", :surname => "Jackson")
-#        item = Item.new(:title => "one", :genre => "yes", :publisher => "no", :isbn10 => 99, :isbn13 => 98)
-        
-#        assert !author.save
-#    end
+    test "associate author with an item" do
+        author = Author.new(:given_name => "Frank", :surname => "Jackson")
+		author.save
+        item = Item.new(:title => "one", :genre => "yes", :publisher => "no", :isbn10 => 99, :isbn13 => 98)
+		item.save
+        item.author = author
+        assert !item.save
+    end
 
 
 #   test "should not save duplicate authors" do
