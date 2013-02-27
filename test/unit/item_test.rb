@@ -3,10 +3,10 @@ require 'test_helper'
 class ItemTest < ActiveSupport::TestCase
    
    
-   test "should not save duplicate items with the same title" do
-     item = Item.new(:title => "T", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
+   test "should not save duplicate items with the same information" do
+     item = Item.new(:title => "T", :genre => "K", :publisher => "L", :isbn10 => 29, :isbn13 => 32)
      item.save
-     item1 = Item.new(:title => "T", :genre => "K", :publisher => "L", :isbn10 => 99, :isbn13 => 84)
+     item1 = Item.new(:title => "T", :genre => "K", :publisher => "L", :isbn10 => 29, :isbn13 => 32)
      assert !item1.save
    end
    
@@ -173,13 +173,6 @@ class ItemTest < ActiveSupport::TestCase
       assert !item34.save
    end
    
-   
-# This piece of test code is oddly causing issues with the database
-#   test "should not save items with EOF characters for the title" do
-#      item35 = Item.new(:title => "\0\0\0", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
-#      assert !item35.save
-#   end
-   
    test "should not save items with EOF characters for the genre" do
       item36 = Item.new(:title => "K", :genre => "\0\0\0", :publisher => "R", :isbn10 => 29, :isbn13 => 32)
       assert !item36.save
@@ -240,7 +233,7 @@ class ItemTest < ActiveSupport::TestCase
       assert !item46.save
    end
    
-   test "should not save items with a syntax line for the title" do
+   test "should not save items with Meta-Control syntax for the title" do
       item47 = Item.new(:title => "?\M-\C-a", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 36)
       assert !item47.save
    end
@@ -260,4 +253,34 @@ class ItemTest < ActiveSupport::TestCase
       item50 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '\x12', :isbn13 => 36)
       assert !item50.save
    end
+   
+   
+   
+   test "should not save items with the backward key value for the title" do
+      item51 = Item.new(:title => "\b\b\b", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => 36)
+      assert !item51.save
+   end
+   
+   test "should not save items with the backward key value for the genre" do
+      item52 = Item.new(:title => "K", :genre => "\b\b\b", :publisher => "R", :isbn10 => 29, :isbn13 => 36)
+      assert !item52.save
+   end
+   
+   test "should not save items with the backward key value for the publisher" do
+      item53 = Item.new(:title => "K", :genre => "Q", :publisher => "\b\b\b", :isbn10 => 29, :isbn13 => 36)
+      assert !item53.save
+   end
+   
+   test "should not save items with the backward key value for the isbn10" do
+      item54 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => '\b\b\b', :isbn13 => 36)
+      assert !item54.save
+   end
+   
+   test "should not save items with the backward key value for the isbn13" do
+      item54 = Item.new(:title => "K", :genre => "Q", :publisher => "R", :isbn10 => 29, :isbn13 => '\b\b\b')
+      assert !item54.save
+   end
+   
+   
+   
 end
