@@ -28,41 +28,35 @@ class AuthorTest < ActiveSupport::TestCase
     end
     
     test "should not insert author with tab characters as its given name" do
-        author = Author.new(:given_name => "\t\t\t", :surname => "Jackson")
+        author = Author.new(:given_name => "\t\t\t", :surname => "HillBilly")
         assert !author.save
     end
-    
+
     test "should not insert author with space characters as its given name" do
-        author = Author.new(:given_name => "\s\s\s", :surname => "Jackson")
+        author = Author.new(:given_name => "\s\s\s", :surname => "Claw")
         assert !author.save
     end
     
-#    test "should not insert author with backspace characters as its given name" do
-#        author = Author.new(:given_name => "\b\b\b", :surname => "Jackson")
-#        assert !author.save
-#    end
-     
-#    test "should not insert author with termination characters as its given name" do
-#        author = Author.new(:given_name => "\0\0\0", :surname => "Jackson")
-#        assert !author.save
-#    end
+    test "should not insert author with next line characters as its surname" do
+        author = Author.new(:given_name => "Johnson", :surname => "\n\n\n")
+        assert !author.save
+    end
     
-#    test "associate author with an item" do
-#        author = Author.new(:given_name => "Frank", :surname => "Jackson")
-#		author.save
-#        item = Item.new(:title => "one", :genre => "yes", :publisher => "no", :isbn10 => 99, :isbn13 => 98)
-#		item.save
-#        item.author = author
-#        assert !item.save
-#    end
-
-
-#   test "should not save duplicate authors" do
-#     author1 = Author.new(:given_name => "Mike", :surname => "Author")
-#     author1.save
-#     author2 = Author.new(:given_name => "Mike", :surname => "Author")
-#     assert !author2.save
-#   end
-
+    test "should not insert author with tab characters as its surname" do
+        author = Author.new(:given_name => "Marlene", :surname => "\t\t\t")
+        assert !author.save
+    end
+    
+    test "should not insert author with space characters as its surname" do
+        author = Author.new(:given_name => "Stephiane", :surname => "\s\s\s")
+        assert !author.save
+    end
+    
+    test "should not save duplicate authors" do
+        author1 = Author.new(:given_name => "Mike", :surname => "Author")
+        author1.save
+        author2 = Author.new(:given_name => "Mike", :surname => "Author")
+        assert !author2.save
+    end
 
 end

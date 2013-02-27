@@ -10,9 +10,18 @@ class Item < ActiveRecord::Base
   validates_presence_of :isbn10
   validates_presence_of :year
   validates_presence_of :publisher
-
+  validates_presence_of :genre
+  
   validates_uniqueness_of :title, :scope => [:isbn13, :isbn10, :year]
-
+  validates_uniqueness_of :isbn13
+  validates_uniqueness_of :isbn10
+   
+  
+  validates :isbn13, :numericality => { :only_integer => true }
+  validates :isbn10, :numericality => { :only_integer => true }
+  validates :year, :numericality => { :only_integer => true }
+  
+  
   accepts_nested_attributes_for :author
 
   # Try to find an existing author rather than creating a duplicate record
