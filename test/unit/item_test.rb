@@ -214,6 +214,19 @@ class ItemTest < ActiveSupport::TestCase
       assert !item47.save
    end
    
+   test "should not save items with a string for the year" do
+      item48 = Item.new(:title => "K", :genre => "Q", :year => 'rtyghjykl', :publisher => "R", :isbn10 => 29, :isbn13 => 36)
+      assert !item48.save
+   end
    
+   test "should not save items with a string for the isbn10" do
+      item49 = Item.new(:title => "K", :genre => "Q", :year => 1989, :publisher => "R", :isbn10 => 'rtyghjykl', :isbn13 => 36)
+      assert !item49.save
+   end
+   
+   test "should not save items with a string for the isbn13" do
+      item50 = Item.new(:title => "K", :genre => "Q", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      assert !item50.save
+   end
    
 end
