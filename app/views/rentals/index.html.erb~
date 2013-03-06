@@ -14,7 +14,7 @@
 <% @rentals.each do |rental| %>
   <tr>
     <td><%= rental.user_id %></td>
-    <td><%= rental.barcode_id %></td>
+    <td><%= rental.physical_item.barcode_id %></td>
     <td><%= rental.barcode_id %></td>
     <td><%= rental.renewals %></td>
     <td><%= rental.return_date %></td>
