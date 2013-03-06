@@ -46,6 +46,7 @@
       <td><%= c.barcode_id %></td>
       <td><%= link_to 'Edit', edit_item_physical_item_path(@item, c) %></td>
       <td><%= link_to 'Destroy', [@item, c], :confirm => 'Are you sure?', :method => :delete %></td>
+      <td><%= link_to 'Rent', @rental %></td>
     </tr>
   <% end %>
   </table>
