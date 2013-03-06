@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @rental.user_id %>
+</p>
+
+<p>
+  <b>Barcode:</b>
+  <%= @rental.barcode_id %>
+</p>
+
+<p>
+  <b>Renewals:</b>
+  <%= @rental.renewals %>
+</p>
+
+<p>
+  <b>Return date:</b>
+  <%= @rental.return_date %>
+</p>
+
+<p>
+  <b>Rent date:</b>
+  <%= @rental.rent_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_rental_path(@rental) %> |
+<%= link_to 'Back', rentals_path %>
