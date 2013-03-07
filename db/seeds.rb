@@ -14,3 +14,7 @@ lotrs = Item.create([
 
 tolkien = Author.create(:given_name => "J.R.R.", :surname => "Tolkien")
 tolkien.items = lotrs
+
+User.create(:category => 0)
+User.create(:category => 1)
+User.create(:category => 2)

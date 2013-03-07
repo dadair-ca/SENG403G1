@@ -2,6 +2,7 @@ SENG403G1::Application.routes.draw do
   resources :mailers
 
   resources :rentals
+  resources :users
 
   resources :authors
   resources :items do
