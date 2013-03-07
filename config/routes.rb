@@ -1,4 +1,6 @@
 SENG403G1::Application.routes.draw do
+  resources :users
+
   resources :authors
   resources :items do
     resources :physical_items
