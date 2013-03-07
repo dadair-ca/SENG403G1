@@ -3,7 +3,6 @@
 <table class="vertical-table">
   <tr>
     <th>User</th>
-    <th>Title</th>
     <th>Barcode</th>
     <th>Renewals</th>
     <th>Return date</th>
@@ -14,7 +13,6 @@
 <% @rentals.each do |rental| %>
   <tr>
     <td><%= rental.user_id %></td>
-    <td><%= rental.barcode_id %></td>
     <td><%= rental.barcode_id %></td>
     <td><%= rental.renewals %></td>
     <td><%= rental.return_date %></td>
