@@ -1,8 +1,10 @@
 class Rental < ActiveRecord::Base
   attr_accessible :barcode_id, :renewals, :rent_date, :return_date, :user_id
   
-  belongs_to :user
+  #belongs_to :user
   belongs_to :physical_item
+  
+  has_one :item, :through => :physical_item
   
 #  # Add a error messgae??
 #  validates_presence_of :barcode_id

@@ -1,0 +1,47 @@
+<h1>Overdue Notice</h1>
+
+<script type="text/javascript"> 
+  function show(theDiv) { document.getElementById(theDiv).style.display = "block"; }
+  function hide(theDiv) { document.getElementById(theDiv).style.display = "none"; }
+</script>
+
+<p>Patron <strong>user.name</strong> has and overdue item <%= @item.title %> on <%= @rental.return_date %>.</p>
+
+<%= form_for(@mailer) do |f| %>
+  <% if @mailer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mailer.errors.count, "error") %> prohibited this mailer from being saved:</h2>
+
+      <ul>
+      <% @mailer.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <%= hidden_field_tag(:rental, @param) %>
+
+  <div class="field">
+    <%= label_tag "Method:" %>
+    <%= radio_button_tag :method, 'template', true, {:onclick => "hide('custom_form')"} %> Use template message
+    <%= radio_button_tag :method, 'custom', false, {:onclick => "show('custom_form')"} %> Create own message
+  </div>
+
+  <div id="custom_form">
+	  <div class="field">
+      <%= f.label :subject %><br />
+      <%= f.text_field :subject %>
+	  </div>
+	  <div class="field">
+      <%= f.label :body %><br />
+      <%= f.text_area :body %>
+	  </div>
+  </div>
+  
+  <div class="actions">
+    <%= submit_tag "Send Overdue Notification" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', mailers_path %>

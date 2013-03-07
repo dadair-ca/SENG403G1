@@ -4,6 +4,8 @@ class Item < ActiveRecord::Base
 
   has_many :physical_items, :dependent => :destroy
   belongs_to :author
+  
+  attr_accessible :title
 
   validates_presence_of :title
   validates_presence_of :isbn13

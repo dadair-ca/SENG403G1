@@ -1,0 +1,23 @@
+<h1>Mail Logs</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Subject</th>
+    <th>Body</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mailers.each do |mailer| %>
+  <tr>
+    <td><%= mailer.id %></td>
+    <td><%= mailer.subject %></td>
+    <td><%= mailer.body %></td>
+    <td><%= link_to 'Show', mailer %></td>
+    <td><%= link_to 'Edit', edit_mailer_path(mailer) %></td>
+    <td><%= link_to 'Destroy', mailer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
