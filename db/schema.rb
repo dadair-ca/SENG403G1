@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130307232822) do
+ActiveRecord::Schema.define(:version => 20130307234524) do
 
   create_table "authors", :force => true do |t|
     t.text     "given_name"
@@ -42,6 +42,8 @@ ActiveRecord::Schema.define(:version => 20130307232822) do
     t.integer  "category"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "email"
+    t.string   "password"
   end
 
 end
