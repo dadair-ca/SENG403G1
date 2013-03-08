@@ -24,10 +24,12 @@ class MailersController < ApplicationController
   # GET /mailers/1/new
   # GET /mailers/1/new.json
   def new
-  	@param  = params[:id]
+    @id     = params[:id]
+    
     @rental = Rental.find(params[:id])
-    @item   = @rental.item
-    @mailer = Mailer.new(:id => 1)
+    @item   = Item.find(params[:id])
+    @user   = Item.find(params[:id])
+    @mailer = Mailer.new()
 
     respond_to do |format|
       format.html # new.html.erb
