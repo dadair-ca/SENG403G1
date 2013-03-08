@@ -1,5 +1,5 @@
 class Rental < ActiveRecord::Base
-  attr_accessible :barcode_id, :renewals, :rent_date, :return_date, :user_id
+  attr_accessible :barcode_id, :renewals, :rent_date, :return_date, :user_id, :item_id
   
   belongs_to :user, :foreign_key => :user_id
   belongs_to :physical_item, :foreign_key => :barcode_id
