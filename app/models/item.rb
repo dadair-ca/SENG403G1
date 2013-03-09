@@ -5,7 +5,7 @@ class Item < ActiveRecord::Base
   has_many :physical_items, :dependent => :destroy
   belongs_to :author
   
-  attr_accessible :title
+  attr_accessible :title, :author_attributes, :year, :genre, :publisher, :isbn13, :isbn10
 
   validates_presence_of :title
   validates_presence_of :isbn13
