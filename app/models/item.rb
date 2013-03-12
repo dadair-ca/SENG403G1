@@ -33,4 +33,13 @@ class Item < ActiveRecord::Base
       self.author = author if author 
     end
   end
+  
+  
+  def self.search(author)
+    if self.author
+      find(:all, :conditions => ['name LIKE ?', "%#{author}%"])
+    else
+      find(:all)
+    end
+  end
 end
