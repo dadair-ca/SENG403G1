@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-<<<<<<< HEAD
 
   has_many :rentals
   has_many :physical_items, :through => :rentals
