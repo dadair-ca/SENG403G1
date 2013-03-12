@@ -1,5 +1,7 @@
 SENG403G1::Application.routes.draw do
 
+  devise_for :users
+
   resources :rentals do
     resources :mailers, :only => [:new, :create], :path_names => { :new => 'overdue', :create => 'send' } do
       post :create => "mailers#create", :as => :create, :path => :new, :on => :collection
