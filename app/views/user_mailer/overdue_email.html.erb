@@ -5,10 +5,10 @@
   </head>
   <body>
     <h1>WebLib</h1>
-    <p>Hi user.email,</p>
-    <p>The following item is overdue on <%= @rental.rent_date %>:</p>
+    <p>Hi user.name,</p>
+    <p>The following item is overdue on <%= @rental.return_date.strftime('%A, %B %d at %I:%M %p') %>:</p>
     <ul>
-      <li><%= @item.title %></li>
+      <li><strong><%= @item.title %></strong> by <%= @item.author.given_name + ' ' + @item.author.surname %></li>
     </ul>
     <p>Thanks for using WebLib!</p>
   </body>
