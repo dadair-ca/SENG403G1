@@ -1,0 +1,74 @@
+<h1>Overdue Notice</h1>
+
+<script type="text/javascript"> 
+  function show(theDiv) { document.getElementById(theDiv).style.display = "block"; }
+  function hide(theDiv) { document.getElementById(theDiv).style.display = "none"; }
+</script>
+
+<%= form_for @mailer, :url => rental_mailers_path do |f| %>
+  <% if @mailer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mailer.errors.count, "error") %> prohibited this mailer from being saved:</h2>
+
+      <ul>
+      <% @mailer.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <%= hidden_field_tag(:rental, @id) %>
+
+  <h3>Rental Details</h3>
+  <table class="vertical-table">
+  <tr>
+    <th>Patron Name:</th>
+    <td>user.name</td>
+  </tr>
+  <tr>
+    <th>Patron Email:</th>
+    <td>user.email</td>
+  </tr>
+  <tr>
+    <th>Item Title:</th>
+    <td><%= @item.title %></td>
+  </tr>
+  <tr>
+    <th>Item Author:</th>
+    <td><%= @item.author.given_name + ' ' + @item.author.surname %></td>
+  </tr>
+  <tr>
+    <th>Rent Date:</th>
+    <td><%= @rental.rent_date.strftime('%A, %B %d at %I:%M %p') %></td>
+  </tr>
+  <tr>
+    <th>Return Date:</th>
+    <td><%= @rental.return_date.strftime('%A, %B %d at %I:%M %p') %></td>
+  </tr>
+  </table>
+
+  <div class="field">
+    <h3>Email Method</h3>
+    <%= radio_button_tag :method, 'template', true, {:onclick => "hide('custom_form')"} %> Use template message <br/>
+    <%= radio_button_tag :method, 'custom', false, {:onclick => "show('custom_form')"} %> Create own message
+  </div>
+
+  <div id="custom_form">
+    <h3>Custom Message</h3>
+	  <div class="field">
+      <%= f.label :subject %><br />
+      <%= f.text_field :subject %>
+	  </div>
+	  <div class="field">
+      <%= f.label :body %><br />
+      <%= f.text_area :body %>
+	  </div>
+  </div>
+  
+  <div class="actions">
+    <%= submit_tag "Send Overdue Notification" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', rentals_path %>

@@ -59,4 +59,11 @@ class AuthorTest < ActiveSupport::TestCase
         assert !author2.save
     end
 
+    test "this test is duplicated" do
+        author1 = Author.new(:given_name => "Mike", :surname => "Author")
+        author1.save
+        author2 = Author.new(:given_name => "Mike", :surname => "Author")
+        assert !author2.save
+    end
+
 end

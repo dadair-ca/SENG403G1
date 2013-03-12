@@ -1,7 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  category: 1
+  id: 1
+  subject: MyString
+  body: MyString
 
 two:
-  category: 1
+  id: 1
+  subject: MyString
+  body: MyString

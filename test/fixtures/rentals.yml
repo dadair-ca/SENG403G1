@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  barcode_id: 1
+  renewals: 1
+  return_date: 2013-03-05 17:08:08
+  rent_date: 2013-03-05 17:08:08
+
+two:
+  user_id: 1
+  barcode_id: 1
+  renewals: 1
+  return_date: 2013-03-05 17:08:08
+  rent_date: 2013-03-05 17:08:08

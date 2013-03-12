@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130307232822) do
+ActiveRecord::Schema.define(:version => 20130312211518) do
 
   create_table "authors", :force => true do |t|
     t.text     "given_name"
@@ -31,6 +32,11 @@ ActiveRecord::Schema.define(:version => 20130307232822) do
     t.integer  "author_id"
   end
 
+  create_table "mailers", :force => true do |t|
+    t.string "subject"
+    t.text   "body",    :limit => 255
+  end
+
   create_table "physical_items", :force => true do |t|
     t.integer  "barcode_id"
     t.datetime "created_at", :null => false
@@ -38,10 +44,23 @@ ActiveRecord::Schema.define(:version => 20130307232822) do
     t.integer  "item_id"
   end
 
+  create_table "rentals", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "barcode_id"
+    t.integer  "renewals"
+    t.datetime "return_date"
+    t.datetime "rent_date"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.integer  "category"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.text     "given_name"
+    t.text     "surname"
+    t.text     "email"
   end
 
 end

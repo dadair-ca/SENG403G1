@@ -1,8 +1,9 @@
 class User < ActiveRecord::Base
+<<<<<<< HEAD
 
   has_many :rentals
   has_many :physical_items, :through => :rentals
-  
+
   validates_presence_of :given_name
   validates_presence_of :surname
   validates_presence_of :category
@@ -15,6 +16,5 @@ class User < ActiveRecord::Base
     return "Librarian" if self.category == 1
     return "Admin" if self.category == 2
   end
-  
-  
+
 end
