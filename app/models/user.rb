@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :physical_items, :through => :rentals
   has_many :rentals
+
   validates_presence_of :given_name
   validates_presence_of :surname
   validates_presence_of :category
