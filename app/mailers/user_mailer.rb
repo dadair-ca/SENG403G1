@@ -6,14 +6,14 @@ class UserMailer < ActionMailer::Base
     @rental = rental
     @user   = user
     @item   = item
-    mail(:to => "shena.fortozo@gmail.com", :subject => @mail.subject) #TODO@user
+    mail(:to => @user.email, :subject => @mail.subject)
   end
   
   def overdue_email(rental, user, item)
     @rental = rental
     @user   = user
     @item   = item
-    mail(:to => "shena.fortozo@gmail.com", :subject => "[WebLib] Overdue Item") #TODO@user
+    mail(:to => @user.email, :subject => "[WebLib] Overdue Item")
   end
 
 end
