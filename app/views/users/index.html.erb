@@ -1,17 +1,20 @@
 <h1>Listing users</h1>
 
-<table>
+<table class="vertical-table">
   <tr>
-    <th>Type</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>User ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Category</th>
+    <th colspan="2">Action</th>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
-    <td><%= user.type %></td>
-    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to user.id, user %></td>
+    <td><%= link_to user.given_name + ' ' + user.surname, user %></td>
+    <td><%= user.email %></td>
+    <td><%= user.category_as_string %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
     <td><%= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
   </tr>

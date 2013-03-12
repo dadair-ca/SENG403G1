@@ -23,7 +23,6 @@ class Item < ActiveRecord::Base
   validates :isbn10, :numericality => { :only_integer => true }
   validates :year, :numericality => { :only_integer => true }
   
-  
   accepts_nested_attributes_for :author
 
   # Try to find an existing author rather than creating a duplicate record
@@ -34,5 +33,10 @@ class Item < ActiveRecord::Base
                             :surname => self.author.surname).first
       self.author = author if author 
     end
+  end
+  
+  def self.search(search)
+    title_condition = "%" + search + "%"
+    Item.all(:conditions => ['title LIKE ?', title_condition])
   end
 end
