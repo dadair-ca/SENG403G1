@@ -81,4 +81,8 @@ class AuthorsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def search
+   @author = Author.search params[:search]
+  end
 end
