@@ -15,6 +15,8 @@ lotrs = Item.create([
 tolkien = Author.create(:given_name => "J.R.R.", :surname => "Tolkien")
 tolkien.items = lotrs
 
-User.create(:category => 0)
-User.create(:category => 1)
-User.create(:category => 2)
+User.create(:category => 0, :given_name => "David", :surname => "Adair", :email => "notreal@fake.com")
+User.create(:category => 1, :given_name => "Shena", :surname => "Fortozo", :email => "fake@fake.com")
+User.create(:category => 2, :given_name => "Gellert", :surname => "Kispal", :email => "false@fake.com")
+User.create(:category => 2, :given_name => "Sydney", :surname => "Pratte", :email => "nottrue@fake.com")
+User.create(:category => 1, :given_name => "Ho Wai", :surname => "Yung", :email => "notnotfalse@fake.com")
