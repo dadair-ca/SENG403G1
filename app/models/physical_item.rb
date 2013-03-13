@@ -1,7 +1,7 @@
 class PhysicalItem < ActiveRecord::Base
   belongs_to :item
-  has_one :users, :through => :rentals
-  has_one :rentals, :foreign_key => :barcode_id, :primary_key => :barcode_id
+  has_one :user, :through => :rentals
+  has_one :rental, :foreign_key => :barcode_id, :primary_key => :barcode_id
 
   attr_accessible :barcode_id, :item_id
   validates :barcode_id, :uniqueness => true

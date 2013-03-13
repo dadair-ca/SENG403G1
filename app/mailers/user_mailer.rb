@@ -1,18 +1,18 @@
 class UserMailer < ActionMailer::Base
   default from: "noreply@weblib.shenafortozo.com"
   
-  def custom_email(mail, rental, user, item)
+  def custom_email(mail, rental)
     @mail   = mail
     @rental = rental
-    @user   = user
-    @item   = item
+    @user   = rental.user
+    @item   = rental.item
     mail(:to => @user.email, :subject => @mail.subject)
   end
   
-  def overdue_email(rental, user, item)
+  def overdue_email(rental)
     @rental = rental
-    @user   = user
-    @item   = item
+    @user   = rental.user
+    @item   = rental.item
     mail(:to => @user.email, :subject => "[WebLib] Overdue Item")
   end
 

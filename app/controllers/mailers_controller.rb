@@ -7,8 +7,8 @@ class MailersController < ApplicationController
       format.html { redirect_to rentals_path }
     else
       @rental = Rental.find(params[:rental_id])
-      @item   = Item.find(params[:rental_id])
-      @user   = User.find(params[:rental_id])
+      @user   = @rental.user
+      @item   = @rental.item
       @mailer = Mailer.new()
 
       respond_to do |format|
@@ -18,26 +18,24 @@ class MailersController < ApplicationController
     end
   end
 
-  # POST /mailers
-  # POST /mailers.json
+  # POST /rental/1/mailers/
+  # POST /rental/1/mailers/.json
   def create
     @method = params[:method]
     @rental = Rental.find(params[:rental])
-    @item   = Item.find(params[:rental])
-    @user   = User.find(params[:rental])
     @mailer = Mailer.new(params[:mailer])
 
     respond_to do |format|
       if @method == "custom"
         if @mailer.valid?
-          UserMailer.custom_email(@mailer, @rental, @user, @item).deliver
+          UserMailer.custom_email(@mailer, @rental).deliver
           format.html { redirect_to rentals_url, notice: 'Mail has been sent.' }
         else
           format.html { render :action => "new" }
           format.json { render json: @mailer.errors, status: :unprocessable_entity }
         end
       else
-        UserMailer.overdue_email(@rental, @user, @item).deliver
+        UserMailer.overdue_email(@rental).deliver
         format.html { redirect_to rentals_url, notice: 'Mail has been sent.' }
       end
     end
