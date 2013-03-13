@@ -21,9 +21,8 @@
 					Welcome to WebLib, a library management system!
 				</div>
 			<% else %>
-				<%# TODO: link_to %>
 				<div class="navigation">
-					Search Catalog | Browse Genre | <%= link_to "Browse Authors", authors_path %> | Admin Panel
+					<%= link_to "Search Catalog", items_search_path %> | Browse Genre | <%= link_to "Browse Authors", authors_path %> | Admin Panel
 				</div>
 			<% end %>
 		</div>
