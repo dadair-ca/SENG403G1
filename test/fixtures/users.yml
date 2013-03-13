@@ -2,6 +2,9 @@
 
 one:
   category: 1
+  given_name: "Shena"
+  surname: "Fortozo"
+  email: "fake@fake.com"
 
 two:
   category: 1
