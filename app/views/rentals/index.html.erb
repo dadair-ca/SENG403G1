@@ -13,7 +13,7 @@
   </tr>
 
 <% @rentals.each do |rental| %>
-  <tr>
+  <tr<%= (rental.return_date < Time.now)?" class='overdue'":"" %>>
     <td><%= rental.user_id %></td>
     <td><%= rental.barcode_id %></td>
     <td><%= rental.renewals %></td>
