@@ -1,0 +1,20 @@
+<h1>Search</h1>
+<%= form_tag 'items/results' do %>
+  <table>
+    <tr>
+      <td><%= search_field_tag :search, params[:search]  %></td>
+      <td>
+        <%= select_tag :search_type, options_for_select(['Title','Author','Genre','Year','ISBN 13', 'ISBN 10'], :selected => params[:search_type] ) %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align:right">
+        <%= submit_tag "Search" %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<br />
+
+<%= link_to 'Back', items_path %>

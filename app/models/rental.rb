@@ -3,7 +3,8 @@ class Rental < ActiveRecord::Base
   
   has_one :item, :through => :physical_item
   belongs_to :user, :foreign_key => :user_id
-  belongs_to :physical_item, :foreign_key => :barcode_id
+  belongs_to :physical_item, :foreign_key => :barcode_id, :primary_key => :barcode_id
+  has_one :item, :through => :physical_item
   
 #  # Add a error messgae??
   validates_presence_of :barcode_id

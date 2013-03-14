@@ -24,11 +24,11 @@
   <table class="vertical-table">
   <tr>
     <th>Patron Name:</th>
-    <td>user.name</td>
+    <td><%= @user.given_name %> <%= @user.surname %> (ID <%= @user.id %>)</td>
   </tr>
   <tr>
     <th>Patron Email:</th>
-    <td>user.email</td>
+    <td><%= @user.email %></td>
   </tr>
   <tr>
     <th>Item Title:</th>

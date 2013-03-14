@@ -21,15 +21,18 @@
 					Welcome to WebLib, a library management system!
 				</div>
 			<% else %>
-				<%# TODO: link_to %>
 				<div class="navigation">
-					Search Catalog | Browse Genre | <%= link_to "Browse Authors", authors_path %> | Admin Panel
+					<%= link_to "Search Catalog", items_search_path %> | Browse Genre | <%= link_to "Browse Authors", authors_path %> | Admin Panel
 				</div>
 			<% end %>
 		</div>
 		<% if request.path_parameters[:controller] != "home" %>
 		<div class="header-right">
-			Login Panel
+      <% if user_signed_in? %>
+        Welcome <strong><%= current_user.given_name %> <%= current_user.surname %></strong> | <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+      <% else %>
+        <%= link_to('Login', new_user_session_path) %>
+      <% end %>
 		</div>
 		<% end %>
 	</div>
