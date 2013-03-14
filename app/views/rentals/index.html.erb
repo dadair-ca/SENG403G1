@@ -14,8 +14,8 @@
 
 <% @rentals.each do |rental| %>
   <tr>
-    <td><%= rental.user_id %></td>
-    <td><%= rental.barcode_id %></td>
+    <td><%= link_to rental.user_id, user_path(rental.user_id) %></td>
+    <td><%= link_to rental.barcode_id, item_path(rental) %></td>
     <td><%= rental.renewals %></td>
     <td><%= rental.return_date %></td>
     <td><%= rental.rent_date %></td>
