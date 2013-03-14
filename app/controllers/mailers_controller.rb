@@ -13,7 +13,7 @@ class MailersController < ApplicationController
 
       respond_to do |format|
         format.html # new.html.erb
-        format.json { render json: @mailer }
+        format.json { render :json => @mailer }
       end
     end
   end
@@ -29,17 +29,15 @@ class MailersController < ApplicationController
       if @method == "custom"
         if @mailer.valid?
           UserMailer.custom_email(@mailer, @rental).deliver
-          format.html { redirect_to rentals_url, notice: 'Mail has been sent.' }
+          format.html { redirect_to rentals_url, :notice => 'Mail has been sent.' }
         else
           format.html { render :action => "new" }
-          format.json { render json: @mailer.errors, status: :unprocessable_entity }
+          format.json { render :json => @mailer.errors, :status => :unprocessable_entity }
         end
       else
         UserMailer.overdue_email(@rental).deliver
-        format.html { redirect_to rentals_url, notice: 'Mail has been sent.' }
+        format.html { redirect_to rentals_url, :notice => 'Mail has been sent.' }
       end
     end
-
   end
-
 end
