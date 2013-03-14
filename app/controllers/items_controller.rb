@@ -112,8 +112,8 @@ class ItemsController < ApplicationController
 
   # /items/advresults
   # /items/advresults.json
-  def advresults
-    @items = Item.advance_search(params[:title])
+  def advresults  
+    @items = Item.advance_search(param[:title])
 
     respond_to do |format|
       format.html { render :action => "results" }

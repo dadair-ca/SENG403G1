@@ -81,4 +81,7 @@ class Item < ActiveRecord::Base
   def self.advance_search(title)
     find(:all, :conditions => ['title LIKE ?', "%#{title}%"]) # temporary/filler
   end
+  
+  
+  
 end
