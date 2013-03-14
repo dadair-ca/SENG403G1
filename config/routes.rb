@@ -12,6 +12,9 @@ SENG403G1::Application.routes.draw do
 
   resources :authors
   
+  match 'items/Advance_search' => 'items#adv_search'
+ 
+  
   match 'items/search' => 'items#search'
   match 'items/:id/results' => 'items#results'
   put 'items/results'
