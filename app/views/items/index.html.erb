@@ -10,7 +10,9 @@
     <th>ISBN-13</th>
     <th>ISBN-10</th>
     <th>Copies</th>
-    <th colspan="2">Action</th>
+    <% if user_signed_in? %>
+        <th colspan="2">Action</th>
+    <% end %>
   </tr>
 <% @items.each do |item| %>
   <tr>
@@ -22,12 +24,15 @@
     <td><%= item.isbn13 %></td>
     <td><%= item.isbn10 %></td>
     <td><%= item.physical_items.count %></td>
-    <td><%= link_to 'Edit', edit_item_path(item) %></td>
-    <td><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    <% if user_signed_in? %>
+        <td><%= link_to 'Edit', edit_item_path(item) %></td>
+        <td><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Item', new_item_path %>
+<% if user_signed_in? %>
+    <%= link_to 'New Item', new_item_path %>
+<% end %>
