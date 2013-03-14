@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   validates_presence_of :category
   validates_presence_of :email
 
+  validates_inclusion_of :category, :in => 0..2
+
   validates_uniqueness_of :email
 
   def category_as_string
