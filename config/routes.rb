@@ -16,8 +16,9 @@ SENG403G1::Application.routes.draw do
  
   
   match 'items/search' => 'items#search'
-  match 'items/:id/results' => 'items#results'
-  put 'items/results'
+  match 'items/advance' => 'items#adv_search'
+  match 'items/results' => 'items#results'
+  match 'items/advresults' => 'items#advresults'
   resources :items do
     resources :physical_items
   end

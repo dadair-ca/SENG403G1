@@ -204,15 +204,15 @@ h2 {
 	tr:nth-child(odd) td { background-color: #E7E7E7; }
 }
 
-.vertical-form {
-	th { text-align: left }
-}
+.vertical-form th { text-align: left; padding-right: 25px; }
 
 input {
 	padding: 5px;
 	border: 1px solid #d2d7da;
 	background-color: #e9eef1;
 }
+
+select { padding: 5px; }
 
 textarea {
 	padding: 5px;
@@ -223,3 +223,4 @@ textarea {
 }
 
 .overdue td { color: #FF0000 }
+#search { width: 300px }
