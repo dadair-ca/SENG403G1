@@ -1,6 +1,6 @@
 class PhysicalItem < ActiveRecord::Base
   belongs_to :item
-  has_one :users, :through => :rentals
+  has_one :users, :through => :rentals, :foreign_key => :user_id
   has_one :rentals, :foreign_key => :barcode_id, :primary_key => :barcode_id
 
   attr_accessible :barcode_id, :item_id
