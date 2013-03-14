@@ -54,6 +54,8 @@
 
 <br />
 
-<%= link_to 'Add Copy', new_item_physical_item_path(@item) %> |
-<%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+<% if user_signed_in? %>
+    <%= link_to 'Add Copy', new_item_physical_item_path(@item) %> |
+    <%= link_to 'Edit', edit_item_path(@item) %> |
+    <%= link_to 'Back', items_path %>
+<% end %>
