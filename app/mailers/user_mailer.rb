@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default from: "noreply@weblib.shenafortozo.com"
+  default :from => "noreply@weblib.shenafortozo.com"
   
   def custom_email(mail, rental)
     @mail   = mail
