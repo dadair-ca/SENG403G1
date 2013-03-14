@@ -35,8 +35,47 @@ class Item < ActiveRecord::Base
     end
   end
   
-  def self.search(search)
-    title_condition = "%" + search + "%"
-    Item.all(:conditions => ['title LIKE ?', title_condition])
+  
+  
+  #Search all the items based upon the drop down menu selection
+  #Note: I am using a bogus year value for the error message, which will
+  #display nothing. Later on I'll remodify the view file for search
+  #to handle errors.
+  def self.search(search, search_type)
+    eSearch = (Time.now.year + 1).to_s    #Bogue search variable
+    search_str = search.gsub(/\s+/, ' ')    #Splits and concatenates search string, useful in getting rid of leading spaces.
+    if search
+      if search_type == 'Title'
+        find(:all, :conditions => ['title LIKE ?', "%#{search_str}%"])
+      elsif search_type == 'Author'
+#        search_str.scan(/[[:alpha:]]+/).each do |name|
+#          find(:all, :conditions => ['author LIKE ?', "%#{name}%"])
+#        end
+        find(:all)
+      elsif search_type == 'Genre'
+        find(:all, :conditions => ['genre LIKE ?', "%#{search_str}%"])
+      elsif search_type == 'Year'
+        if((search.to_i) && (search.to_i <= Time.now.year))
+          find(:all, :conditions => ['year LIKE ?', "%#{search_str}%"])
+        else
+          find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
+        end
+      elsif search_type == 'ISBN 13'
+        find(:all, :conditions => ['isbn13 LIKE ?', "%#{search_str}%"])
+      elsif search_type == 'ISBN 10'
+        find(:all, :conditions => ['isbn10 LIKE ?', "%#{search_str}%"])
+      else
+        find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
+      end
+    else
+      find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
+    end
   end
+  
 end
+
+#There are 3 things I can do to search for the authors name
+#Call the author search method within the items controller
+#Call the author search method within the view for search
+#Figure out a way to get the author column to search in for this method
+ 

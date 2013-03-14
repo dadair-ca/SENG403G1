@@ -1,12 +1,22 @@
 class User < ActiveRecord::Base
 
-  has_many :rentals
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :confirmable,
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
+  # Setup accessible (or protected) attributes for your model
   has_many :physical_items, :through => :rentals
+  has_many :rentals
+  has_many :items, :through => :physical_items
 
   validates_presence_of :given_name
   validates_presence_of :surname
   validates_presence_of :category
   validates_presence_of :email
+
+  validates_inclusion_of :category, :in => 0..2
 
   validates_uniqueness_of :email
 

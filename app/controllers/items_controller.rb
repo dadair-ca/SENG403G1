@@ -85,6 +85,18 @@ class ItemsController < ApplicationController
   end
   
   def search
-    @item = Item.search params[:search]
+    respond_to do |format|
+      format.html # search.html.erb
+      format.json { render :json => @items }
+    end
+  end
+  
+  def results
+    @items = Item.search(params[:search], params[:search_type])
+
+    respond_to do |format|
+      format.html # results.html.erb
+      format.json { render :json => @items }
+    end
   end
 end
