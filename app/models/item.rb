@@ -46,15 +46,11 @@ class Item < ActiveRecord::Base
     eSearch = (Time.now.year + 1).to_s    #Bogue search variable
     search_str = search.gsub(/\s+/, ' ')    #Splits and concatenates search string, useful in getting rid of leading spaces.
     
-    Item.joins(:author)
-    
     if search_str.present?
       if search_type == 'Title'
         find(:all, :conditions => ['title LIKE ?', "%#{search_str}%"])
       elsif search_type == 'Author'
-        search_str.scan(/[[:alpha:]]+/).each do |name|
-          find(:all, :conditions => [' author.surname LIKE ?', "%#{name}%"])
-        end
+        Item.joins(:author).where(' given_name LIKE ? or surname LIKE ?', "%#{search_str}%", "%#{search_str}%")
       elsif search_type == 'Genre'
         find(:all, :conditions => ['genre LIKE ?', "%#{search_str}%"])
       elsif search_type == 'Publisher'
