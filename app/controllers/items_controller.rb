@@ -83,19 +83,34 @@ class ItemsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
+  # /items/search
+  # /items/search.json
   def search
     respond_to do |format|
       format.html # search.html.erb
       format.json { render :json => @items }
     end
   end
-  
+
+  # /items/results
+  # /items/results.json
   def results
     @items = Item.search(params[:search], params[:search_type])
 
     respond_to do |format|
       format.html # results.html.erb
+      format.json { render :json => @items }
+    end
+  end
+
+  # /items/advresults
+  # /items/advresults.json
+  def advresults
+    @items = Item.advance_search(params[:title])
+
+    respond_to do |format|
+      format.html { render :action => "results" }
       format.json { render :json => @items }
     end
   end

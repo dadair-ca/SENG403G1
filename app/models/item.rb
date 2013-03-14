@@ -71,11 +71,13 @@ class Item < ActiveRecord::Base
       find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
     end
   end
-  
-end
 
 #There are 3 things I can do to search for the authors name
 #Call the author search method within the items controller
 #Call the author search method within the view for search
 #Figure out a way to get the author column to search in for this method
- 
+
+  def self.advance_search(title)
+    find(:all, :conditions => ['title LIKE ?', "%#{title}%"]) # temporary/filler
+  end
+end
