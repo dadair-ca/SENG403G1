@@ -1,5 +1,4 @@
 SENG403G1::Application.routes.draw do
-
   devise_for :users
 
   resources :rentals do
@@ -9,11 +8,7 @@ SENG403G1::Application.routes.draw do
   end
 
   resources :users
-
   resources :authors
-  
-  match 'items/Advance_search' => 'items#adv_search'
- 
   
   match 'items/search' => 'items#search'
   match 'items/advance' => 'items#adv_search'
