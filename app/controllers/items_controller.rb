@@ -97,11 +97,17 @@ class ItemsController < ApplicationController
   # /items/results.json
   def results
     @items = Item.search(params[:search], params[:search_type])
-
+    
     respond_to do |format|
-      format.html # results.html.erb
-      format.json { render :json => @items }
+      if @items.nil?
+        format.html { render :action => "edit" }
+        format.json { render :json => @item.errors, :status => :unprocessable_entity }
+      else
+        format.html # results.html.erb
+        format.json { render :json => @items }
+      end
     end
+    
   end
 
   # /items/advresults
