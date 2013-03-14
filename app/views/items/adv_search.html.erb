@@ -1,0 +1,43 @@
+<h1>Advance Search</h1>
+<p>Refine your search by completing one or more of the fields below:</p>
+<%= form_tag 'advresults' do %>
+  <table class="vertical-form">
+    <tr>
+      <th>Title</th>
+      <td><%= search_field_tag :title, params[:title] %></td>
+    </tr>
+    <tr>
+      <th>Author</th>
+      <td><%= search_field_tag :author, params[:author] %></td>
+    </tr>
+    <tr>
+      <th>Publisher</th>
+      <td><%= search_field_tag :publisher, params[:publisher] %></td>
+    </tr>
+    <tr>
+      <th>Year Published</th>
+      <td><%= search_field_tag :year, params[:year] %></td>
+    </tr>
+    <tr>
+      <th>Genre</th>
+      <td><%= search_field_tag :isbn, params[:isbn] %></td>
+    </tr>
+    <tr>
+      <th>ISBN10</th>
+      <td><%= search_field_tag :isbn10, params[:isbn10] %></td>
+    </tr>
+    <tr>
+      <th>ISBN13</th>
+      <td><%= search_field_tag :isbn13, params[:isbn13] %></td>
+    </tr>
+    <tr>
+      <td colspan="4" style="text-align:right">
+        <%= submit_tag "Search" %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<br />
+
+<%= link_to 'Basic Search', items_search_path %>
