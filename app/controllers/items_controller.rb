@@ -92,7 +92,7 @@ class ItemsController < ApplicationController
   end
   
   def results
-    @items = Item.search(params[:search])
+    @items = Item.search(params[:search], params[:search_type])
 
     respond_to do |format|
       format.html # results.html.erb
