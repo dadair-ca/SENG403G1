@@ -39,14 +39,20 @@
   <table class="vertical-table">
     <tr>
       <th>Barcode</th>
-      <th colspan="3">Action</th>
+     <% if user_signed_in? %>
+        <th colspan="3">Action</th>
+     <% end %>
     </tr>
   <% @copies.each do |c| %>
     <tr>
       <td><%= c.barcode_id %></td>
-      <td><%= link_to 'Edit', edit_item_physical_item_path(@item, c) %></td>
-      <td><%= link_to 'Destroy', [@item, c], :confirm => 'Are you sure?', :method => :delete %></td>
-      <td><%= link_to 'Rent', new_rental_path %></td>
+
+      <% if user_signed_in? %>
+          <td><%= c.barcode_id %></td>
+          <td><%= link_to 'Edit', edit_item_physical_item_path(@item, c) %></td>
+          <td><%= link_to 'Destroy', [@item, c], :confirm => 'Are you sure?', :method => :delete %></td>
+          <td><%= link_to 'Rent', new_rental_path %></td>
+      <% end %>
     </tr>
   <% end %>
   </table>

@@ -1,4 +1,6 @@
 class ItemsController < ApplicationController
+  before_filter :authenticate, :except => [ :show, :index ]
+
   # GET /items
   # GET /items.json
   def index
@@ -120,4 +122,9 @@ class ItemsController < ApplicationController
       format.json { render :json => @items }
     end
   end
+  
+  def authenticate
+    redirect_to(new_user_session_path) unless user_signed_in?
+  end
+  
 end

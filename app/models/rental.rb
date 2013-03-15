@@ -5,6 +5,7 @@ class Rental < ActiveRecord::Base
   belongs_to :physical_item, :foreign_key => :barcode_id, :primary_key => :barcode_id
   has_one :item, :through => :physical_item
   
+    
 #  # Add a error messgae??
 #  validates_presence_of :barcode_id
 #  validates_presence_of :renewals

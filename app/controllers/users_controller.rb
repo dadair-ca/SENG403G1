@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :authenticate
+
   # GET /users
   # GET /users.json
   def index
@@ -79,5 +81,9 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
+  end
+  
+  def authenticate
+    redirect_to(new_user_session_path) unless user_signed_in?
   end
 end

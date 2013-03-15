@@ -1,9 +1,9 @@
 class RentalsController < ApplicationController
+  before_filter :authenticate
   # GET /rentals
   # GET /rentals.json
   def index
     @rentals = Rental.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @rentals }
@@ -80,4 +80,9 @@ class RentalsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def authenticate
+    redirect_to(new_user_session_path) unless user_signed_in?
+  end
+  
 end
