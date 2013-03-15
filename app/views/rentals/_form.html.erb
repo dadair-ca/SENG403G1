@@ -12,24 +12,28 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :barcode_id %><br />
-    <%= f.number_field :barcode_id %>
-  </div>
-  <div class="field">
-    <%= f.label :renewals %><br />
-    <%= f.number_field :renewals %>
-  </div>
-  <div class="field">
-    <%= f.label :return_date %><br />
-    <%= f.datetime_select :return_date %>
-  </div>
-  <div class="field">
-    <%= f.label :rent_date %><br />
-    <%= f.datetime_select :rent_date %>
+  	<table class="vertical-form">
+  	<tr>
+    		<th><%= f.label :user_id %></th>
+    		<td><%= f.number_field :user_id %></td>
+	</tr>
+	<tr>
+	    	<th><%= f.label :barcode_id %></th>
+    		<td><%= f.number_field :barcode_id %></td>
+	</tr>
+	<tr>
+    		<th><%= f.label :renewals %></th>
+		<td><%= f.number_field :renewals, { :readonly => true }%></td>
+	</tr>
+	<tr>
+    		<th><%= f.label :return_date %></th>
+		<td><%= f.datetime_select :return_date %></td>
+	</tr>
+	<tr>
+    		<th><%= f.label :rent_date %></th>
+    		<td><%= f.datetime_select :rent_date %></td>  
+  	</tr>
+  	</table>
   </div>
   <div class="actions">
     <%= f.submit %>

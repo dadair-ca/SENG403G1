@@ -1,7 +1,9 @@
 class RentalsController < ApplicationController
+  before_filter :authenticate
   # GET /rentals
   # GET /rentals.json
   def index
+
     @rentals = Rental.all
 
     respond_to do |format|
@@ -25,23 +27,39 @@ class RentalsController < ApplicationController
   # GET /rentals/new.json
   def new
     @rental = Rental.new
+    @rental.renewals = 5
+
 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @rental }
     end
   end
+  
+#  # GET /rentals/new/1
+#  # GET /rentals/new.json
+#  def new(i)
+#    @rental = Rental.new
+#    @rental.renewals = 5
+
+
+#    respond_to do |format|
+#      format.html # new.html.erb
+#      format.json { render :json => @rental }
+#    end
+#  end
 
   # GET /rentals/1/edit
   def edit
     @rental = Rental.find(params[:id])
+    @rental.renewals = @rental.renewals - 1
   end
 
   # POST /rentals
   # POST /rentals.json
   def create
     @rental = Rental.new(params[:rental])
-
+    
     respond_to do |format|
       if @rental.save
         format.html { redirect_to @rental, :notice => 'Rental was successfully created.' }
@@ -80,4 +98,9 @@ class RentalsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def authenticate
+    redirect_to(new_user_session_path) unless user_signed_in?
+  end
+  
 end

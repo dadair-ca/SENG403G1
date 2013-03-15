@@ -4,7 +4,7 @@
 
     <p>
       <b>User:</b>
-      <%= @rental.user_id %>
+      <%= link_to @rental.user_id, user_path(@rental.user_id) %>
     </p>
 
     <p>
@@ -32,4 +32,6 @@
     <%= link_to 'Back', rentals_path %>
 <% else %>
     <p> You do not have permission to view this page. </p>
+
 <% end %>
+
