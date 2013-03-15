@@ -12,7 +12,6 @@ class Rental < ActiveRecord::Base
   validates_presence_of :rent_date
   validates_presence_of :return_date
   validates_presence_of :user_id
-#  validates_presence_of :item_id
  
 #  # Add a scope??
 #  validates_uniqueness_of :barcode_id

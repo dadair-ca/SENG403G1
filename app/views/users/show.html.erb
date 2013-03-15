@@ -22,7 +22,30 @@
   </tr>
 </table>
 
-<h1>TODO: Show rentals here</h1>
+<h1>Rentals</h1>
+<table class="vertical-table">
+  <tr>
+    <th>Title</th>
+    <th>Barcode</th>
+    <th>Renewals</th>
+    <th>Return date</th>
+    <th>Rent date</th>
+    <th colspan="3">Action</th>
+  </tr>
+
+<% @rentals.each do |rental| %>
+  <tr<%= (rental.return_date < Time.now)?" class='overdue'":"" %>>
+    <td><%= link_to rental.item.title, item_path(rental.item.id) %></td>
+    <td><%= link_to rental.barcode_id, item_path(rental.item.id) %></td>
+    <td><%= rental.renewals %></td>
+    <td><%= rental.return_date %></td>
+    <td><%= rental.rent_date %></td>
+    <td><%= link_to 'Renew', edit_rental_path(rental) %></td>
+    <td><%= link_to 'Send Overdue Notification', new_rental_mailer_path(rental) %></td>
+    <td><%= link_to 'Return', rental, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
 
 <br/>
 

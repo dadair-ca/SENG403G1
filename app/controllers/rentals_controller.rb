@@ -4,7 +4,7 @@ class RentalsController < ApplicationController
   def index
 
     @rentals = Rental.all
-    @item = @rentals.physical_item.item.find(params[:id])
+
 
     respond_to do |format|
       format.html # index.html.erb

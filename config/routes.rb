@@ -2,6 +2,8 @@ SENG403G1::Application.routes.draw do
 
   devise_for :users
 
+#  match 'rentals/:id/new' => 'rentals#new', :via => :get
+#  get 'rentals/:id/new' => 'rentals#new', :as => :new_rental
   resources :rentals do
     resources :mailers, :only => [:new, :create], :path_names => { :new => 'overdue', :create => 'send' } do
       post :create => "mailers#create", :as => :create, :path => :new, :on => :collection
@@ -11,6 +13,7 @@ SENG403G1::Application.routes.draw do
   resources :users
 
   resources :authors
+ 
   
   match 'items/search' => 'items#search'
   match 'items/:id/results' => 'items#results'
