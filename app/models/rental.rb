@@ -6,7 +6,7 @@ class Rental < ActiveRecord::Base
   belongs_to :physical_item, :foreign_key => :barcode_id, :primary_key => :barcode_id
 
   has_one :item, :through => :physical_item
-  
+
   validates_presence_of :user_id
   validates_presence_of :barcode_id
   validates_presence_of :rent_date
@@ -29,5 +29,4 @@ private
       errors.add(:barcode_id, "ID does not exist")
     end
   end
-
 end
