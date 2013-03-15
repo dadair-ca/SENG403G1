@@ -1,30 +1,34 @@
 <h1>Rentals for <span><%= @user.given_name %> <%= @user.surname %></span></h1>
 
-<p id="notice"><%= notice %></p>
+<% if user_signed_in? %>
+    <p id="notice"><%= notice %></p>
 
-<h2>Item Information</h2>
-<table class="horizontal-table">
-  <tr>
-    <th>ID</th>
-    <td><%= @user.id %></td>
-  </tr>
-  <tr>
-    <th>Name</th>
-    <td><%= @user.given_name + ' ' + @user.surname %></td>
-  </tr>
-  <tr>
-    <th>Email</th>
-    <td><%= @user.email %></td>
-  </tr>
-  <tr>
-    <th>Category</th>
-    <td><%= @user.category_as_string %></td>
-  </tr>
-</table>
+    <h2>Item Information</h2>
+    <table class="horizontal-table">
+      <tr>
+        <th>ID</th>
+        <td><%= @user.id %></td>
+      </tr>
+      <tr>
+        <th>Name</th>
+        <td><%= @user.given_name + ' ' + @user.surname %></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <th>Category</th>
+        <td><%= @user.category_as_string %></td>
+      </tr>
+    </table>
 
-<h1>TODO: Show rentals here</h1>
+    <h1>TODO: Show rentals here</h1>
 
-<br/>
+    <br/>
 
-<%= link_to 'Edit User', edit_user_path(@user) %> |
-<%= link_to 'Back', :back %>
+    <%= link_to 'Edit User', edit_user_path(@user) %> |
+    <%= link_to 'Back', :back %>
+<% else %>
+    <p> You do not have permission to view this page. </p>
+<% end %>
