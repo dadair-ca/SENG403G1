@@ -2,7 +2,9 @@ class RentalsController < ApplicationController
   # GET /rentals
   # GET /rentals.json
   def index
+
     @rentals = Rental.all
+
 
     respond_to do |format|
       format.html # index.html.erb

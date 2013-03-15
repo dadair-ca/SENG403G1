@@ -4,7 +4,7 @@
 
     <p>
       <b>User:</b>
-      <%= @rental.user_id %>
+      <%= link_to @rental.user_id, user_path(@rental.user_id) %>
     </p>
 
     <p>

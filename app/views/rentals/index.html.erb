@@ -4,6 +4,7 @@
 
     <p id="notice"><%= notice %></p>
 
+
     <table class="vertical-table">
       <tr>
         <th>User</th>
@@ -16,8 +17,8 @@
 
     <% @rentals.each do |rental| %>
       <tr<%= (rental.return_date < Time.now)?" class='overdue'":"" %>>
-        <td><%= rental.user_id %></td>
-        <td><%= rental.barcode_id %></td>
+        <td><%= link_to rental.user_id, user_path(rental.user_id) %></td>
+        <td><%= link_to rental.barcode_id, item_path(rental.item.id) %></td>
         <td><%= rental.renewals %></td>
         <td><%= rental.return_date %></td>
         <td><%= rental.rent_date %></td>
