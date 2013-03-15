@@ -23,7 +23,7 @@
 	</tr>
 	<tr>
     		<th><%= f.label :renewals %></th>
-		<td><%= f.number_field :renewals %></td>
+		<td><%= f.number_field :renewals, { :readonly => true }%></td>
 	</tr>
 	<tr>
     		<th><%= f.label :return_date %></th>

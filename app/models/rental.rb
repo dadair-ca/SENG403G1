@@ -8,7 +8,6 @@ class Rental < ActiveRecord::Base
   
 #  # Add a error messgae??
   validates_presence_of :barcode_id
-  validates_presence_of :renewals
   validates_presence_of :rent_date
   validates_presence_of :return_date
   validates_presence_of :user_id

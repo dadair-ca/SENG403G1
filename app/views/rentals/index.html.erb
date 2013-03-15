@@ -22,7 +22,13 @@
         <td><%= rental.renewals %></td>
         <td><%= rental.return_date %></td>
         <td><%= rental.rent_date %></td>
-        <td><%= link_to 'Renew', edit_rental_path(rental) %></td>
+        <td>
+          <% if rental.renewals > 0 %>
+            <%= link_to 'Renew', edit_rental_path(rental) %>
+          <% else %>
+            <%= "At Renew Limit"%>
+          <% end %>
+        </td>
         <td><%= link_to 'Send Overdue Notification', new_rental_mailer_path(rental) %></td>
         <td><%= link_to 'Return', rental, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>
