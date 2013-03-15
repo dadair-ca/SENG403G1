@@ -1,9 +1,7 @@
 SENG403G1::Application.routes.draw do
   devise_for :users
 
-#  match 'rentals/:id/new' => 'rentals#new', :via => :get
-#  get 'rentals/:id/new' => 'rentals#new', :as => :new_physical_rental
-  resources :rentals do
+  resources :rentals  do
     resources :mailers, :only => [:new, :create], :path_names => { :new => 'overdue', :create => 'send' } do
       post :create => "mailers#create", :as => :create, :path => :new, :on => :collection
     end
@@ -11,7 +9,6 @@ SENG403G1::Application.routes.draw do
 
   resources :users
   resources :authors
- 
   
   match 'items/search' => 'items#search'
   match 'items/advance' => 'items#adv_search'
@@ -19,6 +16,10 @@ SENG403G1::Application.routes.draw do
   match 'items/advresults' => 'items#advresults'
   resources :items do
     resources :physical_items
+  end
+  
+  resources :physical_items do
+    resources :rentals, :only => [:new, :create]
   end
 
   # The priority is based upon order of creation:

@@ -25,29 +25,22 @@ class RentalsController < ApplicationController
 
   # GET /rentals/new
   # GET /rentals/new.json
+  # GET /physical_item/1/rentals/new
+  # GET /physical_item/1/rentals/new.json
   def new
     @rental = Rental.new
     @rental.renewals = 5
-
-
+    
+    if !params[:physical_item_id].nil?
+      @physical_item = PhysicalItem.find(params[:physical_item_id])
+      @rental.barcode_id = @physical_item.barcode_id
+    end
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @rental }
     end
   end
-  
-#  # GET /rentals/new/1
-#  # GET /rentals/new.json
-#  def new(i)
-#    @rental = Rental.new
-#    @rental.renewals = 5
-
-
-#    respond_to do |format|
-#      format.html # new.html.erb
-#      format.json { render :json => @rental }
-#    end
-#  end
 
   # GET /rentals/1/edit
   def edit
