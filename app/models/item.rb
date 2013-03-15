@@ -42,18 +42,19 @@ class Item < ActiveRecord::Base
   #display nothing. Later on I'll remodify the view file for search
   #to handle errors.
   def self.search(search, search_type)
+                            
     eSearch = (Time.now.year + 1).to_s    #Bogue search variable
     search_str = search.gsub(/\s+/, ' ')    #Splits and concatenates search string, useful in getting rid of leading spaces.
-    if search
+    
+    if search_str.present?
       if search_type == 'Title'
         find(:all, :conditions => ['title LIKE ?', "%#{search_str}%"])
       elsif search_type == 'Author'
-#        search_str.scan(/[[:alpha:]]+/).each do |name|
-#          find(:all, :conditions => ['author LIKE ?', "%#{name}%"])
-#        end
-        find(:all)
+        Item.joins(:author).where(' given_name LIKE ? or surname LIKE ?', "%#{search_str}%", "%#{search_str}%")
       elsif search_type == 'Genre'
         find(:all, :conditions => ['genre LIKE ?', "%#{search_str}%"])
+      elsif search_type == 'Publisher'
+        find(:all, :conditions => ['publisher LIKE ?', "%#{search_str}%"])
       elsif search_type == 'Year'
         if((search.to_i) && (search.to_i <= Time.now.year))
           find(:all, :conditions => ['year LIKE ?', "%#{search_str}%"])
@@ -61,9 +62,9 @@ class Item < ActiveRecord::Base
           find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
         end
       elsif search_type == 'ISBN 13'
-        find(:all, :conditions => ['isbn13 LIKE ?', "%#{search_str}%"])
+        find(:all, :conditions => ['isbn13 EXACT ?', "%#{search_str}%"])
       elsif search_type == 'ISBN 10'
-        find(:all, :conditions => ['isbn10 LIKE ?', "%#{search_str}%"])
+        find(:all, :conditions => ['isbn10 EXACT ?', "%#{search_str}%"])
       else
         find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
       end
@@ -71,11 +72,16 @@ class Item < ActiveRecord::Base
       find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
     end
   end
-  
-end
 
 #There are 3 things I can do to search for the authors name
 #Call the author search method within the items controller
 #Call the author search method within the view for search
 #Figure out a way to get the author column to search in for this method
- 
+
+  def self.advance_search(title)
+    find(:all, :conditions => ['title LIKE ?', "%#{title}%"]) # temporary/filler
+  end
+  
+  
+  
+end
