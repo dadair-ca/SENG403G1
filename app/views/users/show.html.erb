@@ -1,6 +1,6 @@
 <h1>Rentals for <span><%= @user.given_name %> <%= @user.surname %></span></h1>
 
-<% if user_signed_in? %>
+<% if user_signed_in? and current_user.category > 0 %>
     <p id="notice"><%= notice %></p>
 
     <h2>Item Information</h2>

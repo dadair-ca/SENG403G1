@@ -16,11 +16,11 @@ tolkien = Author.create(:given_name => "J.R.R.", :surname => "Tolkien")
 tolkien.items = lotrs
 
 #Remember that minimum password requirement is 6 characters
-david = User.create(:category => 0, :given_name => "David", :surname => "Adair", :email => "notreal@fake.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
-shena = User.create(:category => 1, :given_name => "Shena", :surname => "Fortozo", :email => "fake@fake.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
-User.create(:category => 2, :given_name => "Gellert", :surname => "Kispal", :email => "false@fake.com", :password => "dddeeefff", :password_confirmation => "aaabbbccc")
-User.create(:category => 2, :given_name => "Sydney", :surname => "Pratte", :email => "nottrue@fake.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
-User.create(:category => 1, :given_name => "Ho Wai", :surname => "Yung", :email => "notnotfalse@fake.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
+david = User.create(:category => 0, :given_name => "David", :surname => "Adair", :email => "david@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
+shena = User.create(:category => 1, :given_name => "Shena", :surname => "Fortozo", :email => "shena@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
+User.create(:category => 2, :given_name => "Gellert", :surname => "Kispal", :email => "gellert@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
+User.create(:category => 2, :given_name => "Sydney", :surname => "Pratte", :email => "sydney@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
+User.create(:category => 1, :given_name => "Ho Wai", :surname => "Yung", :email => "howai@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
 
 Item.first.physical_items.create(:barcode_id => 111)
 Item.first.physical_items.create(:barcode_id => 222)

@@ -26,13 +26,16 @@ class RentalsController < ApplicationController
   # GET /rentals/new
   # GET /rentals/new.json
   def new
-    @rental = Rental.new
-    @rental.renewals = 5
+    if current_user.category > 0
+        @rental = Rental.new
+        @rental.renewals = 5
 
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @rental }
+        respond_to do |format|
+          format.html # new.html.erb
+          format.json { render :json => @rental }
+        end
+    else
+        redirect_to(rentals_path)
     end
   end
   
@@ -51,8 +54,12 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1/edit
   def edit
-    @rental = Rental.find(params[:id])
-    @rental.renewals = @rental.renewals - 1
+    if current_user.category > 0
+        @rental = Rental.find(params[:id])
+        @rental.renewals = @rental.renewals - 1
+    else
+        redirect_to(rentals_path)
+    end
   end
 
   # POST /rentals
