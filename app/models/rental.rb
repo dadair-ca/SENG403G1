@@ -13,7 +13,8 @@ class Rental < ActiveRecord::Base
   validates_presence_of :return_date
 
   validates_uniqueness_of :barcode_id
-
+  
+  validates_presence_of :renewals
   validate :validate_user_id
   validate :validate_barcode_id
 
