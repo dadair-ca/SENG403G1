@@ -5,6 +5,6 @@
   </head>
   <body>
     <h1>WebLib</h1>
-    <p><%= @mail.body %></p>
+    <p><%= simple_format(@mail.body) %></p>
   </body>
 </html>
