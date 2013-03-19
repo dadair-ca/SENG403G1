@@ -1,6 +1,6 @@
 <h1>Listing Rentals</h1>
 
-<% if user_signed_in? and and current_user.category > 0 %>
+<% if user_signed_in? and current_user.category > 0 %>
 
     <p id="notice"><%= notice %></p>
 
@@ -40,6 +40,5 @@
     <%= link_to 'New Rental', new_rental_path %>
 <% else %>
     <p> You do not have permission to view this page. </p>
-
 <% end %>
 
