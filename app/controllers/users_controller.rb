@@ -27,17 +27,25 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
-    @user = User.new
+    if current_user.category > 1
+        @user = User.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @user }
+        respond_to do |format|
+          format.html # new.html.erb
+          format.json { render :json => @user }
+        end
+    else
+        redirect_to(users_path)
     end
   end
 
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
+    if current_user.category > 1
+        @user = User.find(params[:id])
+    else
+        redirect_to(users_path)
+    end
   end
 
   # POST /users

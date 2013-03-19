@@ -1,6 +1,6 @@
 <h1>Listing users</h1>
 
-<% if user_signed_in? %>
+<% if user_signed_in? and current_user.category > 1 %>
     <table class="vertical-table">
       <tr>
         <th>User ID</th>
@@ -21,12 +21,8 @@
       </tr>
     <% end %>
     </table>
-
     <br />
-
     <%= link_to 'New User', new_user_path %>
 <% else %>
-
     <p> You do not have permission to view this page. </p>
-
 <% end %>

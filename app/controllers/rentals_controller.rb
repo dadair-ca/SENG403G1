@@ -44,8 +44,12 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1/edit
   def edit
-    @rental = Rental.find(params[:id])
-    @rental.renewals = @rental.renewals - 1
+    if current_user.category > 0
+        @rental = Rental.find(params[:id])
+        @rental.renewals = @rental.renewals - 1
+    else
+        redirect_to(rentals_path)
+    end
   end
 
   # POST /rentals

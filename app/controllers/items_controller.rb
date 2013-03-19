@@ -28,18 +28,26 @@ class ItemsController < ApplicationController
   # GET /items/new
   # GET /items/new.json
   def new
-    @item = Item.new
-    @item.build_author
+    if current_user.category > 0
+        @item = Item.new
+        @item.build_author
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @item }
+        respond_to do |format|
+            format.html # new.html.erb
+            format.json { render :json => @item }
+        end
+    else
+        redirect_to(items_path)
     end
   end
 
   # GET /items/1/edit
   def edit
-    @item = Item.find(params[:id])
+    if current_user.category > 0
+        @item = Item.find(params[:id])
+    else
+        redirect_to(items_path)
+    end
   end
 
   # POST /items
