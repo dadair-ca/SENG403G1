@@ -16,20 +16,9 @@
 			<%= link_to root_path, :class => "weblib" do %>
 				Web<span class="weblib-right">Lib</span>
 			<% end %>
-			<% if request.path_parameters[:controller] == "home" %>
-				<div class="welcome">
-					Welcome to WebLib, a library management system!
-				</div>
-			<% else %>
-				<div class="navigation">
-					<%= link_to "Search Catalog", items_search_path %>
-					| <%= link_to "Browse Catalog", items_path %>
-					| <%= link_to "Browse Authors", authors_path %>
-				<% if user_signed_in? and current_user.category > 0 %>
-					| <%= link_to "Browse Rentals", rentals_path %>
-				<% end %>
-				</div>
-			<% end %>
+      <div class="welcome">
+        Welcome to WebLib, a library management system!
+      </div>
 		</div>
 		<% if request.path_parameters[:controller] != "home" %>
 		<div class="header-right">
