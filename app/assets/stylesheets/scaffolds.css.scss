@@ -185,6 +185,7 @@ h2 {
 		padding: 2px 10px;
 		text-align: center;
 	}
+  th a { color: #fff }
 	td:nth-child(even) { background-color: #F0F0F0; }
 	td:nth-child(odd) { background-color: #E7E7E7; }
 }
@@ -200,6 +201,7 @@ h2 {
 		padding: 2px 10px;
 		text-align: left;
 	}
+  th a { color: #fff }
 	tr:nth-child(even) td { background-color: #F0F0F0; }
 	tr:nth-child(odd) td { background-color: #E7E7E7; }
 }
