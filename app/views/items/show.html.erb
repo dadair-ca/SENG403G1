@@ -52,7 +52,7 @@
           <td><%= link_to 'Destroy', [@item, c], :confirm => 'Are you sure?', :method => :delete %></td>
           <td>
             <% if c.rental.nil? %>
-              <%= link_to 'Rent', new_rental_path %>
+              <%= link_to 'Rent', new_physical_item_rental_path(c) %>
             <% else %>
               <%= "Unavailable" %>
             <% end %>

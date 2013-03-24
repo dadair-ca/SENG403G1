@@ -22,7 +22,12 @@
 				</div>
 			<% else %>
 				<div class="navigation">
-					<%= link_to "Search Catalog", items_search_path %> | <%= link_to "Browse Catalog", items_path %> | <%= link_to "Browse Authors", authors_path %>
+					<%= link_to "Search Catalog", items_search_path %>
+					| <%= link_to "Browse Catalog", items_path %>
+					| <%= link_to "Browse Authors", authors_path %>
+				<% if user_signed_in? and current_user.category > 0 %>
+					| <%= link_to "Browse Rentals", rentals_path %>
+				<% end %>
 				</div>
 			<% end %>
 		</div>
