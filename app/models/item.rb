@@ -34,42 +34,21 @@ class Item < ActiveRecord::Base
       self.author = author if author 
     end
   end
-  
-  
-  
+
   #Search all the items based upon the drop down menu selection
   #Note: I am using a bogus year value for the error message, which will
   #display nothing. Later on I'll remodify the view file for search
   #to handle errors.
   def self.search(search, search_type)
-                            
-    eSearch = (Time.now.year + 1).to_s    #Bogue search variable
-    search_str = search.gsub(/\s+/, ' ')    #Splits and concatenates search string, useful in getting rid of leading spaces.
+    eSearch = (Time.now.year + 1).to_s      #Bogue search variable
+    search_str = search.to_s.gsub(/\s+/, ' ')    #Splits and concatenates search string, useful in getting rid of leading spaces.
     
     if search_str.present?
-      if search_type == 'Title'
-        find(:all, :conditions => ['title LIKE ?', "%#{search_str}%"])
-      elsif search_type == 'Author'
-        Item.joins(:author).where(' given_name LIKE ? or surname LIKE ?', "%#{search_str}%", "%#{search_str}%")
-      elsif search_type == 'Genre'
-        find(:all, :conditions => ['genre LIKE ?', "%#{search_str}%"])
-      elsif search_type == 'Publisher'
-        find(:all, :conditions => ['publisher LIKE ?', "%#{search_str}%"])
-      elsif search_type == 'Year'
-        if((search.to_i) && (search.to_i <= Time.now.year))
-          find(:all, :conditions => ['year LIKE ?', "%#{search_str}%"])
-        else
-          find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
-        end
-      elsif search_type == 'ISBN 13'
-        find(:all, :conditions => ['isbn13 EXACT ?', "%#{search_str}%"])
-      elsif search_type == 'ISBN 10'
-        find(:all, :conditions => ['isbn10 EXACT ?', "%#{search_str}%"])
+      if search_type != 'author'
+        Item.joins(:author).find(:all, :conditions => [search_type + ' LIKE ?', "%#{search_str}%"])
       else
-        find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
+        Item.joins(:author).where('given_name LIKE ? or surname LIKE ?', "%#{search_str}%", "%#{search_str}%")
       end
-    else
-      find(:all, :conditions => ['year LIKE ?', "%#{eSearch}%"])
     end
   end
 

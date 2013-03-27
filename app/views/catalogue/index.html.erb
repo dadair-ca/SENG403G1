@@ -1,33 +1,82 @@
-<h1>Catalogue</h1>
-
-<table class="vertical-table">
-  <tr>
-    <th><%= sortable "title" %></th>
-    <th><%= sortable "given_name", "Author" %></th>
-    <th><%= sortable "year" %></th>
-    <th><%= sortable "genre" %></th>
-    <th><%= sortable "publisher" %></th>
-    <th><%= sortable "isbn13", "ISBN-13" %></th>
-    <th><%= sortable "isbn10", "ISBN-10" %></th>
-    <th>Copies</th>
-    <% if user_signed_in? and current_user.category > 0%>
-        <th colspan="2">Action</th>
+<div id="catalogue">
+<div id="main">
+  <h1>Catalogue</h1>
+  <table class="vertical-table">
+    <tr>
+      <th><%= sortable "title" %></th>
+      <th><%= sortable "given_name", "Author" %></th>
+      <th><%= sortable "year" %></th>
+      <th><%= sortable "genre" %></th>
+      <th><%= sortable "publisher" %></th>
+      <th><%= sortable "isbn13", "ISBN-13" %></th>
+      <th><%= sortable "isbn10", "ISBN-10" %></th>
+      <th>Copies</th>
+      <% if user_signed_in? and current_user.category > 0%>
+          <th colspan="2">Action</th>
+      <% end %>
+    </tr>
+  <% @items.each do |item| %>
+    <tr>
+      <td><%= link_to item.title, item %></td>
+      <td><%= link_to item.author.given_name + " " + item.author.surname, item.author %></td>
+      <td><%= item.year %></td>
+      <td><%= item.genre %></td>
+      <td><%= item.publisher %></td>
+      <td><%= item.isbn13 %></td>
+      <td><%= item.isbn10 %></td>
+      <td><%= item.physical_items.count %></td>
+      <% if user_signed_in? and current_user.category > 0 %>
+          <td><%= link_to "Edit", edit_item_path(item) %></td>
+          <td><%= link_to "Destroy", item, :method => :delete, :data => { :confirm => "Are you sure?" } %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </table>
+</div>
+<div id="sidebar">
+  <div class="wrap">
+    <h3>Search</h3>
+    <%= form_tag catalogue_path, :method => "get" do %>
+      <%= hidden_field_tag :sort, params[:sort] %>
+      <%= hidden_field_tag :direction, sort_direction %>
+      
+      <%= search_field_tag :search, params[:search] %>
+      <%= select_tag :search_type, 
+            options_for_select({"Search by Title"   => "title",
+                                "Search by Author"  => "author",
+                                "Search by Genre"   => "genre",
+                                "Search by Year"    => "Year",
+                                "Search by ISBN 13" => "isbn13",
+                                "Search by ISBN 10" => "isbn10"}, :selected => params[:search_type] ) %>
+      <div class="filters">
+				<strong>Authors:</strong>
+				<ul>
+				<% @authors.each do |a| %>
+					<li><%= a.to_s %></li>
+				<% end %>
+				</ul>
+				<strong>Genres:</strong>
+				<ul>
+				<% @genres.each do |g| %>
+					<li><%= g.to_s %></li>
+				<% end %>
+				</ul>
+				<strong>Years:</strong>
+				<ul>
+				<% @years.each do |y| %>
+					<li><%= y.to_s %></li>
+				<% end %>
+				</ul>
+				<strong>Publishers:</strong>
+				<ul>
+				<% @publishers.each do |p| %>
+					<li><%= p.to_s %></li>
+				<% end %>
+				</ul>
+			</div>
+      <%= submit_tag "Search", :name => nil %>
     <% end %>
-  </tr>
-<% @items.each do |item| %>
-  <tr>
-    <td><%= link_to item.title, item %></td>
-    <td><%= link_to item.author.given_name + ' ' + item.author.surname, item.author %></td>
-    <td><%= item.year %></td>
-    <td><%= item.genre %></td>
-    <td><%= item.publisher %></td>
-    <td><%= item.isbn13 %></td>
-    <td><%= item.isbn10 %></td>
-    <td><%= item.physical_items.count %></td>
-    <% if user_signed_in? and current_user.category > 0 %>
-        <td><%= link_to 'Edit', edit_item_path(item) %></td>
-        <td><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
-    <% end %>
-  </tr>
-<% end %>
-</table>
+  </div>
+</div>
+<div style="clear:both"></div>
+</div>
