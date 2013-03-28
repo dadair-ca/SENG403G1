@@ -23,14 +23,14 @@ class CatalogueController < ApplicationController
       @publishers[i.publisher] += 1
     end
     
-    @years = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
-    @years = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
-    @years = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
-    @years = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
+    @authors    = @authors.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
+    @genres     = @genres.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
+    @years      = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
+    @publishers = @publishers.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @years }
+      format.json { render :json => @items }
     end
   end
 
