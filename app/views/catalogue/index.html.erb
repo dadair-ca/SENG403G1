@@ -11,9 +11,6 @@
       <th><%= sortable "isbn13", "ISBN-13" %></th>
       <th><%= sortable "isbn10", "ISBN-10" %></th>
       <th>Copies</th>
-      <% if user_signed_in? and current_user.category > 0%>
-          <th colspan="2">Action</th>
-      <% end %>
     </tr>
   <% @items.each do |item| %>
     <tr>
@@ -25,10 +22,6 @@
       <td><%= item.isbn13 %></td>
       <td><%= item.isbn10 %></td>
       <td><%= item.physical_items.count %></td>
-      <% if user_signed_in? and current_user.category > 0 %>
-          <td><%= link_to "Edit", edit_item_path(item) %></td>
-          <td><%= link_to "Destroy", item, :method => :delete, :data => { :confirm => "Are you sure?" } %></td>
-      <% end %>
     </tr>
   <% end %>
   </table>
@@ -37,7 +30,7 @@
   <div class="wrap">
     <h3>Search</h3>
     <%= form_tag catalogue_path, :method => "get" do %>
-      <%= hidden_field_tag :sort, params[:sort] %>
+      <%= hidden_field_tag :sort, sort_column %>
       <%= hidden_field_tag :direction, sort_direction %>
       
       <%= search_field_tag :search, params[:search] %>
@@ -52,25 +45,25 @@
 				<strong>Authors:</strong>
 				<ul>
 				<% @authors.each do |a| %>
-					<li><%= a.to_s %></li>
+					<li><%= a.first.truncate(20) %> (<%= a.last %>)</li>
 				<% end %>
 				</ul>
 				<strong>Genres:</strong>
 				<ul>
 				<% @genres.each do |g| %>
-					<li><%= g.to_s %></li>
+					<li><%= g.first.truncate(20) %> (<%= g.last %>)</li>
 				<% end %>
 				</ul>
 				<strong>Years:</strong>
 				<ul>
 				<% @years.each do |y| %>
-					<li><%= y.to_s %></li>
+					<li><%= y.first %> (<%= y.last %>)</li>
 				<% end %>
 				</ul>
 				<strong>Publishers:</strong>
 				<ul>
 				<% @publishers.each do |p| %>
-					<li><%= p.to_s %></li>
+					<li><%= p.first.truncate(20) %> (<%= p.last %>)</li>
 				<% end %>
 				</ul>
 			</div>

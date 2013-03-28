@@ -10,41 +10,27 @@ class CatalogueController < ApplicationController
       @items = Catalogue.search(params[:search], params[:search_type], sort_column, sort_direction)
     end
     
-		@authors = {}
-    @genres = {}
-		@years = {}
-		@publishers = {}
+		@authors    = Hash.new(0)
+    @genres     = Hash.new(0)
+		@years      = Hash.new(0)
+		@publishers = Hash.new(0)
     
     @items.each do |i|
 			authorname = i.author.given_name + ' ' + i.author.surname
-      if(@authors.include? authorname)
-        @authors[authorname] += 1
-      else
-				@authors[authorname] ||= 1
-      end
-			
-      if(@genres.include? i.genre)
-        @genres[i.genre] += 1
-      else
-				@genres[i.genre] ||= 1
-      end
-			
-      if(@years.include? i.year)
-        @years[i.year] += 1
-      else
-				@years[i.year] ||= 1
-      end
-			
-      if(@publishers.include? i.publisher)
-        @publishers[i.publisher] += 1
-      else
-				@publishers[i.publisher] ||= 1
-      end
+      @authors[authorname] += 1
+      @genres[i.genre] += 1
+      @years[i.year] += 1
+      @publishers[i.publisher] += 1
     end
+    
+    @years = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
+    @years = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
+    @years = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
+    @years = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @items }
+      format.json { render :json => @years }
     end
   end
 
