@@ -35,12 +35,13 @@
       
       <%= search_field_tag :search, params[:search] %>
       <%= select_tag :search_type, 
-            options_for_select({"Search by Title"   => "title",
-                                "Search by Author"  => "author",
-                                "Search by Genre"   => "genre",
-                                "Search by Year"    => "Year",
-                                "Search by ISBN 13" => "isbn13",
-                                "Search by ISBN 10" => "isbn10"}, :selected => params[:search_type] ) %>
+            options_for_select({"Search by Title"     => "title",
+                                "Search by Author"    => "author",
+                                "Search by Genre"     => "genre",
+                                "Search by Publisher" => "publisher",
+                                "Search by Year"      => "year",
+                                "Search by ISBN 13"   => "isbn13",
+                                "Search by ISBN 10"   => "isbn10"}, :selected => params[:search_type] ) %>
       <div class="filters">
         <% if params[:filter_type] != "given_name" %>
 				<strong>Authors:</strong>
