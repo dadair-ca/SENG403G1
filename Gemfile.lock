@@ -30,6 +30,7 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
+    bcrypt-ruby (3.0.1-x86-mingw32)
     builder (3.0.4)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -38,6 +39,11 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    damerau-levenshtein (1.0.1)
+      bundler (~> 1.0)
+      jeweler (~> 1.8)
+      rake (~> 10.0)
+      rake-compiler (~> 0.8)
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -46,8 +52,14 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    git (1.2.5)
     hike (1.2.1)
     i18n (0.6.1)
+    jeweler (1.8.4)
+      bundler (~> 1.0)
+      git (>= 1.2.5)
+      rake
+      rdoc
     journey (1.0.4)
     jquery-rails (2.2.0)
       railties (>= 3.0, < 5.0)
@@ -84,6 +96,8 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     rake (10.0.3)
+    rake-compiler (0.8.3)
+      rake
     rdoc (3.12)
       json (~> 1.4)
     sass (3.2.5)
@@ -115,6 +129,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  damerau-levenshtein (~> 1.0.1)
   devise
   jquery-rails
   json

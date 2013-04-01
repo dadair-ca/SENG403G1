@@ -46,4 +46,10 @@ class ItemsControllerTest < ActionController::TestCase
 
     assert_redirected_to items_path
   end
+  
+  test "should display search" do
+    get :result, :id => @item
+    assert_response :success
+  end
+   
 end

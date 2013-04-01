@@ -106,10 +106,13 @@ class ItemsController < ApplicationController
   # /items/results
   # /items/results.json
   def results
-    @items = Item.search(params[:search], params[:search_type])
+    @items = Item.search(params[:search], params[:search_type], params[:id])
+    
+    @words = Item.view(params[:search], params[:search_type], params[:id])
+    
     
     respond_to do |format|
-      if @items.nil?
+      if @items == nil
         format.html { render :action => "edit" }
         format.json { render :json => @item.errors, :status => :unprocessable_entity }
       else
@@ -118,13 +121,19 @@ class ItemsController < ApplicationController
       end
     end
     
+    
+    
   end
+  
+  
 
   # /items/advresults
   # /items/advresults.json
   def advresults  
     @items = Item.advance_search(param[:title])
-
+    
+    
+      
     respond_to do |format|
       format.html { render :action => "results" }
       format.json { render :json => @items }
