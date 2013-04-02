@@ -33,7 +33,7 @@
       <%= hidden_field_tag :sort, sort_column %>
       <%= hidden_field_tag :direction, sort_direction %>
       
-      <%= search_field_tag :search, params[:search] %>
+      <%= search_field_tag :search, params[:search] %> <br/>
       <%= select_tag :search_type, 
             options_for_select({"Search by Title"     => "title",
                                 "Search by Author"    => "author",
@@ -41,7 +41,8 @@
                                 "Search by Publisher" => "publisher",
                                 "Search by Year"      => "year",
                                 "Search by ISBN 13"   => "isbn13",
-                                "Search by ISBN 10"   => "isbn10"}, :selected => params[:search_type] ) %>
+                                "Search by ISBN 10"   => "isbn10"}, :selected => params[:search_type] ) %> <br/>
+      <%= submit_tag "Search", :name => nil %>
       <div class="filters">
         <% if params[:filter_type] != "given_name" %>
 				<strong>Authors:</strong>
@@ -76,7 +77,6 @@
 				</ul>
 				<% end %>
 			</div>
-      <%= submit_tag "Search", :name => nil %>
     <% end %>
   </div>
 </div>
