@@ -1,9 +1,7 @@
 <h1>Listing Rentals</h1>
 
 <% if user_signed_in? and current_user.category > 0 %>
-
     <p id="notice"><%= notice %></p>
-
 
     <table class="vertical-table">
       <tr>
@@ -34,9 +32,8 @@
       </tr>
     <% end %>
     </table>
-
+    <%= will_paginate @rentals %>
     <br />
-
     <%= link_to 'New Rental', new_rental_path %>
 <% else %>
     <p> You do not have permission to view this page. </p>
