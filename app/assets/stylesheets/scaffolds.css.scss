@@ -153,13 +153,16 @@ h2 {
 }
 
 #content {
-	padding-bottom: 100px;
+	padding-bottom: 115px;
 	.wrapper {
 		padding: 15px 0 25px 115px;
 	}
 }
 
-#catalogue { height: 100% }
+#catalogue {
+  height: 100%;
+  padding-bottom: 115px;
+}
 
 #main {
   float: left;
@@ -184,6 +187,8 @@ h2 {
 #search { width: 225px }
 
 #footer {
+  position: absolute;
+  bottom: 0;
 	width: 100%;
 	height: 115px;
 	background-color: #006083;

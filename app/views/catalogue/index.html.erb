@@ -1,4 +1,5 @@
 <div id="catalogue">
+
 <% if @items.empty? %>
   
   <%= "The search term is invalid, please retype your query again." %>
@@ -28,6 +29,7 @@
         <td><%= item.isbn10 %></td>
         <td><%= item.physical_items.count %></td>
       </tr>
+
     <% end %>
     </table>
   </div>
