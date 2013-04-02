@@ -1,94 +1,89 @@
 <div id="catalogue">
-
-<% if @items.empty? %>
-  
-  <%= "The search term is invalid, please retype your query again." %>
-  <%= link_to 'Back', catalogue_path %>
-<% else %>
-  <div id="main">
-    <h1>Catalogue</h1>
-    <table class="vertical-table">
-      <tr>
-        <th><%= sortable "title" %></th>
-        <th><%= sortable "given_name", "Author" %></th>
-        <th><%= sortable "year" %></th>
-        <th><%= sortable "genre" %></th>
-        <th><%= sortable "publisher" %></th>
-        <th><%= sortable "isbn13", "ISBN-13" %></th>
-        <th><%= sortable "isbn10", "ISBN-10" %></th>
-        <th>Copies</th>
-      </tr>
-    <% @items.each do |item| %>
-      <tr>
-        <td><%= link_to item.title, item %></td>
-        <td><%= link_to item.author.given_name + " " + item.author.surname, item.author %></td>
-        <td><%= item.year %></td>
-        <td><%= item.genre %></td>
-        <td><%= item.publisher %></td>
-        <td><%= item.isbn13 %></td>
-        <td><%= item.isbn10 %></td>
-        <td><%= item.physical_items.count %></td>
-      </tr>
-
-    <% end %>
-    </table>
-  </div>
-
-
-  <div id="sidebar">
-    <div class="wrap">
-      <h3>Search</h3>
-      <%= form_tag catalogue_path, :method => "get" do %>
-        <%= hidden_field_tag :sort, sort_column %>
-        <%= hidden_field_tag :direction, sort_direction %>
-        
-        <%= search_field_tag :search, params[:search] %>
-        <%= select_tag :search_type, 
-              options_for_select({"Search by Title"     => "title",
-                                  "Search by Author"    => "author",
-                                  "Search by Genre"     => "genre",
-                                  "Search by Publisher" => "publisher",
-                                  "Search by Year"      => "year",
-                                  "Search by ISBN 13"   => "isbn13",
-                                  "Search by ISBN 10"   => "isbn10"}, :selected => params[:search_type] ) %>
-        <div class="filters">
-          <% if params[:filter_type] != "given_name" %>
-				  <strong>Authors:</strong>
-				  <ul>
-            <% @authors.each do |a| %>
-              <li><%= filter("given_name", a.first.truncate(20), a.last) %></li>
-            <% end %>
-				  </ul>
-				  <% end %>
-          <% if params[:filter_type] != "genre" %>
-				  <strong>Genres:</strong>
-				  <ul>
-            <% @genres.each do |g| %>
-              <li><%= filter("genre", g.first.truncate(20), g.last) %></li>
-            <% end %>
-				  </ul>
-				  <% end %>
-          <% if params[:filter_type] != "years" %>
-				  <strong>Years:</strong>
-				  <ul>
-            <% @years.each do |y| %>
-              <li><%= filter("year", y.first.to_s, y.last) %></li>
-            <% end %>
-				  </ul>
-				  <% end %>
-          <% if params[:filter_type] != "publisher" %>
-				  <strong>Publishers:</strong>
-				  <ul>
-            <% @publishers.each do |p| %>
-              <li><%= filter("publisher", p.first.truncate(20), p.last) %></li>
-            <% end %>
-				  </ul>
-				  <% end %>
-			  </div>
-        <%= submit_tag "Search", :name => nil %>
+<div id="main">
+  <h1>Catalogue</h1>
+    <% if @items.empty? %>
+      <%= "The search term is invalid, please retype your query again." %>
+      <%= link_to 'Back', catalogue_path %>
+    <% else %>
+      <table class="vertical-table">
+        <tr>
+          <th><%= sortable "title" %></th>
+          <th><%= sortable "given_name", "Author" %></th>
+          <th><%= sortable "year" %></th>
+          <th><%= sortable "genre" %></th>
+          <th><%= sortable "publisher" %></th>
+          <th><%= sortable "isbn13", "ISBN-13" %></th>
+          <th><%= sortable "isbn10", "ISBN-10" %></th>
+          <th>Copies</th>
+        </tr>
+      <% @items.each do |item| %>
+        <tr>
+          <td><%= link_to item.title, item %></td>
+          <td><%= link_to item.author.given_name + " " + item.author.surname, item.author %></td>
+          <td><%= item.year %></td>
+          <td><%= item.genre %></td>
+          <td><%= item.publisher %></td>
+          <td><%= item.isbn13 %></td>
+          <td><%= item.isbn10 %></td>
+          <td><%= item.physical_items.count %></td>
+        </tr>
       <% end %>
+      </table>
     </div>
-  </div>
-<% end %>
+    <div id="sidebar">
+      <div class="wrap">
+        <h3>Search</h3>
+        <%= form_tag catalogue_path, :method => "get" do %>
+          <%= hidden_field_tag :sort, sort_column %>
+          <%= hidden_field_tag :direction, sort_direction %>
+          
+          <%= search_field_tag :search, params[:search] %>
+          <%= select_tag :search_type, 
+                options_for_select({"Search by Title"     => "title",
+                                    "Search by Author"    => "author",
+                                    "Search by Genre"     => "genre",
+                                    "Search by Publisher" => "publisher",
+                                    "Search by Year"      => "year",
+                                    "Search by ISBN 13"   => "isbn13",
+                                    "Search by ISBN 10"   => "isbn10"}, :selected => params[:search_type] ) %>
+          <div class="filters">
+            <% if params[:filter_type] != "given_name" %>
+				    <strong>Authors:</strong>
+				    <ul>
+              <% @authors.each do |a| %>
+                <li><%= filter("given_name", a.first.truncate(20), a.last) %></li>
+              <% end %>
+				    </ul>
+				    <% end %>
+            <% if params[:filter_type] != "genre" %>
+				    <strong>Genres:</strong>
+				    <ul>
+              <% @genres.each do |g| %>
+                <li><%= filter("genre", g.first.truncate(20), g.last) %></li>
+              <% end %>
+				    </ul>
+				    <% end %>
+            <% if params[:filter_type] != "years" %>
+				    <strong>Years:</strong>
+				    <ul>
+              <% @years.each do |y| %>
+                <li><%= filter("year", y.first.to_s, y.last) %></li>
+              <% end %>
+				    </ul>
+				    <% end %>
+            <% if params[:filter_type] != "publisher" %>
+				    <strong>Publishers:</strong>
+				    <ul>
+              <% @publishers.each do |p| %>
+                <li><%= filter("publisher", p.first.truncate(20), p.last) %></li>
+              <% end %>
+				    </ul>
+				    <% end %>
+			    </div>
+          <%= submit_tag "Search", :name => nil %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>   
 <div style="clear:both"></div>
 </div>
