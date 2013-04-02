@@ -11,6 +11,8 @@ end
 
 gem 'json'
 gem 'devise'
+gem 'populator'
+gem 'faker'
 
 # Gems used only for assets and not required
 # in production environments by default.

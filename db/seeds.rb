@@ -6,6 +6,10 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
+require 'populator'
+require 'faker'
+
+
 lotrs = Item.create([
   { :title => "The Fellowship of the Ring", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "0000000000000", :isbn10 => "0000000000"},
   { :title => "The Two Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1111111111111", :isbn10 => "1111111111"},
@@ -21,6 +25,11 @@ shena = User.create(:category => 1, :given_name => "Shena", :surname => "Fortozo
 User.create(:category => 2, :given_name => "Gellert", :surname => "Kispal", :email => "gellert@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
 User.create(:category => 2, :given_name => "Sydney", :surname => "Pratte", :email => "sydney@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
 User.create(:category => 1, :given_name => "Ho Wai", :surname => "Yung", :email => "howai@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
+
+1.upto(100) do |i|
+    User.create(:category => 0, :given_name => Faker::Name.first_name, :surname => Faker::Name.last_name, :email => Faker::Internet.email, :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
+end
+
 
 Item.first.physical_items.create(:barcode_id => 111)
 Item.first.physical_items.create(:barcode_id => 222)
