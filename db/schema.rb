@@ -10,11 +10,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130312224225) do
+ActiveRecord::Schema.define(:version => 20130402225027) do
 
   create_table "authors", :force => true do |t|
     t.text     "given_name"
     t.text     "surname"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "holds", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "barcode_id"
+    t.date     "start_date"
+    t.date     "end_date"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
