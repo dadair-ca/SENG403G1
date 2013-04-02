@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @hold.user_id %>
+</p>
+
+<p>
+  <b>Barcode:</b>
+  <%= @hold.barcode_id %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @hold.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @hold.end_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_hold_path(@hold) %> |
+<%= link_to 'Back', holds_path %>
