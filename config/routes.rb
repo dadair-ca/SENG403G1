@@ -1,4 +1,6 @@
 SENG403G1::Application.routes.draw do
+	match 'catalogue' => 'catalogue#index'
+
   devise_for :users
 
   resources :rentals  do

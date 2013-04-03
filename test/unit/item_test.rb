@@ -229,4 +229,18 @@ class ItemTest < ActiveSupport::TestCase
       assert !item50.save
    end
    
+   test "should display only one item" do
+      item 51 = Item.new(:title => "The Lord of the Rings", :genre => "Fantasy", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 52 = Item.new(:title => "Pride and Prejudice", :genre => "Political", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 53 = Item.new(:title => "His Dark Materials", :genre => "Political", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 54 = Item.new(:title => "The Hitchhiker's Guide to the Galaxy", :genre => "Adventure", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 55 = Item.new(:title => "Harry Potter and the Goblet of Fire", :genre => "Adventure", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 56 = Item.new(:title => "To Kill a Mockingbird", :genre => "Fantasy", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 57 = Item.new(:title => "Winnie the Pooh", :genre => "Historical", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 58 = Item.new(:title => "Nineteen Eighty-Four", :genre => "Science fiction", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 59 = Item.new(:title => "The Lion, the Witch and the Wardrobe", :genre => "Science fiction", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      item 60 = Item.new(:title => "Jane Eyre", :genre => "Satire", :year => 1989, :publisher => "R", :isbn10 => 29, :isbn13 => 'rtyghjykl')
+      
+      assert.
+   end  
 end

@@ -1,29 +1,41 @@
 <h1>Results</h1>
+<% if @items.empty? %>
+    <br>The search term '
+    <% @words.each do |word| %>
+      <%= word %>
+    <% end %>
+    ' is invalid, please retype again.</br>
+    
+    <% if user_signed_in? and current_user.category > 0 %>
+      <p> <%= link_to 'Back', items_search_path %> </p>
+    <% end %>
+<% else %>
 
-<table class="vertical-table">
-  <tr>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Year</th>
-    <th>Genre</th>
-    <th>Publisher</th>
-    <th>ISBN-13</th>
-    <th>ISBN-10</th>
-    <th>Copies</th>
-    <th colspan="2">Action</th>
-  </tr>
-<% @items.each do |item| %>
-  <tr>
-    <td><%= link_to item.title, item %></td>
-    <td><%= link_to item.author.given_name + ' ' + item.author.surname, item.author %></td>
-    <td><%= item.year %></td>
-    <td><%= item.genre %></td>
-    <td><%= item.publisher %></td>
-    <td><%= item.isbn13 %></td>
-    <td><%= item.isbn10 %></td>
-    <td><%= item.physical_items.count %></td>
-    <td><%= link_to 'Edit', edit_item_path(item) %></td>
-    <td><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
-  </tr>
+  <table class="vertical-table">
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Year</th>
+      <th>Genre</th>
+      <th>Publisher</th>
+      <th>ISBN-13</th>
+      <th>ISBN-10</th>
+      <th>Copies</th>
+      <th colspan="2">Action</th>
+    </tr>
+  <% @items.each do |item| %>
+    <tr>
+      <td><%= link_to item.title, item %></td>
+      <td><%= link_to item.author.given_name + ' ' + item.author.surname, item.author %></td>
+      <td><%= item.year %></td>
+      <td><%= item.genre %></td>
+      <td><%= item.publisher %></td>
+      <td><%= item.isbn13 %></td>
+      <td><%= item.isbn10 %></td>
+      <td><%= item.physical_items.count %></td>
+      <td><%= link_to 'Edit', edit_item_path(item) %></td>
+      <td><%= link_to 'Destroy', item, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </table>
 <% end %>
-</table>
