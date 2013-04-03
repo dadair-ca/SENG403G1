@@ -1,11 +1,11 @@
 class CatalogueController < ApplicationController
-  helper_method :sort_column, :sort_direction, :filter_type
-  
   # GET /items
   # GET /items.json
   def index
-    sparams = params.merge({ :sort_col => sort_column, :sort_dir => sort_direction, :filter => filter_type })
-    @items = Catalogue.search(sparams)
+    @items = Catalogue.search(params.merge({
+                  :sort_col => sort_column,
+                  :sort_dir => sort_direction,
+                  :filter   => filter_type }))
     
 		@authors    = Hash.new(0)
     @genres     = Hash.new(0)
@@ -32,20 +32,8 @@ class CatalogueController < ApplicationController
   end
 
 private
-  def catalogueColumns
+  def tableColumns
     Item.column_names + Author.column_names
-  end
-
-	def sort_column
-	  catalogueColumns.include?(params[:sort]) ? params[:sort] : "title"
-	end
-  
-	def sort_direction
-	  %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
-	end
-  
-  def filter_type
-    catalogueColumns.include?(params[:filter_type]) ? params[:filter_type] : nil
   end
 
 end

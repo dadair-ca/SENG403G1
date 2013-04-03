@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_filter :authenticate
-  helper_method :sort_column, :sort_direction, :filter_type
 
   # GET /users
   # GET /users.json
@@ -104,20 +103,8 @@ class UsersController < ApplicationController
   end
 
 private
-  def catalogueColumns
-    Item.column_names + Author.column_names
-  end
-
-	def sort_column
-	  catalogueColumns.include?(params[:sort]) ? params[:sort] : "title"
-	end
-  
-	def sort_direction
-	  %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
-	end
-  
-  def filter_type
-    catalogueColumns.include?(params[:filter_type]) ? params[:filter_type] : nil
+  def tableColumns
+    User.column_names
   end
 
 end

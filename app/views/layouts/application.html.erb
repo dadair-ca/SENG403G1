@@ -31,12 +31,12 @@
 		<% end %>
 	</div>
 
-  <% if !@sidebarPages.include?(params[:controller]) || params[:action] != "index" %>
+  <% if !hasSidebar %>
 	<div id="content">
 		<div class="wrapper">
 	<% end %>
 			<%= yield %>
-  <% if !@sidebarPages.include?(params[:controller]) || params[:action] != "index" %>
+  <% if !hasSidebar %>
 		</div>
 	</div>
   <% end %>
