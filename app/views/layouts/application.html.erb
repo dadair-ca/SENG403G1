@@ -31,12 +31,12 @@
 		<% end %>
 	</div>
 
-  <% if request.path_parameters[:controller] != "catalogue" %>
+  <% if !@sidebarPages.include?(params[:controller]) || params[:action] != "index" %>
 	<div id="content">
 		<div class="wrapper">
 	<% end %>
 			<%= yield %>
-  <% if request.path_parameters[:controller] != "catalogue" %>
+  <% if !@sidebarPages.include?(params[:controller]) || params[:action] != "index" %>
 		</div>
 	</div>
   <% end %>

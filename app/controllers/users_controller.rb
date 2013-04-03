@@ -1,10 +1,17 @@
 class UsersController < ApplicationController
   before_filter :authenticate
+  helper_method :sort_column, :sort_direction, :filter_type
 
   # GET /users
   # GET /users.json
   def index
     @users = User.all
+    
+    @categories = Hash.new(0)
+    @users.each do |user|
+      @categories[user.category_as_string] += 1
+    end
+    @categories = @categories.sort_by { |k,v| k }.sort_by { |k,v| -v }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -95,4 +102,22 @@ class UsersController < ApplicationController
   def authenticate
     redirect_to(new_user_session_path) unless user_signed_in?
   end
+
+private
+  def catalogueColumns
+    Item.column_names + Author.column_names
+  end
+
+	def sort_column
+	  catalogueColumns.include?(params[:sort]) ? params[:sort] : "title"
+	end
+  
+	def sort_direction
+	  %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
+	end
+  
+  def filter_type
+    catalogueColumns.include?(params[:filter_type]) ? params[:filter_type] : nil
+  end
+
 end
