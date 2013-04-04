@@ -4,7 +4,13 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(:page => params[:page], :per_page => 10)
+    
+    @categories = Hash.new(0)
+    @users.each do |user|
+      @categories[user.category_as_string] += 1
+    end
+    @categories = @categories.sort_by { |k,v| k }.sort_by { |k,v| -v }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -95,4 +101,10 @@ class UsersController < ApplicationController
   def authenticate
     redirect_to(new_user_session_path) unless user_signed_in?
   end
+
+private
+  def tableColumns
+    User.column_names
+  end
+
 end

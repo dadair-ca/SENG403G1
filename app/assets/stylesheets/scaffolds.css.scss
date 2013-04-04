@@ -155,13 +155,14 @@ h2 {
 #content {
 	padding-bottom: 115px;
 	.wrapper {
-		padding: 15px 0 25px 115px;
+		padding: 15px 0 25px 110px;
 	}
 }
 
-#catalogue {
+#sbpage {
   height: 100%;
   padding-bottom: 115px;
+  background: image-url("sidebar_bg.png") repeat-y top right;
 }
 
 #main {
@@ -177,7 +178,6 @@ h2 {
   .wrap {
     text-align: center;
     padding: 5px 5px 15px 5px;
-    background-color: #E5E5E5;
   }
 	.filters {
 		text-align: left;

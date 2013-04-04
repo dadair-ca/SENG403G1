@@ -31,12 +31,12 @@
 		<% end %>
 	</div>
 
-  <% if request.path_parameters[:controller] != "catalogue" %>
+  <% if !hasSidebar %>
 	<div id="content">
 		<div class="wrapper">
 	<% end %>
 			<%= yield %>
-  <% if request.path_parameters[:controller] != "catalogue" %>
+  <% if !hasSidebar %>
 		</div>
 	</div>
   <% end %>

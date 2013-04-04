@@ -1,28 +1,58 @@
-<h1>Listing users</h1>
-
-<% if user_signed_in? and current_user.category > 1 %>
-    <table class="vertical-table">
-      <tr>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Category</th>
-        <th colspan="2">Action</th>
-      </tr>
-
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= link_to user.id, user %></td>
-        <td><%= link_to user.given_name + ' ' + user.surname, user %></td>
-        <td><%= user.email %></td>
-        <td><%= user.category_as_string %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
-      </tr>
+<div id="sbpage">
+  <div id="main">
+    <h1>Listing Users</h1>
+    <% if user_signed_in? and current_user.category > 1 %>
+      <table class="vertical-table">
+        <tr>
+          <th><%= sortable "id", "User ID" %></th>
+          <th><%= sortable "given_name", "Name" %></th>
+          <th><%= sortable "email" %></th>
+          <th><%= sortable "category_as_string", "Category" %></th>
+          <th colspan="2">Action</th>
+        </tr>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to user.id, user %></td>
+          <td><%= link_to user.given_name + " " + user.surname, user %></td>
+          <td><%= user.email %></td>
+          <td><%= user.category_as_string %></td>
+          <td><%= link_to "Edit", edit_user_path(user) %></td>
+          <td><%= link_to "Destroy", user, :method => :delete, :data => { :confirm => "Are you sure?" } %></td>
+        </tr>
+      <% end %>
+      </table>
+      <%= will_paginate @users %>
+      <br />
+      <%= link_to "New User", new_user_path %>
+    <% else %>
+      <p> You do not have permission to view this page. </p>
     <% end %>
-    </table>
-    <br />
-    <%= link_to 'New User', new_user_path %>
-<% else %>
-    <p> You do not have permission to view this page. </p>
-<% end %>
+  </div>
+  <div id="sidebar">
+    <div class="wrap">
+      <h3>Search</h3>
+      <%= form_tag catalogue_path, :method => "get" do %>
+        <%= hidden_field_tag :sort, sort_column %>
+        <%= hidden_field_tag :direction, sort_direction %>
+        
+        <%= search_field_tag :search, params[:search] %> <br/>
+        <%= select_tag :search_type, 
+              options_for_select({"Search by Name"     => "name",
+                                  "Search by Email"    => "email",
+                                  "Search by User ID"  => "userid"}, :selected => params[:search_type]) %> <br/>
+        <%= submit_tag "Search", :name => nil %>
+        <div class="filters">
+          <% if params[:filter_type] != "category" %>
+          <strong>Filter by Category:</strong>
+          <ul>
+            <% @categories.each do |c| %>
+              <li><%= filter("category", c.first, c.last) %></li>
+            <% end %>
+          </ul>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div style="clear:both"></div>
+</div>
