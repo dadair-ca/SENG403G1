@@ -99,6 +99,7 @@ class Catalogue < ActiveRecord::Base
 
       threshold = 3
       
+      create temp table search as select * from
       if search_type == 'title'
         @books.each do |book|
           if((lev_value = levenshtein_search(words, book.title)) < threshold)
