@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def sort_column
-    tableColumns.include?(params[:sort]) ? params[:sort] : "title"
+    tableColumns.include?(params[:sort]) ? params[:sort] : nil
   end
   
   def sort_direction
