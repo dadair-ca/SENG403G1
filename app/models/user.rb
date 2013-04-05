@@ -50,45 +50,84 @@ class User < ActiveRecord::Base
     return totaldl
   end
   
-  def self.search(userinput)
-    # search params
+  def self.levenshtein_id(search_terms, search_id)
+    tok_db = search_isbn.to_s.strip.downcase
+    tok_st = search_terms[0]
     
-    # start
-    @patrons = Users
-
-    # apply sorting
+    threshold = 2
+    totaldl = 0
+    lowestdl = -1
     
+    db_len = tok_db.length
+    st_len = tok_st.length
     
-    # apply search
-    idarray = userinput.to_s.strip.downcase.split(" ").uniq
-    idarray = userinput - $stopwords
-
-    if idarray.present?
-      result = Array.new
-      f_result = Array.new
-
-      threshold = 3
-      
-      
-      @books.each do |book|
-        if((lev_value = levenshtein_search(words, book.title)) < threshold)
-          result << [book, lev_value]
+    if db_len < st_len
+      return 3
+    else
+      for i in 0..(db_len-st_len-1)
+        temp_db = tok_db[i..(st_len+i)]
+        temp_dl = DamerauLevenshtein.distance(temp_db, tok_st, 1, threshold)
+        if(temp_dl == 0)
+          lowestdl = temp_dl
+        elsif((temp_dl < lowestdl) || (lowestdl == -1))
+          lowestdl = temp_dl
         end
       end
-        
-      
+    end
     
+    return lowestdl
+  end
+  
+  def self.search(userinput)
+    
+    s_input = userinput[:search]
+    s_type = userinput[:search_type]
+    @patrons = User.find(:all)
+    
+
+    u_input = s_input.to_s.strip.downcase.split(" ").uniq
+    u_input = u_input - $stopwords
+
+    if u_input.present?
+      result = Array.new
+      f_result = Array.new
+  
+      threshold = 3
+      
+      if s_type == "name"      
+        @patrons.each do |user|
+          lev_value = levenshtein_search(u_input, user.given_name)
+          lev_value += levenshtein_search(u_input, user.surname)
+          if(lev_value < 6)
+            result << [user, lev_value]
+          end
+        end
+      elsif s_type == "email"
+        @patrons.each do |user|
+          if((lev_value = levenshtein_search(u_input, user.email)) < threshold)
+            result << [user, lev_value]
+          end
+        end
+      elsif s_type == "userid"
+        @patrons.each do |user|
+          if(user.id.to_s == u_input[0].to_s)
+            lev_value = 0
+            result << [user, lev_value]
+          end
+        end
+      end
+      
       result = result.sort_by(&:second)
       result.each{|r| f_result.push(r.first)}
-      @books = f_result
-        
+      @patrons = f_result
+      
     end
     
-    if @books.nil?
-      @books = []
+    if @patrons.nil?
+      @patrons = []
     end
     
-    return @books
+    return @patrons
     
   end
   

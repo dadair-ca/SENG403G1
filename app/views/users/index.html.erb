@@ -21,7 +21,7 @@
         </tr>
       <% end %>
       </table>
-      <%= will_paginate @users %>
+      
       <br />
       <%= link_to "New User", new_user_path %>
     <% else %>
@@ -31,7 +31,7 @@
   <div id="sidebar">
     <div class="wrap">
       <h3>Search</h3>
-      <%= form_tag catalogue_path, :method => "get" do %>
+      <%= form_tag users_path, :method => "get" do %>
         <%= hidden_field_tag :sort, sort_column %>
         <%= hidden_field_tag :direction, sort_direction %>
         
