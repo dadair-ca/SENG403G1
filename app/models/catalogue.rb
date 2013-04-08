@@ -2,34 +2,70 @@ class Catalogue < ActiveRecord::Base
   $stopwords = ["I", "a", "about", "an", "are", "as", "at", "be", "by", "com", "for", "from", "how", "in", "is", "it", "of", "on", "or", "that", "the", "this", "to", "was", "what",  "when", "where", "who",  "will",  "with", "the", "www"]
 
   def self.levenshtein_search(search_terms, search_type)
-    threshold = 2
+    threshold = 10
     totaldl = 0
     lowestdl = -1
     
-    tok_db = search_type.to_s.strip.downcase.split(" ").uniq
-    tok_db = tok_db - $stopwords
-    tok_st = search_terms
+    #Convert the database value into a array to delete the stop words
+    tok_db = search_type.to_s.downcase.split(" ").uniq
+    tok_db.collect{|x| x.gsub(/(\W|\d)/, "")}
+    #Take out any stop words in the database word array
+    search_db = tok_db - $stopwords
+    #Join all the elements inside the array with spaces
     
-    tok_st.each do |search_tok|
-      tok_db.each do |db_tok|
-        temp = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
-        if(temp == 0)
-          lowestdl = temp
-        elsif((temp < lowestdl) || (lowestdl == -1))
-          lowestdl = temp
+    
+    
+    #For each word in search terms
+    search_terms.each do |search_tok|
+      
+      if(tok_db.include?(search_tok))
+        lowestdl = 0
+      else
+        st_len = search_tok.length
+        search_db.each do |db_tok|
+          db_len = db_tok.length
+          if (db_len >= st_len)
+            for i in 0..(db_len-st_len-1)
+              temp_db = db_tok[i..(st_len+i)]
+              temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 0, threshold)
+              break if(temp_dl == 0)
+              if(temp_dl == 0)
+                lowestdl = temp_dl
+              elsif((temp_dl < lowestdl) || (lowestdl == -1))
+                lowestdl = temp_dl
+              end
+            end
+          elsif(db_len == st_len)
+            temp_dl = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
+            if(temp_dl == 0)
+              lowestdl = temp_dl
+              break
+            elsif((temp_dl < lowestdl) || (lowestdl == -1))
+              lowestdl = temp_dl
+            end
+          else
+            lowestdl = 5
+          end
+          
+          if(temp_dl == 0)
+            break
+          end
         end
       end
       totaldl += lowestdl
     end
     
-    return totaldl
+    
+    return totaldl  
+    
+          
   end
   
   def self.levenshtein_isbn(search_terms, search_isbn)
     tok_db = search_isbn.to_s.strip.downcase
     tok_st = search_terms[0]
     
-    threshold = 2
+    threshold = 10
     totaldl = 0
     lowestdl = -1
     
@@ -89,7 +125,8 @@ class Catalogue < ActiveRecord::Base
     end
     
     # apply search
-    words = search_words.to_s.strip.downcase.split(" ").uniq
+    words = search_words.to_s.downcase.split(' ').uniq
+    words = words.collect{|x| x.strip}
     words = words - $stopwords
 
     if words.present?
@@ -154,9 +191,9 @@ class Catalogue < ActiveRecord::Base
         end
       end
    
-        result = result.sort_by(&:second)
-        result.each{|r| f_result.push(r.first)}
-        @books = f_result
+      result.sort_by{|x,y|y}
+      result.each{|r| f_result.push(r.first)}
+      @books = f_result.sort{|x,y| y <=> x }
     end
     
     if @books.nil?
