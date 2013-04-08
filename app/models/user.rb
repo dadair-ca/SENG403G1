@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -19,28 +19,23 @@ class User < ActiveRecord::Base
   validates_inclusion_of :category, :in => 0..2
 
   validates_uniqueness_of :email
-
+  
   def category_as_string
     return "Patron" if self.category == 0
     return "Librarian" if self.category == 1
     return "Admin" if self.category == 2
   end
-
+  
+  $stopwords = ["I", "a", "about", "an", "are", "as", "at", "be", "by", "com", "for", "from", "how", "in", "is", "it", "of", "on", "or", "that", "the", "this", "to", "was", "what",  "when", "where", "who",  "will",  "with", "the", "www"]
+  
   def self.levenshtein_search(search_terms, search_type)
     threshold = 10
     totaldl = 0
     lowestdl = -1
     
-    #Convert the database value into a array to delete the stop words
-    #tok_db = search_type.to_s.downcase.split(" ").uniq
-    #tok_db.collect{|x| x.gsub(/(\W|\d)/, "")}
-    #Take out any stop words in the database word array
-    #search_db = tok_db - $stopwords
-    #Join all the elements inside the array with spaces
-    
-    
+    #Formatting data from database to be used in search
     search_db = search_type.to_s.downcase
-    search_db = search_db.gsub(/[\W\d]+/, " ")
+    search_db = search_db.gsub( /\W/, ' ' )
     search_db = search_db.split(" ").uniq
     search_db = search_db-$stopwords
     
@@ -87,7 +82,7 @@ class User < ActiveRecord::Base
     
 
     u_input = s_input.to_s.strip.downcase.split(" ").uniq
-    u_input.collect{|x| x.gsub(/(\W|\d)/, "")}
+    u_input.collect{|x| x.gsub( /\W/, ' ' )}
     u_input = u_input - $stopwords
 
     if u_input.present?

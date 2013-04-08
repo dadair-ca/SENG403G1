@@ -8,7 +8,7 @@ class Catalogue < ActiveRecord::Base
     
    
     search_db = search_type.to_s.downcase
-    search_db = search_db.gsub(/[\W\d]+/, " ")
+    search_db = search_db.gsub( /\W/, ' ' )
     search_db = search_db.split(" ").uniq
     search_db = search_db-$stopwords
     
@@ -23,7 +23,7 @@ class Catalogue < ActiveRecord::Base
           if (db_len >= st_len)
             for i in 0..(db_len-st_len)
               temp_db = db_tok[i..((st_len+i)-1)]
-              temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 0, threshold)
+              temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 1, threshold)
               if(temp_dl == 0)
                 lowestdl = temp_dl
                 break
@@ -32,7 +32,7 @@ class Catalogue < ActiveRecord::Base
               end
             end
           else
-            lowestdl = DamerauLevenshtein.distance(db_tok, search_tok, 0, threshold)
+            lowestdl = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
           end
         end
       end
@@ -46,8 +46,6 @@ class Catalogue < ActiveRecord::Base
     
           
   end
-  
-  
 
   #Search all the items based upon the drop down menu selection
   #Note: I am using a bogus year value for the error message, which will
@@ -87,7 +85,7 @@ class Catalogue < ActiveRecord::Base
     # apply search
     
     words = search_words.to_s.downcase.split(' ').uniq
-    words = words.collect{|x| x.gsub(/(\W|\d)/, "")}
+    words = words.collect{|x| x.gsub( /\W/, ' ' )}
     words = words - $stopwords
 
     if words.present?
