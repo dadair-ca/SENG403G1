@@ -27,55 +27,56 @@ class User < ActiveRecord::Base
   end
 
   def self.levenshtein_search(search_terms, search_type)
-    threshold = 2
+    threshold = 10
     totaldl = 0
     lowestdl = -1
     
-    tok_db = search_type.to_s.strip.downcase.split(" ").uniq
-    tok_db = tok_db - $stopwords
-    tok_st = search_terms
+    #Convert the database value into a array to delete the stop words
+    #tok_db = search_type.to_s.downcase.split(" ").uniq
+    #tok_db.collect{|x| x.gsub(/(\W|\d)/, "")}
+    #Take out any stop words in the database word array
+    #search_db = tok_db - $stopwords
+    #Join all the elements inside the array with spaces
     
-    tok_st.each do |search_tok|
-      tok_db.each do |db_tok|
-        temp = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
-        if(temp == 0)
-          lowestdl = temp
-        elsif((temp < lowestdl) || (lowestdl == -1))
-          lowestdl = temp
+    
+    search_db = search_type.to_s.downcase
+    search_db = search_db.gsub(/[\W\d]+/, " ")
+    search_db = search_db.split(" ").uniq
+    search_db = search_db-$stopwords
+    
+    #For each word in search terms
+    search_terms.each do |search_tok|
+      if(search_db.include?(search_tok))
+        lowestdl = 0
+      else
+        st_len = search_tok.length
+        search_db.each do |db_tok|
+          db_len = db_tok.length
+          if (db_len >= st_len)
+            for i in 0..(db_len-st_len)
+              temp_db = db_tok[i..((st_len+i)-1)]
+              temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 0, threshold)
+              if(temp_dl == 0)
+                lowestdl = temp_dl
+                break
+              elsif((temp_dl < lowestdl) || (lowestdl == -1))
+                lowestdl = temp_dl
+              end
+            end
+          else
+            lowestdl = DamerauLevenshtein.distance(db_tok, search_tok, 0, threshold)
+          end
         end
       end
       totaldl += lowestdl
-    end
+      lowestdl = -1
+    end 
     
-    return totaldl
-  end
-  
-  def self.levenshtein_id(search_terms, search_id)
-    tok_db = search_isbn.to_s.strip.downcase
-    tok_st = search_terms[0]
     
-    threshold = 2
-    totaldl = 0
-    lowestdl = -1
     
-    db_len = tok_db.length
-    st_len = tok_st.length
+    return totaldl  
     
-    if db_len < st_len
-      return 3
-    else
-      for i in 0..(db_len-st_len-1)
-        temp_db = tok_db[i..(st_len+i)]
-        temp_dl = DamerauLevenshtein.distance(temp_db, tok_st, 1, threshold)
-        if(temp_dl == 0)
-          lowestdl = temp_dl
-        elsif((temp_dl < lowestdl) || (lowestdl == -1))
-          lowestdl = temp_dl
-        end
-      end
-    end
-    
-    return lowestdl
+          
   end
   
   def self.search(userinput)
@@ -86,24 +87,26 @@ class User < ActiveRecord::Base
     
 
     u_input = s_input.to_s.strip.downcase.split(" ").uniq
+    u_input.collect{|x| x.gsub(/(\W|\d)/, "")}
     u_input = u_input - $stopwords
 
     if u_input.present?
       result = Array.new
       f_result = Array.new
   
-      threshold = 3
+      threshold = 2
       
       if s_type == "name"      
         @patrons.each do |user|
           lev_value = levenshtein_search(u_input, user.given_name)
           lev_value += levenshtein_search(u_input, user.surname)
-          if(lev_value < 6)
+          if(lev_value < threshold*2)
             result << [user, lev_value]
           end
         end
       elsif s_type == "email"
         @patrons.each do |user|
+        
           if((lev_value = levenshtein_search(u_input, user.email)) < threshold)
             result << [user, lev_value]
           end

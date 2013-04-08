@@ -2,56 +2,52 @@ class Catalogue < ActiveRecord::Base
   $stopwords = ["I", "a", "about", "an", "are", "as", "at", "be", "by", "com", "for", "from", "how", "in", "is", "it", "of", "on", "or", "that", "the", "this", "to", "was", "what",  "when", "where", "who",  "will",  "with", "the", "www"]
 
   def self.levenshtein_search(search_terms, search_type)
-    threshold = 2
+    threshold = 10
     totaldl = 0
     lowestdl = -1
     
-    tok_db = search_type.to_s.strip.downcase.split(" ").uniq
-    tok_db = tok_db - $stopwords
-    tok_st = search_terms
+   
+    search_db = search_type.to_s.downcase
+    search_db = search_db.gsub(/[\W\d]+/, " ")
+    search_db = search_db.split(" ").uniq
+    search_db = search_db-$stopwords
     
-    tok_st.each do |search_tok|
-      tok_db.each do |db_tok|
-        temp = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
-        if(temp == 0)
-          lowestdl = temp
-        elsif((temp < lowestdl) || (lowestdl == -1))
-          lowestdl = temp
+    #For each word in search terms
+    search_terms.each do |search_tok|
+      if(search_db.include?(search_tok))
+        lowestdl = 0
+      else
+        st_len = search_tok.length
+        search_db.each do |db_tok|
+          db_len = db_tok.length
+          if (db_len >= st_len)
+            for i in 0..(db_len-st_len)
+              temp_db = db_tok[i..((st_len+i)-1)]
+              temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 0, threshold)
+              if(temp_dl == 0)
+                lowestdl = temp_dl
+                break
+              elsif((temp_dl < lowestdl) || (lowestdl == -1))
+                lowestdl = temp_dl
+              end
+            end
+          else
+            lowestdl = DamerauLevenshtein.distance(db_tok, search_tok, 0, threshold)
+          end
         end
       end
       totaldl += lowestdl
-    end
+      lowestdl = -1
+    end 
     
-    return totaldl
+    
+    
+    return totaldl  
+    
+          
   end
   
-  def self.levenshtein_isbn(search_terms, search_isbn)
-    tok_db = search_isbn.to_s.strip.downcase
-    tok_st = search_terms[0]
-    
-    threshold = 2
-    totaldl = 0
-    lowestdl = -1
-    
-    db_len = tok_db.length
-    st_len = tok_st.length
-    
-    if db_len < st_len
-      return 3
-    else
-      for i in 0..(db_len-st_len-1)
-        temp_db = tok_db[i..(st_len+i)]
-        temp_dl = DamerauLevenshtein.distance(temp_db, tok_st, 1, threshold)
-        if(temp_dl == 0)
-          lowestdl = temp_dl
-        elsif((temp_dl < lowestdl) || (lowestdl == -1))
-          lowestdl = temp_dl
-        end
-      end
-    end
-    
-    return lowestdl
-  end
+  
 
   #Search all the items based upon the drop down menu selection
   #Note: I am using a bogus year value for the error message, which will
@@ -89,7 +85,9 @@ class Catalogue < ActiveRecord::Base
     end
     
     # apply search
-    words = search_words.to_s.strip.downcase.split(" ").uniq
+    
+    words = search_words.to_s.downcase.split(' ').uniq
+    words = words.collect{|x| x.gsub(/(\W|\d)/, "")}
     words = words - $stopwords
 
     if words.present?
@@ -97,9 +95,9 @@ class Catalogue < ActiveRecord::Base
       result = Array.new
       f_result = Array.new
 
-      threshold = 3
+      threshold = 2
+      isbn_threshold = 1
       
-      create temp table search as select * from
       if search_type == 'title'
         @books.each do |book|
           if((lev_value = levenshtein_search(words, book.title)) < threshold)
@@ -111,7 +109,7 @@ class Catalogue < ActiveRecord::Base
         @books.each do |book|
           lev_value = levenshtein_search(words, book.author.given_name)
           lev_value += levenshtein_search(words, book.author.surname) 
-          if(lev_value < 6)
+          if(lev_value < threshold*2)
             result << [book, lev_value]
           end
         end
@@ -142,22 +140,22 @@ class Catalogue < ActiveRecord::Base
       
       elsif search_type == 'isbn13'
         @books.each do |book|
-          if((lev_value = levenshtein_isbn(words, book.isbn13)) < threshold)
+          if((lev_value = levenshtein_search(words, book.isbn13)) < isbn_threshold)
             result << [book, lev_value]
           end
         end
       
       elsif search_type == 'isbn10'
         @books.each do |book|
-          if((lev_value = levenshtein_isbn(words, book.isbn10)) < threshold)
+          if((lev_value = levenshtein_search(words, book.isbn10)) < isbn_threshold)
             result << [book, lev_value]
           end
         end
       end
    
-        result = result.sort_by(&:second)
-        result.each{|r| f_result.push(r.first)}
-        @books = f_result
+      result.sort_by{|x,y|y}
+      result.each{|r| f_result.push(r.first)}
+      @books = f_result.sort{|x,y| y <=> x }
     end
     
     if @books.nil?
