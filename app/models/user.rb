@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
     
     #Formatting data from database to be used in search
     search_db = search_type.to_s.downcase
-    search_db = search_db.gsub( /\W/, ' ' )
+    search_db = search_db.gsub(/\W/, ' ')
     search_db = search_db.split(" ").uniq
     search_db = search_db-$stopwords
     
@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
     
 
     u_input = s_input.to_s.strip.downcase.split(" ").uniq
-    u_input.collect{|x| x.gsub( /\W/, ' ' )}
+    u_input = u_input.collect{|x| x.gsub( /\W/, ' ' )}
     u_input = u_input - $stopwords
 
     if u_input.present?
@@ -101,15 +101,13 @@ class User < ActiveRecord::Base
         end
       elsif s_type == "email"
         @patrons.each do |user|
-        
           if((lev_value = levenshtein_search(u_input, user.email)) < threshold)
             result << [user, lev_value]
           end
         end
       elsif s_type == "userid"
         @patrons.each do |user|
-          if(user.id.to_s == u_input[0].to_s)
-            lev_value = 0
+          if((lev_value = levenshtein_search(u_input, user.id)) < threshold)
             result << [user, lev_value]
           end
         end
