@@ -6,7 +6,6 @@ class Catalogue < ActiveRecord::Base
     totaldl = 0
     lowestdl = -1
     
-    
     search_db = search_type.to_s.downcase.strip.split(' ').uniq
     search_db = search_db.collect{|x| x.gsub( /\W/, ' ' )}
     search_db = search_db-$stopwords
@@ -143,13 +142,11 @@ class Catalogue < ActiveRecord::Base
         elsif search_type == 'year' 
           if(words.length == 1 && (s_year = words[0].to_i) && (s_year <= Time.now.year))
             @books.each do |book|
-              if(book.year == s_year)
-                result << book
+              if((lev_value = levenshtein_search(words, book.year)) < 1)
+                result << [book, lev_value]
               end
             end
-            result.sort_by(&:title)
           end
-        
         elsif search_type == 'isbn13'
           @books.each do |book|
             if((lev_value = levenshtein_search(words, book.isbn13)) < isbn_threshold)
@@ -185,5 +182,12 @@ class Catalogue < ActiveRecord::Base
     return @books
     
   end
-
+  
+  def self.wordsdisplay(sparams)
+    # search params
+    search_words = sparams[:search]
+    words = search_words.to_s.split(' ')
+    
+    return words
+  end
 end

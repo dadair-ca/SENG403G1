@@ -1,9 +1,18 @@
 <div id="sbpage">
 <div id="main">
+  
   <h1>Catalogue</h1>
+  
     <% if @items.empty? %>
-      <p>No items are found. Please try again.</p>
-      <%= link_to "Back", catalogue_path %>
+      <br>The search term '
+        <% @words.each do |word| %>
+          <%= word %>
+        <% end %>
+      ' is invalid, please retype again.</br>
+    
+      <% if user_signed_in? and current_user.category > 0 %>
+        <p> <%= link_to 'Back', :back %> </p>
+      <% end %>
     <% else %>
         <% if params[:search].present? || filter_type.present? || sort_column.present? %>
         <ul>
@@ -97,7 +106,7 @@
 				    <strong>Top <%= @publishers.length %> Publishers:</strong>
 				    <ul>
               <% @publishers.each do |p| %>
-                <li><%= filter("publisher", p.first.truncate(20), p.last) %></li>h
+                <li><%= filter("publisher", p.first.truncate(20), p.last) %></li>
               <% end %>
 				    </ul>
 				    <% end %>
