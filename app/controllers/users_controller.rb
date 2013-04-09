@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.search(params)
+    @users = @users.paginate(:page => params[:page], :per_page => 10)
     
     @categories = Hash.new(0)
     @users.each do |user|
