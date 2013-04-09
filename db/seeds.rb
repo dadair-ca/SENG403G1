@@ -50,8 +50,10 @@ User.create(:category => 2, :given_name => "Gellert", :surname => "Kispal", :ema
 User.create(:category => 2, :given_name => "Sydney", :surname => "Pratte", :email => "sydney@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
 User.create(:category => 1, :given_name => "Ho Wai", :surname => "Yung", :email => "howai@weblib.com", :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
 
+createdUsers = Array.new
+
 1.upto(100) do |i|
-    User.create(:category => 0, :given_name => Faker::Name.first_name, :surname => Faker::Name.last_name, :email => Faker::Internet.free_email, :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
+    createdUsers << User.create(:category => 0, :given_name => Faker::Name.first_name, :surname => Faker::Name.last_name, :email => Faker::Internet.free_email, :password => "aaabbbccc", :password_confirmation => "aaabbbccc")
 end
 
 
