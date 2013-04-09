@@ -12,7 +12,6 @@ class CatalogueController < ApplicationController
                   :sort_dir => sort_direction,
                   :filter   => filter_type }))
                   
-                  
 		@authors    = Hash.new(0)
     @genres     = Hash.new(0)
 		@years      = Hash.new(0)
