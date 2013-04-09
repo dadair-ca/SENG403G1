@@ -26,6 +26,12 @@ class User < ActiveRecord::Base
     return "Admin" if self.category == 2
   end
   
+  def self.category_as_int(categoryAsString)
+    return 0 if categoryAsString == "Patron"
+    return 1 if categoryAsString == "Librarian"
+    return 2 if categoryAsString == "Admin"
+  end
+  
   $stopwords = ["I", "a", "about", "an", "are", "as", "at", "be", "by", "com", "for", "from", "how", "in", "is", "it", "of", "on", "or", "that", "the", "this", "to", "was", "what",  "when", "where", "who",  "will",  "with", "the", "www"]
   
   def self.levenshtein_search(search_terms, search_type)
@@ -76,21 +82,39 @@ class User < ActiveRecord::Base
   end
   
   def self.search(userinput)
+    # search params
+    s_input     = userinput[:search]
+    s_type      = userinput[:search_type]
     
-    s_input = userinput[:search]
-    s_type = userinput[:search_type]
-    @patrons = User.find(:all)
-    
+    # sorting params
+    sort_col    = userinput[:sort_col]
+    sort_dir    = userinput[:sort_dir]
+  
+    # filters params
+    filter_type = userinput[:filter]
+    filter_kind = userinput[:filter_kind]
 
+    # start
+    @patrons = User.where('id >= 0')
+    
+    # apply filters
+    if !filter_type.blank?
+      categoryAsString = filter_kind.gsub('+',' ')
+      @patrons = @patrons.where('category = ?', category_as_int(categoryAsString))
+    end
+
+    # apply sorting
+    if sort_col.present?
+      @patrons = @patrons.order(sort_col + ' ' + sort_dir)
+    end
+    
+    # apply search
     u_input = s_input.to_s.downcase.split(' ').uniq
     u_input = u_input.collect{|x| x.gsub( /\W/, ' ' )}
     u_input = u_input - $stopwords
     
-    
-      
     if u_input.present?
       result = Array.new
-  
       threshold = 2
       
       if s_type == "name"      
@@ -125,16 +149,13 @@ class User < ActiveRecord::Base
       result = result.sort_by{|x,y|y}
       result = result.map{|x,y| x}
       @patrons = result
-      
     end
-    
     
     if @patrons.nil?
       @patrons = []
     end
     
     return @patrons
-    
   end
-  
+
 end

@@ -3,8 +3,30 @@
     <h1>Listing Users</h1>
       <% if @users.empty? %>
         <%= "The search term is invalid, please retype your query again." %>
-        <%= link_to 'Back', :back %>
+        <%= link_to "Back", :back %>
       <% else %>
+        <ul>
+          <li>Showing <strong><%= @results %></strong> results</li>
+          <% if params[:search].present? %>
+            <li>
+              Searching <strong><%= params[:search].capitalize %></strong> in <%= params[:search_type] %> 
+              <%= link_to "(Remove)", users_path(params.except(:search).except(:search_type)) %>
+            </li>
+          <% end %>
+          <% if filter_type.present? %>
+            <li>
+              Filtering by <strong><%= params[:filter_kind].titleize %></strong> 
+              <%= link_to "(Remove)", users_path(params.except(:filter_kind).except(:filter_type)) %>
+            </li>
+          <% end %>
+          <% if sort_column.present? %>
+            <li>
+              Sorting by <strong><%= (sort_column == "given_name") ? "Name" : sort_column.capitalize %></strong>
+                in <%= (sort_direction == "asc") ? "ascending" : "descending" %> order 
+              <%= link_to "(Remove)", users_path(params.except(:sort).except(:direction)) %>
+            </li>
+          <% end %>
+        </ul>
         <% if user_signed_in? and current_user.category > 1 %>
           <table class="vertical-table">
             <tr>

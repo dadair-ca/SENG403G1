@@ -4,13 +4,18 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.search(params)
+    @users = User.search(params.merge({
+                  :sort_col => sort_column,
+                  :sort_dir => sort_direction,
+                  :filter   => filter_type }))
     
     @categories = Hash.new(0)
     @users.each do |user|
       @categories[user.category_as_string] += 1
     end
     @categories = @categories.sort_by { |k,v| k }.sort_by { |k,v| -v }
+    
+    @results = @users.size
 
     respond_to do |format|
       format.html # index.html.erb
