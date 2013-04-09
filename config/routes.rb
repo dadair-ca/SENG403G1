@@ -1,5 +1,9 @@
 SENG403G1::Application.routes.draw do
+
   resources :holds
+
+	match 'catalogue' => 'catalogue#index'
+
 
   devise_for :users
 

@@ -16,41 +16,33 @@
 			<%= link_to root_path, :class => "weblib" do %>
 				Web<span class="weblib-right">Lib</span>
 			<% end %>
-			<% if request.path_parameters[:controller] == "home" %>
-				<div class="welcome">
-					Welcome to WebLib, a library management system!
-				</div>
-			<% else %>
-				<div class="navigation">
-					<%= link_to "Search Catalog", items_search_path %>
-					| <%= link_to "Browse Catalog", items_path %>
-					| <%= link_to "Browse Authors", authors_path %>
-				<% if user_signed_in? and current_user.category > 0 %>
-					| <%= link_to "Browse Rentals", rentals_path %>
-				<% end %>
-				</div>
-			<% end %>
+      <div class="welcome">
+        Welcome to WebLib, a library management system!
+      </div>
 		</div>
 		<% if request.path_parameters[:controller] != "home" %>
 		<div class="header-right">
       <% if user_signed_in? %>
         Welcome <strong><%= link_to current_user.given_name+' '+current_user.surname, user_path(current_user) %></strong> | <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
       <% else %>
-        <%= link_to('Login', new_user_session_path) %>
+        <%= link_to("Login", new_user_session_path) %>
       <% end %>
 		</div>
 		<% end %>
 	</div>
 
+  <% if request.path_parameters[:controller] != "catalogue" %>
 	<div id="content">
 		<div class="wrapper">
+	<% end %>
 			<%= yield %>
+  <% if request.path_parameters[:controller] != "catalogue" %>
 		</div>
 	</div>
+  <% end %>
 	
 	<div id="footer">
 		<div class="wrapper">
-			<p>Search Catalog | Browse Genre | Admin Panel</p>
 			<p>Created by Infomatics Team (David Adair, Shena Fortozo, Naomi Hiebert, Gellert Kispal, Sydney Pratte, Ho Wai Yung)</p>
 			<p>SENG 403, Winter 2013</p>
 		</div>
