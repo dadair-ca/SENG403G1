@@ -39,15 +39,14 @@
   <table class="vertical-table">
     <tr>
       <th>Barcode</th>
-     <% if user_signed_in? %>
+     <% if user_signed_in? and current_user.category > 0 %>
         <th colspan="3">Action</th>
      <% end %>
     </tr>
   <% @copies.each do |c| %>
     <tr>
       <td><%= c.barcode_id %></td>
-
-      <% if user_signed_in? %>
+      <% if user_signed_in? and current_user.category > 0 %>
           <td><%= link_to 'Edit', edit_item_physical_item_path(@item, c) %></td>
           <td><%= link_to 'Destroy', [@item, c], :confirm => 'Are you sure?', :method => :delete %></td>
           <td>
@@ -68,6 +67,9 @@
 <% if user_signed_in? and current_user.category > 0 %>
     <%= link_to 'Add Copy', new_item_physical_item_path(@item) %> |
     <%= link_to 'Edit', edit_item_path(@item) %> |
-    <%= link_to 'Back', items_path %>
 <% end %>
+<% if user_signed_in? %>
+    <%= link_to 'Place Hold', new_user_hold_path(current_user) %> |
+<% end %>
+<%= link_to 'Back', items_path %>
 

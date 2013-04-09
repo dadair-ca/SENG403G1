@@ -42,8 +42,14 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    if current_user.category > 1
-        @user = User.find(params[:id])
+    if current_user.category > 0
+        if current_user.category == 1 and current_user.category > User.find(params[:id]).category
+            @user = User.find(params[:id])
+        elsif current_user.category == 2
+            @user = User.find(params[:id])
+        else
+            redirect_to(users_path)
+        end
     else
         redirect_to(users_path)
     end

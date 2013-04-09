@@ -9,7 +9,9 @@ SENG403G1::Application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users do
+      resources :holds, :only => [:new, :create]
+  end
   resources :authors
   
   match 'items/search' => 'items#search'

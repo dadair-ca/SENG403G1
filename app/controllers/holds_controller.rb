@@ -23,8 +23,18 @@ class HoldsController < ApplicationController
 
   # GET /holds/new
   # GET /holds/new.json
+  # GET /user/1/holds/new
+  # GET /user/1/holds/new.json
   def new
     @hold = Hold.new
+    end_time = Time.now
+    end_time = end_time + 2
+    @hold.end_date = end_time
+
+    if !params[:user_id].nil?
+      @user = User.find(params[:user_id])
+      @hold.user_id = @user.id
+    end
 
     respond_to do |format|
       format.html # new.html.erb
