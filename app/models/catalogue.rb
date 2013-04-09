@@ -42,7 +42,6 @@ class Catalogue < ActiveRecord::Base
       end
     end 
     
-
     return totaldl
     
   end

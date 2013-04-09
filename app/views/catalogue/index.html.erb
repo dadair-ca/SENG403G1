@@ -1,21 +1,14 @@
 <div id="sbpage">
 <div id="main">
-  
   <h1>Catalogue</h1>
-  
     <% if @items.empty? %>
-      <br>The search term '
-        <% @words.each do |word| %>
-          <%= word %>
-        <% end %>
-      ' is invalid, please retype again.</br>
-    
+      <p>The search term "<%= params[:search] %>" is invalid, please retype again.</p>
       <% if user_signed_in? and current_user.category > 0 %>
-        <p> <%= link_to 'Back', :back %> </p>
+        <p> <%= link_to "Back", :back %> </p>
       <% end %>
     <% else %>
-        <% if params[:search].present? || filter_type.present? || sort_column.present? %>
         <ul>
+          <li>Showing <strong><%= @results %></strong> results</li>
           <% if params[:search].present? %>
             <li>
               Searching <strong><%= params[:search].capitalize %></strong> in <%= params[:search_type] %> 
@@ -36,35 +29,31 @@
             </li>
           <% end %>
         </ul>
-        <% end %>
-      <p>
-        <strong>Sort by:</strong>
-          <%= sortable "title" %> | 
-          <%= sortable "given_name", "Author" %> | 
-          <%= sortable "genre" %> | 
-          <%= sortable "year" %> | 
-          <%= sortable "publisher" %> |
-          <%= sortable "isbn13" %> |
-          <%= sortable "isbn10" %>
-      </p>
+      <table class="horizontal-table">
+        <tr>
+          <th><%= sortable "title" %></th>
+          <th><%= sortable "given_name", "Author" %></th>
+          <th><%= sortable "publisher" %></th>
+          <th><%= sortable "year" %></th>
+          <th><%= sortable "genre" %></th>
+          <th><%= sortable "isbn13", "ISBN 13" %></th>
+          <th><%= sortable "isbn10", "ISBN 10" %></th>
+          <th>Copies</th>
+        </tr>
       <% @items.each do |item| %>
-      <table class="catalogue-table">
         <tr>
-          <th colspan="3" style="text-align:left">
-            <%= link_to item.title, item, {:class => "item-title"} %>
-            by <%= link_to item.author.given_name + " " + item.author.surname, item.author %>
-          </th>
+          <td><%= link_to item.title.truncate(25), item, {:class => "item-title", :title => item.title} %></td>
+          <td><%= link_to (item.author.given_name + " " + item.author.surname).truncate(25), item.author, {:title => item.author.given_name + " " + item.author.surname} %></td>
+          <td><%= item.publisher %></td>
+          <td><%= item.year %></td>
+          <td><%= item.genre %></td>
+          <td><%= item.isbn13 %></td>
+          <td><%= item.isbn10 %></td>
+          <td><%= item.physical_items.count %></td>
         </tr>
-        <tr>
-          <td style="text-align:left">Genre: <%= item.genre %></td>
-          <td style="text-align:center">Publisher: <%= item.publisher %> (<%= item.year %>)</td>
-          <td style="text-align:right">Copies: <%= item.physical_items.count %></td>
-        </tr>
-        <tr>
-          <td colspan="3">ISBN 13: <%= item.isbn13 %> / ISBN 10: <%= item.isbn10 %></td>
-        </tr>
-      </table>
       <% end %>
+      </table>
+      <p><%= will_paginate @items %></p>
     </div>
     <div id="sidebar">
       <div class="wrap">

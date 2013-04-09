@@ -14,7 +14,6 @@ class CatalogueController < ApplicationController
                   :sort_dir => sort_direction,
                   :filter   => filter_type }))
                   
-                  
 		@authors    = Hash.new(0)
     @genres     = Hash.new(0)
 		@years      = Hash.new(0)
@@ -28,13 +27,13 @@ class CatalogueController < ApplicationController
       @publishers[i.publisher] += 1
     end
     
-    
     @authors    = @authors.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
     @genres     = @genres.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
     @years      = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
     @publishers = @publishers.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
-    
 
+    @results = @items.size
+    
     @items = @items.paginate(:per_page => 10, :page => params[:page])
 
     respond_to do |format|
