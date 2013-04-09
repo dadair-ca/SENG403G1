@@ -14,6 +14,8 @@ class UsersController < ApplicationController
       @categories[user.category_as_string] += 1
     end
     @categories = @categories.sort_by { |k,v| k }.sort_by { |k,v| -v }
+
+    @users = @users.paginate(:page => params[:page], :per_page => 10)
     
     @results = @users.size
 
