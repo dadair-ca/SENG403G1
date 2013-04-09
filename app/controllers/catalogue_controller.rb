@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class CatalogueController < ApplicationController
   helper_method :sort_column, :sort_direction, :filter_type
   
@@ -26,6 +28,8 @@ class CatalogueController < ApplicationController
     @genres     = @genres.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
     @years      = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
     @publishers = @publishers.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
+
+    @items = @items.paginate(:per_page => 10, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
