@@ -165,7 +165,7 @@ class Catalogue < ActiveRecord::Base
         result = result.sort_by{|x,y|y}
         result = result.map{|x,y| x}
         @books = result
-
+        
         return @books
       else
         @books = []  
