@@ -42,6 +42,7 @@ lotrs = Item.create([
   { :title => "The Return of the King", :genre => "Fantasy", :year => 1955, :publisher => "George Allen & Unwin", :isbn13 => "1000000000012", :isbn10 => "1000000012"}
 ])
 
+#Associating each item with an author
 tolkien = Author.create(:given_name => "J.R.R.", :surname => "Tolkien")
 tolkien.items = lotrs
 
