@@ -3,8 +3,9 @@ SENG403G1::Application.routes.draw do
 
   devise_for :users
   
-  post 'mailers/create' => 'mailers#create'
-
+  post 'mailers/overdue_create' => 'mailers#overdue_create', :as => :send_overdue
+  post 'mailers/recall_create' => 'mailers#recall_create', :as => :send_recall
+  
   resources :rentals  do
     get 'mailers/overdue' => 'mailers#overdue', :on => :member
   end
@@ -18,6 +19,7 @@ SENG403G1::Application.routes.draw do
   match 'items/advresults' => 'items#advresults'
   resources :items do
     resources :physical_items
+    get 'mailers/recall' => 'mailers#recall', :on => :member
   end
   
   resources :physical_items do

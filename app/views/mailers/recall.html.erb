@@ -1,4 +1,4 @@
-<h1>Overdue Notice</h1>
+<h1>Item Recall Notice</h1>
 
 <% if @mailer.errors.any? %>
   <div id="error_explanation">
@@ -11,16 +11,8 @@
   </div>
 <% end %>
 
-<h3>Rental Details</h3>
+<h3>Item Details</h3>
 <table class="vertical-table">
-<tr>
-  <th>Patron Name:</th>
-  <td><%= @user.given_name %> <%= @user.surname %> (ID <%= @user.id %>)</td>
-</tr>
-<tr>
-  <th>Patron Email:</th>
-  <td><%= @user.email %></td>
-</tr>
 <tr>
   <th>Item Title:</th>
   <td><%= @item.title %></td>
@@ -30,24 +22,31 @@
   <td><%= @item.author.given_name + " " + @item.author.surname %></td>
 </tr>
 <tr>
-  <th>Rent Date:</th>
-  <td><%= @rental.rent_date.strftime("%A, %B %d at %I:%M %p") %></td>
-</tr>
-<tr>
-  <th>Return Date:</th>
-  <td><%= @rental.return_date.strftime("%A, %B %d at %I:%M %p") %></td>
+  <th>Item Publisher:</th>
+  <td><%= @item.publisher %></td>
 </tr>
 </table>
+<br/>
 
-<%= form_for @mailer, :url => send_overdue_path do |f| %>
+<% if @item.users.size > 0 %>
+  <table class="horizontal-table">
+    <tr><th>Affected Patron(s):</th></tr>
+  <% @item.users.uniq.each do |patron| %>
+    <tr><td><%= patron.given_name + " " + patron.surname %> (<%= patron.email %>)</td></tr>
+  <% end %>
+  </table>
+  <br/>
+<% end %>
+
+<%= form_for @mailer, :url => send_recall_path do |f| %>
   <h3>Message</h3>
-  <%= f.hidden_field :email, :value => @user.email %>
+  <%= hidden_field_tag :id, @item.id %>
   <strong><%= f.label :subject %></strong><br/>
   <%= f.text_field :subject, :value => @mailer.subject %><br/>
   <br/>
   <strong><%= f.label :body %></strong><br/>
   <%= f.text_area :body, :value => @mailer.body %><br/>
-  <br/>
+  <p><strong>Note:</strong> The symbol <i>%patronName%</i> will be replaced to the actual patron's name when sent.</p>
   <%= submit_tag "Send Overdue Notification" %>
 <% end %>
 
