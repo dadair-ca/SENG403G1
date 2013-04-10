@@ -8,12 +8,5 @@ class UserMailer < ActionMailer::Base
     @item   = rental.item
     mail(:to => @user.email, :subject => @mail.subject)
   end
-  
-  def overdue_email(rental)
-    @rental = rental
-    @user   = rental.user
-    @item   = rental.item
-    mail(:to => @user.email, :subject => "[WebLib] Overdue Item")
-  end
 
 end
