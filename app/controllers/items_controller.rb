@@ -93,52 +93,6 @@ class ItemsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  # /items/search
-  # /items/search.json
-  def search
-    respond_to do |format|
-      format.html # search.html.erb
-      format.json { render :json => @items }
-    end
-  end
-
-  # /items/results
-  # /items/results.json
-  def results
-    @items = Item.search(params[:search], params[:search_type], params[:id])
-    
-    @words = Item.view(params[:search], params[:search_type], params[:id])
-    
-    
-    respond_to do |format|
-      if @items == nil
-        format.html { render :action => "edit" }
-        format.json { render :json => @item.errors, :status => :unprocessable_entity }
-      else
-        format.html # results.html.erb
-        format.json { render :json => @items }
-      end
-    end
-    
-    
-    
-  end
-  
-  
-
-  # /items/advresults
-  # /items/advresults.json
-  def advresults  
-    @items = Item.advance_search(param[:title])
-    
-    
-      
-    respond_to do |format|
-      format.html { render :action => "results" }
-      format.json { render :json => @items }
-    end
-  end
   
   def authenticate
     redirect_to(new_user_session_path) unless user_signed_in?

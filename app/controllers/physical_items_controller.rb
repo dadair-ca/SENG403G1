@@ -68,8 +68,9 @@ class PhysicalItemsController < ApplicationController
     end
   end
 
-  private
-    def load_item
-      @item = Item.find(params[:item_id])
-    end
+private
+  def load_item
+    @item = Item.find(params[:item_id])
+  end
+
 end

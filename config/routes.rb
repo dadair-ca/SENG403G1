@@ -1,5 +1,5 @@
 SENG403G1::Application.routes.draw do
-	match 'catalogue' => 'catalogue#index'
+	get 'catalogue' => 'catalogue#index'
 
   devise_for :users
   
@@ -13,10 +13,6 @@ SENG403G1::Application.routes.draw do
   resources :users
   resources :authors
   
-  match 'items/search' => 'items#search'
-  match 'items/advance' => 'items#adv_search'
-  match 'items/results' => 'items#results'
-  match 'items/advresults' => 'items#advresults'
   resources :items do
     resources :physical_items
     get 'mailers/recall' => 'mailers#recall', :on => :member
