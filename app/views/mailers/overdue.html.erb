@@ -41,7 +41,9 @@
 
 <%= form_for @mailer, :url => mailers_create_path do |f| %>
   <h3>Message</h3>
-  <%= hidden_field_tag(:rental, @id) %>
+  <%= hidden_field_tag :error_id, @rental.id %>
+  <%= hidden_field_tag :error_action, params[:action] %>
+  <%= f.hidden_field :email, :value => @user.email %>
   <strong><%= f.label :subject %></strong><br/>
   <%= f.text_field :subject, :value => @mailer.subject %><br/>
   <br/>

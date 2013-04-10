@@ -22,19 +22,22 @@ Thanks for using WebLib!"
     end
   end
 
-  # POST /rental/1/mailers
-  # POST /rental/1/mailers.json
+  # POST /mailers/create
+  # POST /mailers/create.json
   def create
     @method = params[:method]
-    @rental = Rental.find(params[:rental])
     @mailer = Mailer.new(params[:mailer])
 
     respond_to do |format|
       if @mailer.valid?
-        UserMailer.custom_email(@mailer, @rental).deliver
+        UserMailer.custom_email(@mailer).deliver
         format.html { redirect_to rentals_url, :notice => 'Mail has been sent.' }
       else
-        format.html { render :action => "new" }
+        @rental = Rental.find(params[:error_id])
+        @user   = @rental.user
+        @item   = @rental.item
+
+        format.html { render :action => params[:error_action] }
         format.json { render :json => @mailer.errors, :status => :unprocessable_entity }
       end
     end
