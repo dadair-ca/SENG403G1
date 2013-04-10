@@ -39,7 +39,7 @@
 </tr>
 </table>
 
-<%= form_for @mailer, :url => rental_mailers_path do |f| %>
+<%= form_for @mailer, :url => mailers_create_path do |f| %>
   <h3>Message</h3>
   <%= hidden_field_tag(:rental, @id) %>
   <strong><%= f.label :subject %></strong><br/>

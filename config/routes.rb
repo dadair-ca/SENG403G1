@@ -2,11 +2,11 @@ SENG403G1::Application.routes.draw do
 	match 'catalogue' => 'catalogue#index'
 
   devise_for :users
+  
+  post 'mailers/create' => 'mailers#create'
 
   resources :rentals  do
-    resources :mailers, :only => [:new, :create], :path_names => { :new => 'overdue', :create => 'send' } do
-      post :create => "mailers#create", :as => :create, :path => :new, :on => :collection
-    end
+    get 'mailers/overdue' => 'mailers#overdue', :on => :member
   end
 
   resources :users

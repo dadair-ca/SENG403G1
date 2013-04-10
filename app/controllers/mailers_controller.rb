@@ -1,9 +1,9 @@
 class MailersController < ApplicationController
   # GET /rental/1/mailers/overdue
   # GET /rental/1/mailers/overdue.json
-  def new
-    @id = params[:rental_id]
-    @rental = Rental.find(params[:rental_id])
+  def overdue
+    @id     = params[:id]
+    @rental = Rental.find(params[:id])
     @user   = @rental.user
     @item   = @rental.item
     

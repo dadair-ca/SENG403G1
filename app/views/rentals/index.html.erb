@@ -27,7 +27,7 @@
             <%= "At Renew Limit"%>
           <% end %>
         </td>
-        <td><%= link_to 'Send Overdue Notification', new_rental_mailer_path(rental) %></td>
+        <td><%= link_to 'Send Overdue Notification', mailers_overdue_rental_path(rental) %></td>
         <td><%= link_to 'Return', rental, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -38,4 +38,3 @@
 <% else %>
     <p> You do not have permission to view this page. </p>
 <% end %>
-
