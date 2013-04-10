@@ -5,88 +5,45 @@ class Catalogue < ActiveRecord::Base
     threshold = 10
     totaldl = 0
     lowestdl = -1
-    
-    #Convert the database value into a array to delete the stop words
-    tok_db = search_type.to_s.downcase.split(" ").uniq
-    tok_db.collect{|x| x.gsub(/(\W|\d)/, "")}
-    #Take out any stop words in the database word array
-    search_db = tok_db - $stopwords
-    #Join all the elements inside the array with spaces
-    
-    
+
+    search_db = search_type.to_s.downcase.strip.split(' ').uniq
+    search_db = search_db.collect{|x| x.gsub( /\W/, ' ' )}
+    search_db = search_db-$stopwords
     
     #For each word in search terms
     search_terms.each do |search_tok|
-      
-      if(tok_db.include?(search_tok))
+      if(search_db.include?(search_tok))
         lowestdl = 0
       else
         st_len = search_tok.length
         search_db.each do |db_tok|
           db_len = db_tok.length
-          if (db_len >= st_len)
-            for i in 0..(db_len-st_len-1)
-              temp_db = db_tok[i..(st_len+i)]
-              temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 0, threshold)
-              break if(temp_dl == 0)
+          if (db_len > st_len)
+            for i in 0..(db_len-st_len)
+              temp_db = db_tok[i..((st_len+i)-1)]
+              temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 1, threshold)
               if(temp_dl == 0)
                 lowestdl = temp_dl
+                break
               elsif((temp_dl < lowestdl) || (lowestdl == -1))
                 lowestdl = temp_dl
               end
             end
-          elsif(db_len == st_len)
-            temp_dl = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
-            if(temp_dl == 0)
-              lowestdl = temp_dl
-              break
-            elsif((temp_dl < lowestdl) || (lowestdl == -1))
-              lowestdl = temp_dl
-            end
           else
-            lowestdl = 5
+            lowestdl = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
           end
           
-          if(temp_dl == 0)
+          if(lowestdl == 0)
             break
           end
         end
+        totaldl += lowestdl
+        lowestdl = -1
       end
-      totaldl += lowestdl
-    end
+    end 
     
+    return totaldl
     
-    return totaldl  
-    
-          
-  end
-  
-  def self.levenshtein_isbn(search_terms, search_isbn)
-    tok_db = search_isbn.to_s.strip.downcase
-    tok_st = search_terms[0]
-    
-    threshold = 10
-    totaldl = 0
-    lowestdl = -1
-    
-    db_len = tok_db.length
-    st_len = tok_st.length
-    
-    if db_len < st_len
-      return 3
-    else
-      for i in 0..(db_len-st_len-1)
-        temp_db = tok_db[i..(st_len+i)]
-        temp_dl = DamerauLevenshtein.distance(temp_db, tok_st, 1, threshold)
-        if(temp_dl == 0)
-          lowestdl = temp_dl
-        elsif((temp_dl < lowestdl) || (lowestdl == -1))
-          lowestdl = temp_dl
-        end
-      end
-    end
-    
-    return lowestdl
   end
 
   #Search all the items based upon the drop down menu selection
@@ -125,76 +82,94 @@ class Catalogue < ActiveRecord::Base
     end
     
     # apply search
-    words = search_words.to_s.downcase.split(' ').uniq
-    words = words.collect{|x| x.strip}
-    words = words - $stopwords
 
-    if words.present?
-      eSearch = (Time.now.year + 1).to_s    #Bogue search variable
-      result = Array.new
-      f_result = Array.new
-
-      threshold = 3
+    #Start of the catalogue search if there is anything enter into
+    #the search textbox
+    if search_words.present?
+    
+      #Creates an array from the user input
+      words = search_words.to_s.downcase.strip.split(' ').uniq
+      words = words.collect{|x| x.gsub( /\W/, ' ' )}
+      words = words - $stopwords
       
-      if search_type == 'title'
-        @books.each do |book|
-          if((lev_value = levenshtein_search(words, book.title)) < threshold)
-            result << [book, lev_value]
-          end
-        end
+      if words.present?
+        result = Array.new
         
-      elsif search_type == 'author'
-        @books.each do |book|
-          lev_value = levenshtein_search(words, book.author.given_name)
-          lev_value += levenshtein_search(words, book.author.surname) 
-          if(lev_value < 6)
-            result << [book, lev_value]
-          end
-        end
+        threshold = 2
+        isbn_threshold = 2
         
-      elsif search_type == 'genre'
-        @books.each do |book|
-          if((lev_value = levenshtein_search(words, book.genre)) < threshold)
-            result << [book, lev_value]
-          end
-        end
-        
-      elsif search_type == 'publisher'
-        @books.each do |book|
-          if((lev_value = levenshtein_search(words, book.publisher)) < threshold)
-            result << [book, lev_value]
-          end
-        end
-      
-      elsif search_type == 'year' 
-        if(words.length == 1 && (s_year = words[0].to_i) && (s_year <= Time.now.year))
+        if search_type == 'title'
           @books.each do |book|
-            if(book.year == s_year)
-              result << book
+            if((lev_value = levenshtein_search(words, book.title)) < threshold)
+              result << [book, lev_value]
             end
           end
-          result.sort_by(&:title)
-        end
-      
-      elsif search_type == 'isbn13'
-        @books.each do |book|
-          if((lev_value = levenshtein_isbn(words, book.isbn13)) < threshold)
-            result << [book, lev_value]
+          
+        elsif search_type == 'author'
+          @books.each do |book|
+            lev_fn = levenshtein_search(words, book.author.given_name)
+            lev_ln = levenshtein_search(words, book.author.surname)
+          
+            if((lev_fn == 0) || (lev_ln == 0))
+              lev_value = 0
+            else
+              lev_value = lev_fn + lev_ln
+            end
+          
+            if(lev_value < threshold*2)
+              result << [book, lev_value]
+            end
+          end
+        elsif search_type == 'genre'
+          @books.each do |book|
+            if((lev_value = levenshtein_search(words, book.genre)) < threshold)
+              result << [book, lev_value]
+            end
+          end
+          
+        elsif search_type == 'publisher'
+          @books.each do |book|
+            if((lev_value = levenshtein_search(words, book.publisher)) < threshold)
+              result << [book, lev_value]
+            end
+          end
+        
+        elsif search_type == 'year' 
+          if(words.length == 1 && (s_year = words[0].to_i) && (s_year <= Time.now.year))
+            @books.each do |book|
+              if((lev_value = levenshtein_search(words, book.year)) < 1)
+                result << [book, lev_value]
+              end
+            end
+          end
+        elsif search_type == 'isbn13'
+          @books.each do |book|
+            if((lev_value = levenshtein_search(words, book.isbn13)) < isbn_threshold)
+              result << [book, lev_value]
+            end
+          end
+        
+        elsif search_type == 'isbn10'
+          @books.each do |book|
+            if((lev_value = levenshtein_search(words, book.isbn10)) < isbn_threshold)
+              result << [book, lev_value]
+            end
           end
         end
-      
-      elsif search_type == 'isbn10'
-        @books.each do |book|
-          if((lev_value = levenshtein_isbn(words, book.isbn10)) < threshold)
-            result << [book, lev_value]
-          end
-        end
+        
+        result = result.sort_by{|x,y|y}
+        result = result.map{|x,y| x}
+        @books = result
+
+        return @books
+      else
+        @books = []  
+          
+        return @books
       end
-   
-      result.sort_by{|x,y|y}
-      result.each{|r| f_result.push(r.first)}
-      @books = f_result.sort{|x,y| y <=> x }
+
     end
+    
     
     if @books.nil?
       @books = []
@@ -203,5 +178,12 @@ class Catalogue < ActiveRecord::Base
     return @books
     
   end
-
+  
+  def self.wordsdisplay(sparams)
+    # search params
+    search_words = sparams[:search]
+    words = search_words.to_s.split(' ')
+    
+    return words
+  end
 end
