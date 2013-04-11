@@ -111,7 +111,15 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
+  # /users/manage
+  # /users/manage.json
+  def manage
+    if current_user.category < 1
+      redirect_to(root_path)
+    end
+  end
+
   def authenticate
     redirect_to(new_user_session_path) unless user_signed_in?
   end
