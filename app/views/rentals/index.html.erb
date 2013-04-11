@@ -3,13 +3,17 @@
 <% if user_signed_in? and current_user.category > 0 %>
     <p id="notice"><%= notice %></p>
 
+    <% if sort_column.present? %>
+    <p>Sorting by <strong><%= sort_column.gsub('_',' ').capitalize %></strong> in <%= (sort_direction == "asc") ? "ascending" : "descending" %> order</p>
+    <% end %>
+
     <table class="vertical-table">
       <tr>
-        <th>User</th>
-        <th>Barcode</th>
-        <th>Renewals</th>
-        <th>Return date</th>
-        <th>Rent date</th>
+        <th><%= sortable "user_id", "User" %></th>
+        <th><%= sortable "barcode_id", "Barcode ID" %></th>
+        <th><%= sortable "rent_date", "Rental Date" %></th>
+        <th><%= sortable "return_date", "Return Date" %></th>
+        <th><%= sortable "renewals", "Renewals" %></th>
         <th colspan="3">Action</th>
       </tr>
 
@@ -17,9 +21,9 @@
       <tr<%= (rental.return_date < Time.now)?" class='overdue'":"" %>>
         <td><%= link_to rental.user_id, user_path(rental.user_id) %></td>
         <td><%= link_to rental.barcode_id, item_path(rental.item.id) %></td>
-        <td><%= rental.renewals %></td>
-        <td><%= rental.return_date %></td>
         <td><%= rental.rent_date %></td>
+        <td><%= rental.return_date %></td>
+        <td><%= rental.renewals %></td>
         <td>
           <% if rental.renewals > 0 %>
             <%= link_to 'Renew', edit_rental_path(rental) %>
@@ -27,7 +31,7 @@
             <%= "At Renew Limit"%>
           <% end %>
         </td>
-        <td><%= link_to 'Send Overdue Notification', new_rental_mailer_path(rental) %></td>
+        <td><%= link_to 'Send Overdue Notification', mailers_overdue_rental_path(rental) %></td>
         <td><%= link_to 'Return', rental, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -38,4 +42,3 @@
 <% else %>
     <p> You do not have permission to view this page. </p>
 <% end %>
-

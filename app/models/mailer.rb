@@ -1,4 +1,7 @@
 class Mailer < ActiveRecord::Base
-  validates :subject, :presence => true
-  validates :body, :presence => true
+  attr_accessible :email, :subject, :body
+
+  validates_presence_of :email
+  validates_presence_of :subject
+  validates_presence_of :body
 end
