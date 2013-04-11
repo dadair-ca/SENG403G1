@@ -28,19 +28,12 @@ class User < ActiveRecord::Base
     return "Admin" if self.category == 2
   end
   
-  def self.category_as_int(categoryAsString)
-    return 0 if categoryAsString == "Patron"
-    return 1 if categoryAsString == "Librarian"
-    return 2 if categoryAsString == "Admin"
-  end
-  
   $stopwords = ["I", "a", "about", "an", "are", "as", "at", "be", "by", "com", "for", "from", "how", "in", "is", "it", "of", "on", "or", "that", "the", "this", "to", "was", "what",  "when", "where", "who",  "will",  "with", "the", "www"]
   
   def self.levenshtein_search(search_terms, search_type)
     threshold = 10
     totaldl = 0
     lowestdl = -1
-    
     
     wordCount = -1;
     letterPos = -1;
@@ -55,7 +48,6 @@ class User < ActiveRecord::Base
     search_db = search_db.gsub(/[^0-9A-Za-z ]/, '')
     search_db = search_db.split(' ').uniq
     search_db = search_db - $stopwords
-    
     
     #For each word in search terms
     search_terms.each do |search_tok|
@@ -140,21 +132,14 @@ class User < ActiveRecord::Base
   end
   
   def self.search(userinput)
-    # search params
-    s_input     = userinput[:search]
-    s_type      = userinput[:search_type]
     
-    # sorting params
-    sort_col    = userinput[:sort_col]
-    sort_dir    = userinput[:sort_dir]
-  
-    # filters params
-    filter_type = userinput[:filter]
-    filter_kind = userinput[:filter_kind]
+    s_input = userinput[:search]
+    s_type = userinput[:search_type]
+    @patrons = User.find(:all)
+    
 
-    # start
-    @patrons = User.where('id >= 0')
     
+
 
     # apply filters
     if !filter_type.blank?
@@ -176,6 +161,7 @@ class User < ActiveRecord::Base
       result = Array.new
   
       threshold = u_input.length
+
 
       
       if s_type == "name"      
@@ -210,14 +196,16 @@ class User < ActiveRecord::Base
       sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:letPos], v[:worPos], v[:occur], k[:given_name], k[:surname]]}
       sort_result = sort_result.map{|k,v| k}
       return sort_result
-      
     end
+    
     
     if @patrons.nil?
       @patrons = []
     end
     
     return @patrons
+    
   end
-
+  
 end
+
