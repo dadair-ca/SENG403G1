@@ -79,5 +79,4 @@ Thanks for using WebLib!"
       format.html { redirect_to @item, :notice => 'Item recall notification has been sent.' }
     end
   end
-
 end

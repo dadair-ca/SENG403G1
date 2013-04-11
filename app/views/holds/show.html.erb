@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @hold.user_id %>
+</p>
+
+<p>
+  <b>Barcode:</b>
+  <%= @hold.barcode_id %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @hold.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @hold.end_date %>
+</p>
+
+<% if current_user.category > 0 %>
+    <%= link_to 'Edit', edit_hold_path(@hold) %> |
+<% end %>    
+<%= link_to 'Back', item_path(@hold.item.id) %>

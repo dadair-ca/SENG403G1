@@ -1,0 +1,2 @@
+module HoldsHelper
+end

@@ -1,0 +1,32 @@
+<% if user_signed_in? and current_user.category > 0 %>
+    <h1>Listing holds</h1>
+    <table class="vertical-table">
+      <tr>
+        <th>User</th>
+        <th>Barcode</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th colspan="3"Action >Action</th>
+      </tr>
+
+    <% @holds.each do |hold| %>
+      <tr>
+        <td><%= hold.user_id %></td>
+        <td><%= hold.barcode_id %></td>
+        <td><%= hold.start_date %></td>
+        <td><%= hold.end_date %></td>
+        <td><%= link_to 'Rent', new_physical_item_rental_path(hold.physical_item.id) %></td>
+        <td><%= link_to 'Edit', edit_hold_path(hold) %></td>
+        <td><%= link_to 'Remove', hold, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>  
+      </tr>
+    <% end %>
+    </table>
+
+
+    
+    <br />    
+
+    <%= link_to 'New Hold', new_hold_path %>
+<% else %>
+    <p> You do not have permission to view this page. </p>
+<% end %>
