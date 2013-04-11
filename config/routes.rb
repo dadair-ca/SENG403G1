@@ -34,9 +34,7 @@ SENG403G1::Application.routes.draw do
   
   resources :users do
     resources :items do 
-        resources :holds, :only => [:new, :create] do
-          get 'mailers/holdNotice' => 'mailers#holdNotice', :on => :member
-        end
+        resources :holds, :only => [:new, :create] 
     end
   end
 

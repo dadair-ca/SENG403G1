@@ -138,7 +138,6 @@ class User < ActiveRecord::Base
     @patrons = User.find(:all)
     
 
-    
 
 
     # apply filters
@@ -161,7 +160,6 @@ class User < ActiveRecord::Base
       result = Array.new
   
       threshold = u_input.length
-
 
       
       if s_type == "name"      

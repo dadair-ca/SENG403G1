@@ -4,6 +4,7 @@
       <% if @users.empty? %>
         <%= "The search term is invalid, please retype your query again." %>
         <%= link_to "Back", :back %>
+
       <% else %>
         <ul>
           <li>Showing <strong><%= @results %></strong> results</li>
