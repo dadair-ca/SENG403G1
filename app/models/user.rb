@@ -174,7 +174,7 @@ class User < ActiveRecord::Base
       end
       
       sort_result = Hash[result.map{|key, value| [key, value]}]
-      sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:letPos], v[:worPos], v[:occur], k[:given_name], k[:surname]]}
+      sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:worPos], v[:letPos], v[:occur], k[:given_name], k[:surname]]}
       sort_result = sort_result.map{|k,v| k}
       return sort_result
       

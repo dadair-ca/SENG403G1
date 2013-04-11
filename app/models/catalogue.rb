@@ -219,8 +219,7 @@ class Catalogue < ActiveRecord::Base
         end
         
         sort_result = Hash[result.map{|key, value| [key, value]}]
-        #sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:worPos], v[:letPos], v[:lowestdl], v[:occur], k[:title]]}
-        sort_result = sort_result.sort_by{|k, v| [v[:dlv], v[:worPos], v[:letPos], v[:lowestdl], v[:occur]]}
+        sort_result = sort_result.sort_by{|k, v| [v[:dlv], v[:worPos], v[:letPos], v[:lowestdl], v[:occur], k[:title]]}
         sort_result = sort_result.map{|k,v| k}
         
         @books = sort_result
