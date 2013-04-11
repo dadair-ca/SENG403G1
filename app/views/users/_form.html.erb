@@ -26,7 +26,7 @@
   <div class="field">
     <%= f.label :category %><br />
     <% if user_signed_in? and current_user.category == 1 %>
-        <%= f.number_field :category, { :in => 0..1} %>
+        <%= f.number_field :category, { :in => 0...1} %>
     <% else user_signed_in? and current_user.category == 2 %>
         <%= f.number_field :category, { :in => 0..2} %>
     <% end %>

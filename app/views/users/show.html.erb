@@ -46,7 +46,7 @@
         <td><%= rental.rent_date %></td>
         <% if current_user.category > 0 %>
             <td><%= link_to 'Renew', edit_rental_path(rental) %></td>
-            <td><%= link_to 'Send Overdue Notification', new_rental_mailer_path(rental) %></td>
+            <td><%= link_to 'Send Overdue Notification', mailers_overdue_rental_path(rental) %></td>
             <td><%= link_to 'Return', rental, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
         <% end %>    
       </tr>
