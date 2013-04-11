@@ -18,9 +18,10 @@
     <h2>User Panel</h2>
     <ul>
       <li><%= link_to "View Users", users_path %></li>
-      <li><%= link_to "Add User", new_user_path %></li>
     <% if current_user.category >= 2 %>
-      <li><%= link_to "Add Librarian", new_user_path %></li>
+      <li><%= link_to "Add User / Librarian", new_user_path %></li>
+    <% elsif current_user.category == 1 %>
+      <li><%= link_to "Add User", new_user_path %></li>
     <% end %>
     </ul>
   </td>
