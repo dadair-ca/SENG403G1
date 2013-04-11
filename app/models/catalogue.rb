@@ -7,7 +7,7 @@ class Catalogue < ActiveRecord::Base
     lowestdl = -1
     
     
-    wordCount = -1;
+    wordCount = 0;
     letterPos = -1;
     wordPos = -1;
     firstWPos = -1;
@@ -19,8 +19,6 @@ class Catalogue < ActiveRecord::Base
     search_db = search_type.to_s.downcase.strip
     search_db = search_db.gsub(/[^0-9A-Za-z ]/, '')
     search_db = search_db.split(' ').uniq
-    search_db = search_db - $stopwords
-    
     
     #For each word in search terms
     search_terms.each do |search_tok|
@@ -50,13 +48,14 @@ class Catalogue < ActiveRecord::Base
               end
             end
           end
+        
         else
           temp_dl = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
           letterPos = 0
           
           if((temp_dl < lowestdl) || (lowestdl == -1))
             wordPos = wordCount
-            letterPos = i
+            letterPos = db_tok.length
             lowestdl = temp_dl
           elsif ((temp_dl == lowestdl) && (lowestdl > 0))
             wordPos = wordCount
@@ -69,14 +68,14 @@ class Catalogue < ActiveRecord::Base
               firstLPos = 0
             end
           end
-          
-        end 
+        end
+        
       end
       
       totaldl += lowestdl
       
       
-      if(firstWPos == -1)
+      if(occurrence > -1)
         tempHash <<[:lowestdl, lowestdl]
         tempHash <<[:letPos, letterPos] 
         tempHash <<[:worPos, wordPos]
@@ -88,21 +87,19 @@ class Catalogue < ActiveRecord::Base
         tempHash <<[:occur, occurrence]
       end
 
-
       firstWPos = -1
       lowestdl = -1
       letterPos = -1
       wordPos = -1
       lowestdl = -1
       occurrence = 0
-      wordCount = -1
+      wordCount = 0
     end
   
     tempHash << [:dlv, totaldl]
     newHash = Hash[tempHash.map{|key, value| [key, value]}]
     
     return newHash
-
     
   end
 
@@ -222,10 +219,12 @@ class Catalogue < ActiveRecord::Base
         end
         
         sort_result = Hash[result.map{|key, value| [key, value]}]
-        sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:worPos], v[:letPos], v[:occur], k[:title]]}
+        #sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:worPos], v[:letPos], v[:lowestdl], v[:occur], k[:title]]}
+        sort_result = sort_result.sort_by{|k, v| [v[:dlv], v[:worPos], v[:letPos], v[:lowestdl], v[:occur]]}
         sort_result = sort_result.map{|k,v| k}
         
         @books = sort_result
+
         return @books
         
       else
