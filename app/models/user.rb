@@ -153,11 +153,11 @@ class User < ActiveRecord::Base
     # start
     @patrons = User.where('id >= 0')
     
-<<<<<<< HEAD
+
     u_input = s_input.to_s.downcase.strip
     u_input = u_input.gsub(/[^0-9A-Za-z ]/, '')
     u_input = u_input.split(' ').uniq
-=======
+
     # apply filters
     if !filter_type.blank?
       categoryAsString = filter_kind.gsub('+',' ')
@@ -169,21 +169,14 @@ class User < ActiveRecord::Base
       @patrons = @patrons.order(sort_col + ' ' + sort_dir)
     end
     
-    # apply search
-    u_input = s_input.to_s.downcase.split(' ').uniq
-    u_input = u_input.collect{|x| x.gsub( /\W/, ' ' )}
->>>>>>> 48ff8b8c032fa78374af6bb9b200db7098b9cb82
+    
     u_input = u_input - $stopwords
     
     if u_input.present?
       result = Array.new
-<<<<<<< HEAD
-  
+
       threshold = u_input.length
-=======
-      threshold = 2
->>>>>>> 48ff8b8c032fa78374af6bb9b200db7098b9cb82
-      
+
       if s_type == "name"      
         @patrons.each do |user|
           patrons_name = user.given_name + user.surname
@@ -212,17 +205,11 @@ class User < ActiveRecord::Base
         return sort_result
       end
       
-<<<<<<< HEAD
       sort_result = Hash[result.map{|key, value| [key, value]}]
       sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:letPos], v[:worPos], v[:occur], k[:given_name], k[:surname]]}
       sort_result = sort_result.map{|k,v| k}
       return sort_result
       
-=======
-      result = result.sort_by{|x,y|y}
-      result = result.map{|x,y| x}
-      @patrons = result
->>>>>>> 48ff8b8c032fa78374af6bb9b200db7098b9cb82
     end
     
     if @patrons.nil?
