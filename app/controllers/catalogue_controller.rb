@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class CatalogueController < ApplicationController
   # GET /items
   # GET /items.json
@@ -31,6 +33,8 @@ class CatalogueController < ApplicationController
     @years      = @years.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
     @publishers = @publishers.sort_by { |k,v| k }.sort_by { |k,v| -v }.first(8)
     
+
+    @items = @items.paginate(:per_page => 10, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

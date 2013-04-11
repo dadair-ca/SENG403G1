@@ -3,7 +3,7 @@
     <h1>Listing Users</h1>
       <% if @users.empty? %>
         <%= "The search term is invalid, please retype your query again." %>
-        <%= link_to 'Back', :back %>
+        <%= link_to 'Back', users_path %>
       <% else %>
         <% if user_signed_in? and current_user.category > 1 %>
           <table class="vertical-table">

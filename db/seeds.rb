@@ -13,7 +13,17 @@ require 'faker'
 lotrs = Item.create([
   { :title => "The Fellowship of the Ring", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000000", :isbn10 => "1000000000"},
   { :title => "The Two Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000001", :isbn10 => "1000000001"},
-  { :title => "The Return of the King", :genre => "Fantasy", :year => 1955, :publisher => "George Allen & Unwin", :isbn13 => "1000000000002", :isbn10 => "1000000002"}
+  { :title => "The Three Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000002", :isbn10 => "1000000002"},
+  { :title => "The Four Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000003", :isbn10 => "1000000003"},
+  { :title => "The Five Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000004", :isbn10 => "1000000004"},
+  { :title => "The Six Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000005", :isbn10 => "1000000005"},
+  { :title => "The Seven Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000006", :isbn10 => "1000000006"},
+  { :title => "The Eight Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000007", :isbn10 => "1000000007"},
+  { :title => "The Nine Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000008", :isbn10 => "1000000008"},
+  { :title => "The Ten Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000009", :isbn10 => "1000000009"},
+  { :title => "The Eleven Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000010", :isbn10 => "1000000010"},
+  { :title => "The Twelve Towers", :genre => "Fantasy", :year => 1954, :publisher => "George Allen & Unwin", :isbn13 => "1000000000012", :isbn10 => "1000000012"},
+  { :title => "The Return of the King", :genre => "Fantasy", :year => 1955, :publisher => "George Allen & Unwin", :isbn13 => "1000000000011", :isbn10 => "1000000011"}
 ])
 
 tolkien = Author.create(:given_name => "J.R.R.", :surname => "Tolkien")
