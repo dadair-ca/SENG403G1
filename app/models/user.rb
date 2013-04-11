@@ -33,46 +33,102 @@ class User < ActiveRecord::Base
     totaldl = 0
     lowestdl = -1
     
-    #Formatting data from database to be used in search
-    search_db = search_type.to_s.downcase.strip.split(' ').uniq
-    search_db = search_db.collect{|x| x.gsub( /\W/, ' ' )}
-    search_db = search_db-$stopwords
+    
+    wordCount = -1;
+    letterPos = -1;
+    wordPos = -1;
+    firstWPos = -1;
+    firstLPos = -1;
+    occurrence = 0;
+    
+    tempHash = Array.new;
+    
+    search_db = search_type.to_s.downcase.strip
+    search_db = search_db.gsub(/[^0-9A-Za-z ]/, '')
+    search_db = search_db.split(' ').uniq
+    search_db = search_db - $stopwords
+    
     
     #For each word in search terms
     search_terms.each do |search_tok|
-      if(search_db.include?(search_tok))
-        lowestdl = 0
-      else
-        st_len = search_tok.length
-        search_db.each do |db_tok|
-          db_len = db_tok.length
-          if (db_len > st_len)
-            for i in 0..(db_len-st_len)
-              temp_db = db_tok[i..((st_len+i)-1)]
-              temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 1, threshold)
-              if(temp_dl == 0)
-                lowestdl = temp_dl
-                break
-              elsif((temp_dl < lowestdl) || (lowestdl == -1))
-                lowestdl = temp_dl
+      st_len = search_tok.length
+      
+      search_db.each do |db_tok|
+        wordCount+=1
+        db_len = db_tok.length
+        if (db_len > st_len)
+          for i in 0..(db_len-st_len)
+            temp_db = db_tok[i..((st_len+i)-1)]
+            temp_dl = DamerauLevenshtein.distance(temp_db, search_tok, 1, threshold)
+            if((temp_dl < lowestdl) || (lowestdl == -1))
+              wordPos = wordCount
+              letterPos = i
+              lowestdl = temp_dl
+            elsif ((temp_dl == lowestdl) && (lowestdl > 0))
+              wordPos = wordCount
+              letterPos = i
+            end
+            
+            if(temp_dl == 0)
+              occurrence-=1
+              if(occurrence == -1)
+                firstWPos = wordCount
+                firstLPos = i
               end
             end
-          else
-            lowestdl = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
+          end
+        else
+          temp_dl = DamerauLevenshtein.distance(db_tok, search_tok, 1, threshold)
+          letterPos = 0
+          
+          if((temp_dl < lowestdl) || (lowestdl == -1))
+            wordPos = wordCount
+            letterPos = i
+            lowestdl = temp_dl
+          elsif ((temp_dl == lowestdl) && (lowestdl > 0))
+            wordPos = wordCount
           end
           
-          if(lowestdl == 0)
-            break
+          if(temp_dl == 0)
+            occurrence-=1
+            if(occurrence == -1)
+              firstWPos = wordCount
+              firstLPos = 0
+            end
           end
-        end
-        totaldl += lowestdl
-        lowestdl = -1
+          
+        end 
       end
-    end 
+      
+      totaldl += lowestdl
+      
+      
+      if(firstWPos == -1)
+        tempHash <<[:lowestdl, lowestdl]
+        tempHash <<[:letPos, letterPos] 
+        tempHash <<[:worPos, wordPos]
+        tempHash <<[:occur, occurrence]
+      else
+        tempHash <<[:lowestdl, lowestdl]
+        tempHash <<[:letPos, firstLPos] 
+        tempHash <<[:worPos, firstWPos]
+        tempHash <<[:occur, occurrence]
+      end
+
+      firstWPos = -1
+      lowestdl = -1
+      letterPos = -1
+      wordPos = -1
+      lowestdl = -1
+      occurrence = 0
+      wordCount = -1
+    end
+  
+    tempHash << [:dlv, totaldl]
+    newHash = Hash[tempHash.map{|key, value| [key, value]}]
     
-    return totaldl 
+    return newHash
     
-          
   end
   
   def self.search(userinput)
@@ -81,50 +137,48 @@ class User < ActiveRecord::Base
     s_type = userinput[:search_type]
     @patrons = User.find(:all)
     
-
-    u_input = s_input.to_s.downcase.split(' ').uniq
-    u_input = u_input.collect{|x| x.gsub( /\W/, ' ' )}
+    u_input = s_input.to_s.downcase.strip
+    u_input = u_input.gsub(/[^0-9A-Za-z ]/, '')
+    u_input = u_input.split(' ').uniq
     u_input = u_input - $stopwords
     
-    
-      
     if u_input.present?
       result = Array.new
   
-      threshold = 2
+      threshold = u_input.length
       
       if s_type == "name"      
         @patrons.each do |user|
-          lev_fn = levenshtein_search(u_input, user.given_name)
-          lev_ln = levenshtein_search(u_input, user.surname)
-          
-          if((lev_fn == 0) || (lev_ln == 0))
-            lev_value = 0
-          else
-            lev_value = lev_fn + lev_ln
-          end
-          
-          if(lev_value < threshold*2)
-            result << [user, lev_value]
+          patrons_name = user.given_name + user.surname
+          patronsRelevance = levenshtein_search(u_input, patrons_name)
+          if(patronsRelevance[:dlv] <threshold)
+            result << [user, patronsRelevance]
           end
         end
       elsif s_type == "email"
         @patrons.each do |user|
-          if((lev_value = levenshtein_search(u_input, user.email)) < threshold)
-            result << [user, lev_value]
+          patronsRelevance = levenshtein_search(u_input, user.email)
+          if(patronsRelevance[:dlv] <threshold)
+            result << [user, patronsRelevance]
           end
         end
       elsif s_type == "userid"
         @patrons.each do |user|
-          if((lev_value = levenshtein_search(u_input, user.id)) < threshold)
-            result << [user, lev_value]
+          patronsRelevance = levenshtein_search(u_input, user.id)
+          if(patronsRelevance[:dlv] <threshold)
+            result << [user, patronsRelevance]
           end
         end
+        sort_result = Hash[result.map{|key, value| [key, value]}]
+        sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:occur], v[:lowestdl], k[:given_name]]}
+        sort_result = sort_result.map{|k,v| k}
+        return sort_result
       end
       
-      result = result.sort_by{|x,y|y}
-      result = result.map{|x,y| x}
-      @patrons = result
+      sort_result = Hash[result.map{|key, value| [key, value]}]
+      sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:letPos], v[:worPos], v[:occur], k[:given_name], k[:surname]]}
+      sort_result = sort_result.map{|k,v| k}
+      return sort_result
       
     end
     
