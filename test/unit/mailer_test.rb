@@ -14,9 +14,10 @@ class MailerTest < ActiveSupport::TestCase
     mailer.subject = "[WebLib] Mailer Test"
     mailer.body = "Thanks for using WebLib!"
    
-    assert mailer.valid?
-
-    UserMailer.custom_email(mailer).deliver    
+    if mailer.valid?
+      UserMailer.custom_email(mailer).deliver
+    end
+    
     assert !@emails.empty?
   end
 
@@ -25,9 +26,10 @@ class MailerTest < ActiveSupport::TestCase
     mailer.subject = "[WebLib] Mailer Test"
     mailer.body = "Thanks for using WebLib!"
    
-    assert_false mailer.valid?
-
-    UserMailer.custom_email(mailer).deliver
+    if mailer.valid?
+      UserMailer.custom_email(mailer).deliver
+    end
+    
     assert @emails.empty?
   end
 
@@ -38,9 +40,10 @@ class MailerTest < ActiveSupport::TestCase
     mailer.email = user.email
     mailer.body = "Thanks for using WebLib!"
    
-    assert_false mailer.valid?
-
-    UserMailer.custom_email(mailer).deliver
+    if mailer.valid?
+      UserMailer.custom_email(mailer).deliver
+    end
+    
     assert @emails.empty?
   end
 
@@ -51,9 +54,10 @@ class MailerTest < ActiveSupport::TestCase
     mailer.email = user.email
     mailer.subject = "[WebLib] Mailer Test"
    
-    assert_false mailer.valid?
+    if mailer.valid?
+      UserMailer.custom_email(mailer).deliver
+    end
     
-    UserMailer.custom_email(mailer).deliver    
     assert @emails.empty?
   end
 

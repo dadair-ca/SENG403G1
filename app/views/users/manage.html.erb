@@ -1,0 +1,28 @@
+<h1>Account Management</h1>
+<table>
+<tr>
+  <td><%= image_tag("book_icon.png") %></td>
+  <td>
+    <h2>Item Panel</h2>
+    <ul>
+      <li><%= link_to "View Catalogue", catalogue_path %></li>
+      <li><%= link_to "View Rentals", rentals_path %></li>
+      <li><%= link_to "Add Item", new_item_path %></li>
+      <li><%= link_to "Add Rental", new_rental_path %></li>
+    </ul>
+  </td>
+</tr>
+<tr>
+  <td><%= image_tag "users_icon.png" %></td>
+  <td>
+    <h2>User Panel</h2>
+    <ul>
+      <li><%= link_to "View Users", users_path %></li>
+      <li><%= link_to "Add User", new_user_path %></li>
+    <% if current_user.category >= 2 %>
+      <li><%= link_to "Add Librarian", new_user_path %></li>
+    <% end %>
+    </ul>
+  </td>
+</tr>
+</table>

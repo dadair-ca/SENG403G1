@@ -4,14 +4,14 @@
     <% if @items.empty? %>
       <p>The search term "<%= params[:search] %>" is invalid, please retype again.</p>
       <% if user_signed_in? and current_user.category > 0 %>
-        <p> <%= link_to 'Back', catalogue_path %> </p>
+        <p> <%= link_to "Back", :back %> </p>
       <% end %>
     <% else %>
         <ul>
           <li>Showing <strong><%= @results %></strong> results</li>
           <% if params[:search].present? %>
             <li>
-              Searching <strong><%= params[:search].capitalize %></strong> in <%= params[:search_type] %> 
+              Searching for "<strong><%= params[:search] %></strong>" in <%= params[:search_type] %> 
               <%= link_to "(Remove)", catalogue_path(params.except(:search).except(:search_type)) %>
             </li>
           <% end %>
@@ -42,9 +42,9 @@
         </tr>
       <% @items.each do |item| %>
         <tr>
-          <td><%= link_to item.title.truncate(25), item, {:class => "item-title", :title => item.title} %></td>
-          <td><%= link_to (item.author.given_name + " " + item.author.surname).truncate(25), item.author, {:title => item.author.given_name + " " + item.author.surname} %></td>
-          <td><%= item.publisher %></td>
+          <td><%= link_to item.title.truncate(20), item, {:class => "item-title", :title => item.title} %></td>
+          <td><%= link_to (item.author.given_name + " " + item.author.surname).truncate(20), item.author, {:title => item.author.given_name + " " + item.author.surname} %></td>
+          <td><span title="<%= item.publisher %>"><%= item.publisher.truncate(20) %></span></td>
           <td><%= item.year %></td>
           <td><%= item.genre %></td>
           <td><%= item.isbn13 %></td>

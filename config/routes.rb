@@ -10,6 +10,7 @@ SENG403G1::Application.routes.draw do
     get 'mailers/overdue' => 'mailers#overdue', :on => :member
   end
 
+  match 'users/manage' => 'users#manage'
   resources :users
   resources :authors
   

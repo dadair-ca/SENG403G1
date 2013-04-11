@@ -33,7 +33,6 @@ class User < ActiveRecord::Base
     totaldl = 0
     lowestdl = -1
     
-    
     wordCount = -1;
     letterPos = -1;
     wordPos = -1;
@@ -47,7 +46,6 @@ class User < ActiveRecord::Base
     search_db = search_db.gsub(/[^0-9A-Za-z ]/, '')
     search_db = search_db.split(' ').uniq
     search_db = search_db - $stopwords
-    
     
     #For each word in search terms
     search_terms.each do |search_tok|
@@ -137,6 +135,10 @@ class User < ActiveRecord::Base
     s_type = userinput[:search_type]
     @patrons = User.find(:all)
     
+
+    
+    # apply search
+
     u_input = s_input.to_s.downcase.strip
     u_input = u_input.gsub(/[^0-9A-Za-z ]/, '')
     u_input = u_input.split(' ').uniq
@@ -144,7 +146,6 @@ class User < ActiveRecord::Base
     
     if u_input.present?
       result = Array.new
-  
       threshold = u_input.length
       
       if s_type == "name"      
@@ -179,7 +180,7 @@ class User < ActiveRecord::Base
       sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:letPos], v[:worPos], v[:occur], k[:given_name], k[:surname]]}
       sort_result = sort_result.map{|k,v| k}
       return sort_result
-      
+
     end
     
     

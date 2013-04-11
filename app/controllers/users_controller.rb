@@ -14,10 +14,10 @@ class UsersController < ApplicationController
       @categories[user.category_as_string] += 1
     end
     @categories = @categories.sort_by { |k,v| k }.sort_by { |k,v| -v }
-
-    @users = @users.paginate(:page => params[:page], :per_page => 10)
     
     @results = @users.size
+
+    @users = @users.paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -104,7 +104,15 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
+  # /users/manage
+  # /users/manage.json
+  def manage
+    if current_user.category < 1
+      redirect_to(root_path)
+    end
+  end
+
   def authenticate
     redirect_to(new_user_session_path) unless user_signed_in?
   end
