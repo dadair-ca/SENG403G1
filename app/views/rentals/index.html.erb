@@ -20,8 +20,8 @@
       <tr<%= (rental.return_date < Time.now)?" class='overdue'":"" %>>
         <td><%= link_to rental.user_id, user_path(rental.user_id) %></td>
         <td><%= link_to rental.barcode_id, item_path(rental.item.id) %></td>
-        <td><%= rental.rent_date %></td>
-        <td><%= rental.return_date %></td>
+        <td><%= rental.rent_date.strftime("%A, %B %d at %I:%M %p") %></td>
+        <td><%= rental.return_date.strftime("%A, %B %d at %I:%M %p") %></td>
         <td><%= rental.renewals %></td>
         <td>
           <% if rental.renewals > 0 %>
