@@ -25,16 +25,20 @@ class User < ActiveRecord::Base
     return "Librarian" if self.category == 1
     return "Admin" if self.category == 2
   end
-  
+
+  def self.category_as_int(categoryAsString)
+    return 0 if categoryAsString == "Patron"
+    return 1 if categoryAsString == "Librarian"
+    return 2 if categoryAsString == "Admin"
+  end
+
   $stopwords = ["I", "about", "an", "are", "as", "at", "be", "by", "com", "for", "from", "how", "in", "is", "it", "of", "on", "or", "that", "the", "this", "to", "was", "what",  "when", "where", "who",  "will",  "with", "the", "www"]
   
   def self.levenshtein_search(search_terms, search_type)
-    
     #Initalization of variables
     threshold = 10
     totaldl = 0
     lowestdl = -1
-    
     
     wordCount = 0;  #Current word position pointer 
     letterPos = -1; #Letter position for a certain word in search_type for the current lowest Levenshtein value
@@ -50,7 +54,6 @@ class User < ActiveRecord::Base
     search_db = search_db.gsub(/[^0-9A-Za-z ]/, '')
     search_db = search_db.split(' ').uniq
     
-                                                                                      
     search_terms.each do |search_tok|                                                 #For each token in search terms
       st_len = search_tok.length                                                         
       search_db.each do |db_tok|                                                      #For each token in search_db
@@ -103,7 +106,6 @@ class User < ActiveRecord::Base
       
       totaldl += lowestdl                                                             #Summing up all the sub Levenshtein values.
       
-      
       if(occurrence > -1)                                                             #If no occurrence of search_tok exists in search_db,
         tempHash <<[:lowestdl, lowestdl]                                              #input these values into tempHash
         tempHash <<[:letPos, letterPos] 
@@ -133,17 +135,34 @@ class User < ActiveRecord::Base
   end
   
   def self.search(userinput)
+    # search params
+    s_input     = userinput[:search]
+    s_type      = userinput[:search_type]
     
-    #Declaration of variables
-    s_input = userinput[:search]
-    s_type = userinput[:search_type]
-    @patrons = User.find(:all)
-    
+    # sorting params
+    sort_col    = userinput[:sort_col]
+    sort_dir    = userinput[:sort_dir]
+  
+    # filters params
+    filter_type = userinput[:filter]
+    filter_kind = userinput[:filter_kind]
 
+    # start
+    @patrons    = User.where('id >= 0')
+    
+    # apply filters
+    if !filter_type.blank?
+      categoryAsString = filter_kind.gsub('+',' ')
+      @patrons = @patrons.where('category = ?', category_as_int(categoryAsString))
+    end
+
+    # apply sorting
+    if sort_col.present?
+      @patrons = @patrons.order(sort_col + ' ' + sort_dir)
+    end
     
     # apply search
     if(!s_input.nil?)
-      
       u_input = s_input.to_s.downcase.strip
       u_input = u_input.gsub(/[^0-9A-Za-z ]/, '')
       u_input = u_input.split(' ').uniq
