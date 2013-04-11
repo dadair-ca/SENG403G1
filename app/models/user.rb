@@ -221,14 +221,11 @@ class User < ActiveRecord::Base
             
         return @patrons
       end
-<<<<<<< HEAD
-=======
       
       sort_result = Hash[result.map{|key, value| [key, value]}]
       sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:letPos], v[:worPos], v[:occur], k[:given_name], k[:surname]]}
       sort_result = sort_result.map{|k,v| k}
       return sort_result
->>>>>>> 090dc34254d9b8d32290b85c3a61a157db4aaea5
     end
     
     if @patrons.nil?
