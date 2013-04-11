@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Hold Details</h1>
+    <table class="vertical-table">
+    <tr>
+      <th>Patron Name:</th>
+      <td><%= @user.given_name %> <%= @user.surname %> (ID <%= @user.id %>)</td>
+    </tr>
+    <tr>
+      <th>Patron Email:</th>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <th>Item Title:</th>
+      <td><%= @item.title %></td>
+    </tr>
+    <tr>
+      <th>Item Author:</th>
+      <td><%= @item.author.given_name + " " + @item.author.surname %></td>
+    </tr>
+    <tr>
+      <th>Start Hold Date:</th>
+      <td><%= @hold.start_date.strftime("%A, %B %d") %></td>
+    </tr>
+    <tr>
+      <th>Hold End Date:</th>
+      <td><%= @hold.end_date.strftime("%A, %B %d at %I:%M %p") %></td>
+    </tr>
+    </table>  
+  
+    <h2>WebLib</h2>
+    <p>Hi <%= @user.given_name %> <%= @user.surname %>,</p>
+    <p>The item <strong><%= @item.title %></strong> by <%= @item.author.given_name + ' ' + @item.author.surname %> is now on hold for 48 hours. Please pick up your item for rental by <%= @hold.end_date.strftime('%A, %B %d') %>.</p>
+    <p>Thanks for using WebLib!</p>
+  </body>
+</html>
+

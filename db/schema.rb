@@ -43,9 +43,9 @@ ActiveRecord::Schema.define(:version => 20130410172026) do
   create_table "mailers", :force => true do |t|
     t.string   "subject"
     t.text     "body"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-    t.string   "email",      :limit => nil
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "email"
   end
 
   create_table "physical_items", :force => true do |t|

@@ -32,6 +32,8 @@ class HoldsController < ApplicationController
   # GET /holds/new.json
   # GET /user/1/holds/new
   # GET /user/1/holds/new.json
+  # GET /user/1/item/1/holds/new
+  # GET /user/1/item/1/holds/new.json
   def new
     @hold = Hold.new
     time = Time.now
@@ -69,12 +71,14 @@ class HoldsController < ApplicationController
   # POST /holds.json
   def create
     @hold = Hold.new(params[:hold])
+    @user = @hold.user
+    @item = @hold.item
 
     respond_to do |format|
       if @hold.save
-        format.html { redirect_to @hold, :notice => 'Hold was successfully created.' }
+        UserMailer.holdNotice_email(@hold).deliver
+        format.html { redirect_to@hold, :notice => 'Hold was successfully created. Notification email Sent.' }
         format.json { render :json => @hold, :status => :created, :location => @hold }
-        
       elsif @hold.barcode_id.nil?
         format.html { render :action => "new" }
         format.json { render :json => @hold.errors, :status => :unprocessable_entity } 
