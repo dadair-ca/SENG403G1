@@ -20,6 +20,7 @@
   <%= @hold.end_date %>
 </p>
 
-
-<%= link_to 'Edit', edit_hold_path(@hold) %> |
-<%= link_to 'Back', holds_path %>
+<% if current_user.category > 0 %>
+    <%= link_to 'Edit', edit_hold_path(@hold) %> |
+<% end %>    
+<%= link_to 'Back', item_path(@hold.item.id) %>

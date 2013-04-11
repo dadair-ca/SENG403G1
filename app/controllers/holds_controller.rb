@@ -3,6 +3,13 @@ class HoldsController < ApplicationController
   # GET /holds.json
   def index
     @holds = Hold.all
+    @items = Item.all
+    
+    @holds.each do |h|
+        if h.end_date < Date.today
+            Hold.destroy(h)
+        end    
+    end  
 
     respond_to do |format|
       format.html # index.html.erb
@@ -27,9 +34,20 @@ class HoldsController < ApplicationController
   # GET /user/1/holds/new.json
   def new
     @hold = Hold.new
-    end_time = Time.now
-    end_time = end_time + 2
-    @hold.end_date = end_time
+    time = Time.now
+    @hold.start_date = time
+    time = time + 2.days
+    @hold.end_date = time
+
+    if !params[:item_id].nil?
+        @item = Item.find(params[:item_id])
+        @copies = @item.physical_items.all
+        @copies.each do |c|
+            if c.rental.nil? and c.hold.nil?
+                @hold.barcode_id = c.barcode_id
+            end
+        end
+    end 
 
     if !params[:user_id].nil?
       @user = User.find(params[:user_id])
@@ -38,7 +56,7 @@ class HoldsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @hold }
+      format.json { render :json => @hold }   
     end
   end
 
@@ -56,6 +74,10 @@ class HoldsController < ApplicationController
       if @hold.save
         format.html { redirect_to @hold, :notice => 'Hold was successfully created.' }
         format.json { render :json => @hold, :status => :created, :location => @hold }
+        
+      elsif @hold.barcode_id.nil?
+        format.html { render :action => "new" }
+        format.json { render :json => @hold.errors, :status => :unprocessable_entity } 
       else
         format.html { render :action => "new" }
         format.json { render :json => @hold.errors, :status => :unprocessable_entity }

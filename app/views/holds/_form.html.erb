@@ -19,15 +19,19 @@
 	</tr>
 	<tr>
 	    	<th><%= f.label :barcode_id %></th>
-    		<td><%= f.number_field :barcode_id %></td>
+    		<td><%= f.number_field :barcode_id, { :value => @hold.barcode_id, :readonly => true } %></td>
 	</tr>
 	<tr>
     		<th><%= f.label :start_date %></th>
-		<td><%= f.label Time.now.strftime('%A, %d %B %Y') %></td>
+		<td><%= f.text_field :start_date, { :value => @hold.start_date.strftime('%A, %d %B %Y'), :readonly => true } %></td>
 	</tr>
 	<tr>
     		<th><%= f.label :end_date %></th>
-    		<td><%= f.datetime_select :end_date, { :value => @hold.end_date } %></td>  
+    		<% if current_user.category > 0 %>
+    		    <td><%= f.text_field :end_date, { :value => @hold.end_date.strftime('%A, %d %B %Y') } %></td>  
+    		<% else %>
+    		    <td><%= f.text_field :end_date, { :value => @hold.end_date.strftime('%A, %d %B %Y'), :readonly => true } %></td> 
+    		<% end %>    
   	</tr>
   	</table>
   </div>

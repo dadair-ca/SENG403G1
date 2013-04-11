@@ -15,7 +15,11 @@
   	<table class="vertical-form">
   	<tr>
     		<th><%= f.label :user_id %></th>
-    		<td><%= f.number_field :user_id %></td>
+    		<% if !@rental.physical_item.hold.nil? %>
+    		    <td><%= f.number_field :user_id, { :value => @rental.physical_item.hold.user_id, :readonly => true } %></td>
+    		<% else %>
+    		    <td><%= f.number_field :user_id %></td>
+    		<% end %>    
 	</tr>
 	<tr>
 	    	<th><%= f.label :barcode_id %></th>
@@ -27,11 +31,11 @@
 	</tr>
 	<tr>
     		<th><%= f.label :return_date %></th>
-		<td><%= f.datetime_select :return_date %></td>
+		<td><%= f.date_select :return_date %></td>
 	</tr>
 	<tr>
     		<th><%= f.label :rent_date %></th>
-    		<td><%= f.datetime_select :rent_date %></td>  
+    		<td><%= f.date_select :rent_date %></td>  
   	</tr>
   	</table>
   </div>

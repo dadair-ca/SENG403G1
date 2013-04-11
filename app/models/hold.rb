@@ -7,14 +7,13 @@ class Hold < ActiveRecord::Base
   belongs_to :physical_item, :foreign_key => :barcode_id, :primary_key => :barcode_id
 
   validates_presence_of :user_id
-  validates_presence_of :barcode_id
+  validates_presence_of :barcode_id, :message => 'No copies are avaliable to hold at this time. Please try again later.'
   validates_presence_of :start_date
   validates_presence_of :end_date
 
-  validates_uniqueness_of :barcode_id
+  validates_uniqueness_of :barcode_id, :message => nil
   
   validate :validate_user_id
-  validate :validate_barcode_id
 
 private
   def validate_user_id
@@ -23,10 +22,4 @@ private
     end
   end
 
-  def validate_barcode_id
-    if !PhysicalItem.exists?(:barcode_id => self.barcode_id)
-      errors.add(:barcode_id, "ID does not exist")
-    end
-  end
-  
 end

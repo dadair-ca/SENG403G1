@@ -18,6 +18,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @rentals = @user.rentals.find(:all, :order => 'return_date')
+    @holds = @user.holds.find(:all, :order => 'end_date')
 
     respond_to do |format|
       format.html # show.html.erb

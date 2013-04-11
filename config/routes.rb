@@ -1,10 +1,8 @@
 SENG403G1::Application.routes.draw do
+    match 'catalogue' => 'catalogue#index'
 
   resources :holds
-
-  match 'catalogue' => 'catalogue#index'
-
-
+  
   devise_for :users
 
   resources :rentals  do
@@ -16,6 +14,7 @@ SENG403G1::Application.routes.draw do
   resources :users do
       resources :holds, :only => [:new, :create]
   end
+  
   resources :authors
   
   match 'items/search' => 'items#search'
@@ -28,6 +27,12 @@ SENG403G1::Application.routes.draw do
   
   resources :physical_items do
     resources :rentals, :only => [:new, :create]
+  end
+  
+  resources :users do
+    resources :items do 
+        resources :holds, :only => [:new, :create]
+    end
   end
 
   # The priority is based upon order of creation:

@@ -27,10 +27,13 @@ class ItemsController < ApplicationController
 
   # GET /items/new
   # GET /items/new.json
-  def new
+  def new    
     if current_user.category > 0
         @item = Item.new
         @item.build_author
+        
+        @waitlist = Array.new
+        
 
         respond_to do |format|
             format.html # new.html.erb

@@ -50,10 +50,12 @@
           <td><%= link_to 'Edit', edit_item_physical_item_path(@item, c) %></td>
           <td><%= link_to 'Destroy', [@item, c], :confirm => 'Are you sure?', :method => :delete %></td>
           <td>
-            <% if c.rental.nil? %>
-              <%= link_to 'Rent', new_physical_item_rental_path(c) %>
-            <% else %>
+            <% if !c.rental.nil? %>
               <%= "Unavailable" %>
+            <% elsif !c.hold.nil? %>
+              <%= link_to 'On Hold', new_physical_item_rental_path(c)%>    
+            <% else %>
+              <%= link_to 'Rent', new_physical_item_rental_path(c) %>
             <% end %>
           </td>
       <% end %>
@@ -69,7 +71,7 @@
     <%= link_to 'Edit', edit_item_path(@item) %> |
 <% end %>
 <% if user_signed_in? %>
-    <%= link_to 'Place Hold', new_user_hold_path(current_user) %> |
+    <%= link_to 'Place Hold', new_user_item_hold_path(current_user, @item) %> |
 <% end %>
 <%= link_to 'Back', items_path %>
 
