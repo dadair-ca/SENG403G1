@@ -1,0 +1,55 @@
+<h1>Overdue Notice</h1>
+
+<% if @mailer.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@mailer.errors.count, "error") %> prohibited this mail from being sent:</h2>
+    <ul>
+    <% @mailer.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h3>Rental Details</h3>
+<table class="vertical-table">
+<tr>
+  <th>Patron Name:</th>
+  <td><%= @user.given_name %> <%= @user.surname %> (ID <%= @user.id %>)</td>
+</tr>
+<tr>
+  <th>Patron Email:</th>
+  <td><%= @user.email %></td>
+</tr>
+<tr>
+  <th>Item Title:</th>
+  <td><%= @item.title %></td>
+</tr>
+<tr>
+  <th>Item Author:</th>
+  <td><%= @item.author.given_name + " " + @item.author.surname %></td>
+</tr>
+<tr>
+  <th>Rent Date:</th>
+  <td><%= @rental.rent_date.strftime("%A, %B %d at %I:%M %p") %></td>
+</tr>
+<tr>
+  <th>Return Date:</th>
+  <td><%= @rental.return_date.strftime("%A, %B %d at %I:%M %p") %></td>
+</tr>
+</table>
+
+<%= form_for @mailer, :url => send_overdue_path do |f| %>
+  <h3>Message</h3>
+  <%= f.hidden_field :email, :value => @user.email %>
+  <strong><%= f.label :subject %></strong><br/>
+  <%= f.text_field :subject, :value => @mailer.subject %><br/>
+  <br/>
+  <strong><%= f.label :body %></strong><br/>
+  <%= f.text_area :body, :value => @mailer.body %><br/>
+  <br/>
+  <%= submit_tag "Send Overdue Notification" %>
+<% end %>
+
+<br/>
+<%= link_to "Back", rentals_path %>

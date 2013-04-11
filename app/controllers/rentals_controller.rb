@@ -4,7 +4,14 @@ class RentalsController < ApplicationController
   # GET /rentals.json
   def index
     #@rentals = Rental.all
-    @rentals = Rental.paginate(:page => params[:page], :per_page => 10)
+    if params[:sort].nil?
+      params[:sort]      = "return_date"
+      params[:direction] = "asc"
+    end
+    
+    @rentals = Rental
+                  .order(sort_column + ' ' + sort_direction)
+                  .paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -107,5 +114,10 @@ class RentalsController < ApplicationController
   def authenticate
     redirect_to(new_user_session_path) unless user_signed_in?
   end
-  
+
+private
+  def tableColumns
+    Rental.column_names
+  end
+
 end

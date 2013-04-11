@@ -1,14 +1,16 @@
 SENG403G1::Application.routes.draw do
+
     match 'catalogue' => 'catalogue#index'
 
   resources :holds
   
   devise_for :users
-
+  
+  post 'mailers/overdue_create' => 'mailers#overdue_create', :as => :send_overdue
+  post 'mailers/recall_create' => 'mailers#recall_create', :as => :send_recall
+  
   resources :rentals  do
-    resources :mailers, :only => [:new, :create], :path_names => { :new => 'overdue', :create => 'send' } do
-      post :create => "mailers#create", :as => :create, :path => :new, :on => :collection
-    end
+    get 'mailers/overdue' => 'mailers#overdue', :on => :member
   end
 
   resources :users do
@@ -17,12 +19,9 @@ SENG403G1::Application.routes.draw do
   
   resources :authors
   
-  match 'items/search' => 'items#search'
-  match 'items/advance' => 'items#adv_search'
-  match 'items/results' => 'items#results'
-  match 'items/advresults' => 'items#advresults'
   resources :items do
     resources :physical_items
+    get 'mailers/recall' => 'mailers#recall', :on => :member
   end
   
   resources :physical_items do

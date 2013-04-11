@@ -1,38 +1,96 @@
-<% if user_signed_in? and current_user.category > 0 %>    
-    <h1>Listing users</h1>
-    <table class="vertical-table">
-      <tr>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Category</th>
-        <th colspan="2">Action</th>
-      </tr>
+<div id="sbpage">
+  <div id="main"> 
+    <h1>Listing Users</h1>
+      <% if @users.empty? %>
+        <%= "The search term is invalid, please retype your query again." %>
+        <%= link_to "Back", :back %>
 
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= link_to user.id, user %></td>
-        <td><%= link_to user.given_name + ' ' + user.surname, user %></td>
-        <td><%= user.email %></td>
-        <td><%= user.category_as_string %></td>
-        <% if current_user.category == 2 %>
-          <td><%= link_to 'Edit', edit_user_path(user) %></td>
-          <td><%= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
-      <% else current_user.category == 1 %>
-        <% if user.category > 0 %>
-          <td><%= "Edit" %></td>
-          <td><%= "Destroy" %></td>
+      <% else %>
+        <ul>
+          <li>Showing <strong><%= @results %></strong> results</li>
+          <% if params[:search].present? %>
+            <li>
+              Searching <strong><%= params[:search].capitalize %></strong> in <%= params[:search_type] %> 
+              <%= link_to "(Remove)", users_path(params.except(:search).except(:search_type)) %>
+            </li>
+          <% end %>
+          <% if filter_type.present? %>
+            <li>
+              Filtering by <strong><%= params[:filter_kind].titleize %></strong> 
+              <%= link_to "(Remove)", users_path(params.except(:filter_kind).except(:filter_type)) %>
+            </li>
+          <% end %>
+          <% if sort_column.present? %>
+            <li>
+              Sorting by <strong><%= (sort_column == "given_name") ? "Name" : sort_column.capitalize %></strong>
+                in <%= (sort_direction == "asc") ? "ascending" : "descending" %> order 
+              <%= link_to "(Remove)", users_path(params.except(:sort).except(:direction)) %>
+            </li>
+          <% end %>
+        </ul>
+        <% if user_signed_in? and current_user.category > 0 %>
+          <table class="vertical-table">
+            <tr>
+              <th><%= sortable "id", "User ID" %></th>
+              <th><%= sortable "given_name", "Name" %></th>
+              <th><%= sortable "email" %></th>
+              <th>Category</th>
+              <th colspan="2">Action</th>
+            </tr>
+          <% @users.each do |user| %>
+         <tr>
+            <td><%= link_to user.id, user %></td>
+            <td><%= link_to user.given_name + ' ' + user.surname, user %></td>
+            <td><%= user.email %></td>
+            <td><%= user.category_as_string %></td>
+            <% if current_user.category == 2 %>
+              <td><%= link_to 'Edit', edit_user_path(user) %></td>
+              <td><%= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+          <% else current_user.category == 1 %>
+            <% if user.category > 0 %>
+              <td><%= "Edit" %></td>
+              <td><%= "Destroy" %></td>
+            <% else %>
+              <td><%= link_to 'Edit', edit_user_path(user) %></td>
+              <td><%= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+            <% end %>
+          <% end %>  
+          </tr>
+          <% end %>
+          </table>
+          <%= will_paginate @users %>          
+          <br />
+          <%= link_to "New User", new_user_path %>
         <% else %>
-          <td><%= link_to 'Edit', edit_user_path(user) %></td>
-          <td><%= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+          <p> You do not have permission to view this page. </p>
         <% end %>
-      <% end %>  
-      </tr>
-    <% end %>
-    </table>
-    <%= will_paginate @users %>
-    <br />
-    <%= link_to 'New User', new_user_path %>
-<% else %>
-    <p> You do not have permission to view this page. </p>
-<% end %>
+      </div>
+      <div id="sidebar">
+        <div class="wrap">
+          <h3>Search</h3>
+          <%= form_tag users_path, :method => "get" do %>
+            <%= hidden_field_tag :sort, sort_column %>
+            <%= hidden_field_tag :direction, sort_direction %>
+            
+            <%= search_field_tag :search, params[:search] %> <br/>
+            <%= select_tag :search_type, 
+                  options_for_select({"Search by Name"     => "name",
+                                      "Search by Email"    => "email",
+                                      "Search by User ID"  => "userid"}, :selected => params[:search_type]) %> <br/>
+            <%= submit_tag "Search", :name => nil %>
+            <div class="filters">
+              <% if params[:filter_type] != "category" %>
+              <strong>Filter by Category:</strong>
+              <ul>
+                <% @categories.each do |c| %>
+                  <li><%= filter("category", c.first, c.last) %></li>
+                <% end %>
+              </ul>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <div style="clear:both"></div>
+   <% end %>
+</div>

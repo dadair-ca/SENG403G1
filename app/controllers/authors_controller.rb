@@ -90,10 +90,6 @@ class AuthorsController < ApplicationController
     end
   end
   
-  def search
-   @author = Author.search params[:search]
-  end
-  
   def authenticate
     redirect_to(new_user_session_path) unless user_signed_in?
   end

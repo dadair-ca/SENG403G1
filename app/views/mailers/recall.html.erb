@@ -1,0 +1,54 @@
+<h1>Item Recall Notice</h1>
+
+<% if @mailer.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@mailer.errors.count, "error") %> prohibited this mail from being sent:</h2>
+    <ul>
+    <% @mailer.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h3>Item Details</h3>
+<table class="vertical-table">
+<tr>
+  <th>Item Title:</th>
+  <td><%= @item.title %></td>
+</tr>
+<tr>
+  <th>Item Author:</th>
+  <td><%= @item.author.given_name + " " + @item.author.surname %></td>
+</tr>
+<tr>
+  <th>Item Publisher:</th>
+  <td><%= @item.publisher %></td>
+</tr>
+</table>
+<br/>
+
+<% if @item.users.size > 0 %>
+  <table class="horizontal-table">
+    <tr><th>Affected Patron(s):</th></tr>
+  <% @item.users.uniq.each do |patron| %>
+    <tr><td><%= patron.given_name + " " + patron.surname %> (<%= patron.email %>)</td></tr>
+  <% end %>
+  </table>
+  <br/>
+<% end %>
+
+<%= form_for @mailer, :url => send_recall_path do |f| %>
+  <h3>Message</h3>
+  <%= hidden_field_tag :id, @item.id %>
+  <strong><%= f.label :subject %></strong><br/>
+  <%= f.text_field :subject, :value => @mailer.subject %><br/>
+  <br/>
+  <strong><%= f.label :body %></strong><br/>
+  <%= f.text_area :body, :value => @mailer.body %><br/>
+  <p><strong>Note:</strong> The symbol <i>%patronName%</i> will be replaced to the actual patron's name when sent.</p>
+  <%= submit_tag "Send Recall Notification" %>
+<% end %>
+
+<br/>
+<%= link_to "Back", rentals_path %>

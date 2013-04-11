@@ -69,9 +69,10 @@
 <% if user_signed_in? and current_user.category > 0 %>
     <%= link_to 'Add Copy', new_item_physical_item_path(@item) %> |
     <%= link_to 'Edit', edit_item_path(@item) %> |
+    <%= link_to 'Item Recall', mailers_recall_item_path(@item) %> |
 <% end %>
 <% if user_signed_in? %>
     <%= link_to 'Place Hold', new_user_item_hold_path(current_user, @item) %> |
 <% end %>
-<%= link_to 'Back', items_path %>
+<%= link_to 'Back', :back %>
 

@@ -7,6 +7,6 @@ module ApplicationHelper
   end
   
   def filter(type, name, count)
-    link_to name + " (" + count.to_s + ")", params.merge(:filter_type => type, :filter_kind => name)
+    link_to name + " (" + count.to_s + ")", params.merge(:filter_type => type, :filter_kind => name).except(:page)
   end
 end
