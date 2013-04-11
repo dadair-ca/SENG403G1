@@ -3,7 +3,7 @@
     <h1>Listing Users</h1>
       <% if @users.empty? %>
         <p>The search term "<%= params[:search] %>" is invalid, please retype again.</p>
-        <%= link_to "Back", :back %>
+        <%= link_to "Back", users_path %>
 
       <% else %>
         <ul>

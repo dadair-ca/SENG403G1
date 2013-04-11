@@ -9,9 +9,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   has_many :physical_items, :through => :rentals
   has_many :rentals
-  has_many :items, :through => :physical_items  
-  has_many :physical_items, :through => :holds
-  has_many :holds
+  has_many :items, :through => :physical_items
 
   validates_presence_of :given_name
   validates_presence_of :surname
@@ -142,28 +140,14 @@ class User < ActiveRecord::Base
     @patrons = User.find(:all)
     
 
-
-
-    # apply filters
-    if !filter_type.blank?
-      categoryAsString = filter_kind.gsub('+',' ')
-      @patrons = @patrons.where('category = ?', category_as_int(categoryAsString))
-    end
-
-    # apply sorting
-    if sort_col.present?
-      @patrons = @patrons.order(sort_col + ' ' + sort_dir)
-    end
     
     # apply search
-
     if(!s_input.nil?)
       
       u_input = s_input.to_s.downcase.strip
       u_input = u_input.gsub(/[^0-9A-Za-z ]/, '')
       u_input = u_input.split(' ').uniq
       u_input = u_input - $stopwords
-
       
       if(!u_input.blank?)
         result = Array.new
@@ -221,11 +205,6 @@ class User < ActiveRecord::Base
             
         return @patrons
       end
-      
-      sort_result = Hash[result.map{|key, value| [key, value]}]
-      sort_result = sort_result.sort_by{|k,v| [v[:dlv], v[:lowestdl], v[:letPos], v[:worPos], v[:occur], k[:given_name], k[:surname]]}
-      sort_result = sort_result.map{|k,v| k}
-      return sort_result
     end
     
     if @patrons.nil?
@@ -237,4 +216,7 @@ class User < ActiveRecord::Base
   end
   
 end
+
+
+
 

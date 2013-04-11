@@ -4,7 +4,7 @@
     <% if @items.empty? %>
       <p>The search term "<%= params[:search] %>" is invalid, please retype again.</p>
       <% if user_signed_in? and current_user.category > 0 %>
-        <p> <%= link_to "Back", :back %> </p>
+        <p> <%= link_to "Back", catalogue_path %> </p>
       <% end %>
     <% else %>
         <ul>
