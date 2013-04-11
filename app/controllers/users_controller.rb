@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     
     @results = @users.size
 
-    @users = @users.paginate(:page => params[:page], :per_page => 10)
+    @users = @users.paginate(:page => params[:page], :per_page => params[:per_page])
 
     respond_to do |format|
       format.html # index.html.erb
