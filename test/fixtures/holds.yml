@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  barcode_id: 1
+  start_date: 2013-04-02
+  end_date: 2013-04-02
+
+two:
+  user_id: 1
+  barcode_id: 1
+  start_date: 2013-04-02
+  end_date: 2013-04-02

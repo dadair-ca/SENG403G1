@@ -5,7 +5,6 @@ class Rental < ActiveRecord::Base
   belongs_to :user, :foreign_key => :user_id
   belongs_to :physical_item, :foreign_key => :barcode_id, :primary_key => :barcode_id
 
-  has_one :item, :through => :physical_item
 
   validates_presence_of :user_id
   validates_presence_of :barcode_id

@@ -23,7 +23,8 @@
 		<% if request.path_parameters[:controller] != "home" %>
 		<div class="header-right">
       <% if user_signed_in? %>
-        Welcome <strong><%= current_user.given_name %> <%= current_user.surname %></strong> |
+
+        Welcome <strong><%= link_to current_user.given_name+' '+current_user.surname, user_path(current_user) %></strong> | 
         <% if current_user.category > 0 %>
           <%= link_to "Account Management", users_manage_path %> |
         <% end %>

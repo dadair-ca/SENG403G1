@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  
+  before_filter :check_holds
+
   helper_method :hasSidebar, :sort_column, :sort_direction, :filter_type
 
   def hasSidebar
@@ -18,4 +21,18 @@ class ApplicationController < ActionController::Base
   def filter_type
     tableColumns.include?(params[:filter_type]) ? params[:filter_type] : nil
   end
+  
+  private
+ 
+  def check_holds
+    @holds = Hold.all
+    @holds.each do |hold|
+        if hold.end_date < Date.today
+            hold.destroy
+            redirect_to(holds_path)
+        end    
+    end
+  end  
+  
 end
+

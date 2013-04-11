@@ -36,7 +36,7 @@ class RentalsController < ApplicationController
     @rental = Rental.new
     @rental.renewals = 5
     
-    if !params[:physical_item_id].nil?
+    if !params[:physical_item_id].nil?    
       @physical_item = PhysicalItem.find(params[:physical_item_id])
       @rental.barcode_id = @physical_item.barcode_id
     end
@@ -44,6 +44,14 @@ class RentalsController < ApplicationController
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @rental }
+    end
+    
+    if !params[:physical_item_id].nil?    
+      @physical_item = PhysicalItem.find(params[:physical_item_id])
+      
+      if !@physical_item.hold.nil?
+        @physical_item.hold.destroy
+      end
     end
   end
 

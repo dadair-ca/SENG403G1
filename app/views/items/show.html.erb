@@ -10,7 +10,7 @@
   </tr>
   <tr>
     <th>Author</th>
-    <td><%= link_to @author.given_name + ' ' + @author.surname, @author %></td>
+    <td><%= link_to @author.given_name+' '+@author.surname, @author %></td>
   </tr>
   <tr>
     <th>Year</th>
@@ -39,22 +39,23 @@
   <table class="vertical-table">
     <tr>
       <th>Barcode</th>
-     <% if user_signed_in? %>
+     <% if user_signed_in? and current_user.category > 0 %>
         <th colspan="3">Action</th>
      <% end %>
     </tr>
   <% @copies.each do |c| %>
     <tr>
       <td><%= c.barcode_id %></td>
-
-      <% if user_signed_in? %>
+      <% if user_signed_in? and current_user.category > 0 %>
           <td><%= link_to 'Edit', edit_item_physical_item_path(@item, c) %></td>
           <td><%= link_to 'Destroy', [@item, c], :confirm => 'Are you sure?', :method => :delete %></td>
           <td>
-            <% if c.rental.nil? %>
-              <%= link_to 'Rent', new_physical_item_rental_path(c) %>
-            <% else %>
+            <% if !c.rental.nil? %>
               <%= "Unavailable" %>
+            <% elsif !c.hold.nil? %>
+              <%= link_to 'On Hold', new_physical_item_rental_path(c)%>    
+            <% else %>
+              <%= link_to 'Rent', new_physical_item_rental_path(c) %>
             <% end %>
           </td>
       <% end %>
@@ -69,5 +70,9 @@
     <%= link_to 'Add Copy', new_item_physical_item_path(@item) %> |
     <%= link_to 'Edit', edit_item_path(@item) %> |
     <%= link_to 'Item Recall', mailers_recall_item_path(@item) %> |
-    <%= link_to 'Back', :back %>
 <% end %>
+<% if user_signed_in? %>
+    <%= link_to 'Place Hold', new_user_item_hold_path(current_user, @item) %> |
+<% end %>
+<%= link_to 'Back', :back %>
+

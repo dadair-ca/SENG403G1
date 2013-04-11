@@ -1,0 +1,41 @@
+<%= form_for(@hold) do |f| %>
+  <% if @hold.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hold.errors.count, "error") %> prohibited this hold from being saved:</h2>
+
+      <ul>
+      <% @hold.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    	<table class="vertical-form">
+  	<tr>
+    		<th><%= f.label :user_id %></th>
+    		<td><%= f.number_field :user_id, { :value => @hold.user_id } %></td>
+	</tr>
+	<tr>
+	    	<th><%= f.label :barcode_id %></th>
+    		<td><%= f.number_field :barcode_id, { :value => @hold.barcode_id, :readonly => true } %></td>
+	</tr>
+	<tr>
+    		<th><%= f.label :start_date %></th>
+		<td><%= f.text_field :start_date, { :value => @hold.start_date.strftime('%A, %d %B %Y'), :readonly => true } %></td>
+	</tr>
+	<tr>
+    		<th><%= f.label :end_date %></th>
+    		<% if current_user.category > 0 %>
+    		    <td><%= f.text_field :end_date, { :value => @hold.end_date.strftime('%A, %d %B %Y') } %></td>  
+    		<% else %>
+    		    <td><%= f.text_field :end_date, { :value => @hold.end_date.strftime('%A, %d %B %Y'), :readonly => true } %></td> 
+    		<% end %>    
+  	</tr>
+  	</table>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

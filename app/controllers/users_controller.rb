@@ -30,6 +30,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @rentals = @user.rentals.find(:all, :order => 'return_date')
+    @holds = @user.holds.find(:all, :order => 'end_date')
 
     respond_to do |format|
       format.html # show.html.erb
@@ -40,7 +41,7 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
-    if current_user.category > 1
+    if current_user.category > 0
         @user = User.new
 
         respond_to do |format|
@@ -54,8 +55,14 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    if current_user.category > 1
-        @user = User.find(params[:id])
+    if current_user.category > 0
+        if current_user.category == 1 and current_user.category > User.find(params[:id]).category
+            @user = User.find(params[:id])
+        elsif current_user.category == 2
+            @user = User.find(params[:id])
+        else
+            redirect_to(users_path)
+        end
     else
         redirect_to(users_path)
     end

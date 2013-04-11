@@ -1,17 +1,26 @@
 SENG403G1::Application.routes.draw do
-	get 'catalogue' => 'catalogue#index'
 
+    match 'catalogue' => 'catalogue#index'
+
+  resources :holds
+  
   devise_for :users
   
   post 'mailers/overdue_create' => 'mailers#overdue_create', :as => :send_overdue
   post 'mailers/recall_create' => 'mailers#recall_create', :as => :send_recall
+  post 'mailers/holdNotice_create' => 'mailers#holdNotice_create', :as => :send_holdNotice
   
   resources :rentals  do
     get 'mailers/overdue' => 'mailers#overdue', :on => :member
   end
 
+
   match 'users/manage' => 'users#manage'
-  resources :users
+  
+  resources :users do
+      resources :holds, :only => [:new, :create]
+  end
+
   resources :authors
   
   resources :items do
@@ -21,6 +30,12 @@ SENG403G1::Application.routes.draw do
   
   resources :physical_items do
     resources :rentals, :only => [:new, :create]
+  end
+  
+  resources :users do
+    resources :items do 
+        resources :holds, :only => [:new, :create] 
+    end
   end
 
   # The priority is based upon order of creation:

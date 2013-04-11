@@ -1,9 +1,10 @@
 <div id="sbpage">
-  <div id="main">
+  <div id="main"> 
     <h1>Listing Users</h1>
       <% if @users.empty? %>
         <%= "The search term is invalid, please retype your query again." %>
         <%= link_to "Back", :back %>
+
       <% else %>
         <ul>
           <li>Showing <strong><%= @results %></strong> results</li>
@@ -27,7 +28,7 @@
             </li>
           <% end %>
         </ul>
-        <% if user_signed_in? and current_user.category > 1 %>
+        <% if user_signed_in? and current_user.category > 0 %>
           <table class="vertical-table">
             <tr>
               <th><%= sortable "id", "User ID" %></th>
@@ -37,14 +38,24 @@
               <th colspan="2">Action</th>
             </tr>
           <% @users.each do |user| %>
-            <tr>
-              <td><%= link_to user.id, user %></td>
-              <td><%= link_to user.given_name + " " + user.surname, user %></td>
-              <td><%= user.email %></td>
-              <td><%= user.category_as_string %></td>
-              <td><%= link_to "Edit", edit_user_path(user) %></td>
-              <td><%= link_to "Destroy", user, :method => :delete, :data => { :confirm => "Are you sure?" } %></td>
-            </tr>
+         <tr>
+            <td><%= link_to user.id, user %></td>
+            <td><%= link_to user.given_name + ' ' + user.surname, user %></td>
+            <td><%= user.email %></td>
+            <td><%= user.category_as_string %></td>
+            <% if current_user.category == 2 %>
+              <td><%= link_to 'Edit', edit_user_path(user) %></td>
+              <td><%= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+          <% else current_user.category == 1 %>
+            <% if user.category > 0 %>
+              <td><%= "Edit" %></td>
+              <td><%= "Destroy" %></td>
+            <% else %>
+              <td><%= link_to 'Edit', edit_user_path(user) %></td>
+              <td><%= link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
+            <% end %>
+          <% end %>  
+          </tr>
           <% end %>
           </table>
           <%= will_paginate @users %>          

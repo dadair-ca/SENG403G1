@@ -6,4 +6,14 @@ class UserMailer < ActionMailer::Base
     mail(:to => @mail.email, :subject => @mail.subject)
   end
 
+
+  def holdNotice_email(hold)
+    @hold = hold
+    @user   = @hold.user
+    @item   = @hold.item
+    
+    mail( :to => "sydney.pratte@hotmail.com", :subject => "[WebLib] Hold Notice")
+
+  end
+
 end
