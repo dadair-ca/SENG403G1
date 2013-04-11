@@ -1,3 +1,4 @@
+
 <% if user_signed_in? and current_user.category > 0 %>    
     <p id="notice"><%= notice %></p>
 
@@ -29,8 +30,8 @@
 
     <%= link_to 'Edit', edit_rental_path(@rental) %> |
     <%= link_to 'Back', rentals_path %>
-<% else %>
-    <p> You do not have permission to view this page. </p>
 
+<% else %>
+  <p> You do not have permission to view this page. </p>
 <% end %>
 

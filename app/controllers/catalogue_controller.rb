@@ -34,7 +34,7 @@ class CatalogueController < ApplicationController
 
     @results = @items.size
     
-    @items = @items.paginate(:per_page => 10, :page => params[:page])
+    @items = @items.paginate(:per_page => params[:per_page], :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -11,7 +11,7 @@
           <li>Showing <strong><%= @results %></strong> results</li>
           <% if params[:search].present? %>
             <li>
-              Searching <strong><%= params[:search].capitalize %></strong> in <%= params[:search_type] %> 
+              Searching for "<strong><%= params[:search] %></strong>" in <%= params[:search_type] %> 
               <%= link_to "(Remove)", catalogue_path(params.except(:search).except(:search_type)) %>
             </li>
           <% end %>
@@ -71,6 +71,12 @@
                                     "Search Year"      => "year",
                                     "Search ISBN 13"   => "isbn13",
                                     "Search ISBN 10"   => "isbn10"}, :selected => params[:search_type] ) %> <br/>
+          <%= select_tag :per_page, 
+                options_for_select({"5 Results Per Page"     => 5,
+                                    "10 Results Per Page" => 10,
+                                    "25 Results Per Page" => 25,
+                                    "50 Results Per Page" => 50,
+                                    "100 Results Per Page"   => 100}, :per_page => params[:per_page] ) %> <br/>
           <%= submit_tag "Search", :name => nil %> <br/>
           <div class="filters">
             <% if !params[:filter_type].present? %>
