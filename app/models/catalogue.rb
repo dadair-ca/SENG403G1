@@ -88,6 +88,7 @@ class Catalogue < ActiveRecord::Base
         tempHash <<[:occur, occurrence]
       end
 
+
       firstWPos = -1
       lowestdl = -1
       letterPos = -1
@@ -101,6 +102,7 @@ class Catalogue < ActiveRecord::Base
     newHash = Hash[tempHash.map{|key, value| [key, value]}]
     
     return newHash
+
     
   end
 

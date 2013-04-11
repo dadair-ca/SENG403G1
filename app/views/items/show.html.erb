@@ -68,6 +68,6 @@
 <% if user_signed_in? and current_user.category > 0 %>
     <%= link_to 'Add Copy', new_item_physical_item_path(@item) %> |
     <%= link_to 'Edit', edit_item_path(@item) %> |
+    <%= link_to 'Item Recall', mailers_recall_item_path(@item) %> |
     <%= link_to 'Back', :back %>
 <% end %>
-

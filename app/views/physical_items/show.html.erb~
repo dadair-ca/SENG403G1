@@ -1,7 +1,0 @@
-<p id="notice"><%= notice %></p>
-<p><%= @copy.barcode_id %></p>
-
-<%= link_to 'Edit', edit_item_physical_item_path(@item, @copy) %> |
-<%= link_to 'Back', @item %>
-<%= link_to 'Rent', @rental %>
-

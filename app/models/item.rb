@@ -3,6 +3,8 @@ class Item < ActiveRecord::Base
   before_save :replace_existing_author!
 
   has_many :physical_items, :dependent => :destroy
+  has_many :rentals, :through => :physical_items
+  has_many :users, :through => :rentals
   belongs_to :author
   
   attr_accessible :title, :author_attributes, :year, :genre, :publisher, :isbn13, :isbn10

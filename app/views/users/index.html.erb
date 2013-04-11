@@ -3,15 +3,41 @@
     <h1>Listing Users</h1>
       <% if @users.empty? %>
         <%= "The search term is invalid, please retype your query again." %>
+<<<<<<< HEAD
         <%= link_to 'Back', users_path %>
+=======
+        <%= link_to "Back", :back %>
+>>>>>>> 48ff8b8c032fa78374af6bb9b200db7098b9cb82
       <% else %>
+        <ul>
+          <li>Showing <strong><%= @results %></strong> results</li>
+          <% if params[:search].present? %>
+            <li>
+              Searching <strong><%= params[:search].capitalize %></strong> in <%= params[:search_type] %> 
+              <%= link_to "(Remove)", users_path(params.except(:search).except(:search_type)) %>
+            </li>
+          <% end %>
+          <% if filter_type.present? %>
+            <li>
+              Filtering by <strong><%= params[:filter_kind].titleize %></strong> 
+              <%= link_to "(Remove)", users_path(params.except(:filter_kind).except(:filter_type)) %>
+            </li>
+          <% end %>
+          <% if sort_column.present? %>
+            <li>
+              Sorting by <strong><%= (sort_column == "given_name") ? "Name" : sort_column.capitalize %></strong>
+                in <%= (sort_direction == "asc") ? "ascending" : "descending" %> order 
+              <%= link_to "(Remove)", users_path(params.except(:sort).except(:direction)) %>
+            </li>
+          <% end %>
+        </ul>
         <% if user_signed_in? and current_user.category > 1 %>
           <table class="vertical-table">
             <tr>
               <th><%= sortable "id", "User ID" %></th>
               <th><%= sortable "given_name", "Name" %></th>
               <th><%= sortable "email" %></th>
-              <th><%= sortable "category_as_string", "Category" %></th>
+              <th>Category</th>
               <th colspan="2">Action</th>
             </tr>
           <% @users.each do |user| %>
@@ -25,7 +51,7 @@
             </tr>
           <% end %>
           </table>
-          
+          <%= will_paginate @users %>          
           <br />
           <%= link_to "New User", new_user_path %>
         <% else %>
