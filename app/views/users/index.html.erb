@@ -3,13 +3,13 @@
     <h1>Listing Users</h1>
       <% if @users.empty? %>
         <%= "The search term is invalid, please retype your query again." %>
-        <%= link_to "Back", users_path %>
+        <%= link_to "Back", :back %>
       <% else %>
         <ul>
           <li>Showing <strong><%= @results %></strong> results</li>
           <% if params[:search].present? %>
             <li>
-              Searching <strong><%= params[:search].capitalize %></strong> in <%= params[:search_type] %> 
+              Searching for "<strong><%= params[:search] %></strong>" in <%= params[:search_type] %> 
               <%= link_to "(Remove)", users_path(params.except(:search).except(:search_type)) %>
             </li>
           <% end %>

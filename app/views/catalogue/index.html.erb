@@ -11,7 +11,7 @@
           <li>Showing <strong><%= @results %></strong> results</li>
           <% if params[:search].present? %>
             <li>
-              Searching <strong><%= params[:search].capitalize %></strong> in <%= params[:search_type] %> 
+              Searching for "<strong><%= params[:search] %></strong>" in <%= params[:search_type] %> 
               <%= link_to "(Remove)", catalogue_path(params.except(:search).except(:search_type)) %>
             </li>
           <% end %>

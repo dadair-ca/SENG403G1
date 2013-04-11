@@ -23,7 +23,6 @@
       </tr>
     </table>
 
-
     <h1>Rentals</h1>
     <table class="vertical-table">
       <tr>
@@ -43,12 +42,11 @@
         <td><%= rental.return_date %></td>
         <td><%= rental.rent_date %></td>
         <td><%= link_to 'Renew', edit_rental_path(rental) %></td>
-        <td><%= link_to 'Send Overdue Notification', new_rental_mailer_path(rental) %></td>
+        <td><%= link_to 'Send Overdue Notification', mailers_overdue_rental_path(rental) %></td>
         <td><%= link_to 'Return', rental, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
       </tr>
     <% end %>
     </table>
-
 
     <br/>
 
@@ -56,6 +54,4 @@
     <%= link_to 'Back', :back %>
 <% else %>
     <p> You do not have permission to view this page. </p>
-
 <% end %>
-
