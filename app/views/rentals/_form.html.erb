@@ -17,13 +17,19 @@
     		<th><%= f.label :user_id %></th>
     		<% if !@rental.physical_item.hold.nil? %>
     		    <td><%= f.number_field :user_id, { :value => @rental.physical_item.hold.user_id, :readonly => true } %></td>
-    		<% else %>
+    		<% elsif current_user.category > 0 %>
     		    <td><%= f.number_field :user_id %></td>
+    		<% else %>    
+    		    <td><%= f.number_field :user_id, { :readonly => true } %></td>    		
     		<% end %>    
 	</tr>
 	<tr>
 	    	<th><%= f.label :barcode_id %></th>
-    		<td><%= f.number_field :barcode_id, { :value => @rental.barcode_id } %></td>
+	    	<% if current_user.category > 0 %>
+    		    <td><%= f.number_field :barcode_id, { :value => @rental.barcode_id } %></td>
+    		<% else %>
+    		    <td><%= f.number_field :barcode_id, { :value => @rental.barcode_id, :readonly => true } %></td>    		
+    		<% end %>    
 	</tr>
 	<tr>
     		<th><%= f.label :renewals %></th>
@@ -31,11 +37,19 @@
 	</tr>
 	<tr>
     		<th><%= f.label :return_date %></th>
-		<td><%= f.date_select :return_date %></td>
+    		<% if current_user.category > 0 %>
+		    <td><%= f.text_field :return_date, { :value => @rental.return_date.strftime('%A, %d %B %Y') } %></td>
+		<% else %>
+		    <td><%= f.text_field :return_date, { :value => @rental.return_date.strftime('%A, %d %B %Y'), :readonly => true } %></td>
+		<% end %>		    
 	</tr>
 	<tr>
     		<th><%= f.label :rent_date %></th>
-    		<td><%= f.date_select :rent_date %></td>  
+    		<% if current_user.category > 0 %>
+		    <td><%= f.text_field :rent_date, { :value => @rental.rent_date.strftime('%A, %d %B %Y')} %></td>
+		<% else %>
+		    <td><%= f.text_field :rent_date, { :value => @rental.rent_date.strftime('%A, %d %B %Y'), :readonly => true } %></td>
+		<% end %>	 
   	</tr>
   	</table>
   </div>

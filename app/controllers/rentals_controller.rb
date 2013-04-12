@@ -35,6 +35,11 @@ class RentalsController < ApplicationController
   def new
     @rental = Rental.new
     @rental.renewals = 5
+
+    time = Time.now
+    @rental.rent_date = time
+    time = time + 14.days
+    @rental.return_date = time
     
     if !params[:physical_item_id].nil?    
       @physical_item = PhysicalItem.find(params[:physical_item_id])
@@ -57,12 +62,11 @@ class RentalsController < ApplicationController
 
   # GET /rentals/1/edit
   def edit
-    if current_user.category > 0
-        @rental = Rental.find(params[:id])
-        @rental.renewals = @rental.renewals - 1
-    else
-        redirect_to(rentals_path)
-    end
+    @rental = Rental.find(params[:id])
+    @rental.renewals = @rental.renewals - 1
+    time = @rental.return_date
+    time = time + 14.days
+    @rental.return_date = time
   end
 
   # POST /rentals

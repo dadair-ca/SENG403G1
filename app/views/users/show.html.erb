@@ -52,7 +52,13 @@
             <td><%= link_to 'Send Overdue Notification', mailers_overdue_rental_path(rental) %></td>
             <td><%= link_to 'Return', rental, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
         <% else %>
-            <td><%= link_to 'Renew', edit_rental_path(rental) %></td>
+            <td>
+              <% if rental.renewals > 0 %>
+                <%= link_to 'Renew', edit_rental_path(rental) %>
+              <% else %>
+                <%= "At Renew Limit"%>
+              <% end %>            
+            </td>
         <% end %>  
       </tr>
     <% end %>

@@ -1,37 +1,34 @@
 
-<% if user_signed_in? and current_user.category > 0 %>    
-    <p id="notice"><%= notice %></p>
+    
+<p id="notice"><%= notice %></p>
 
-    <p>
-      <b>User:</b>
-      <%= link_to @rental.user_id, user_path(@rental.user_id) %>
-    </p>
+<p>
+  <b>User:</b>
+  <%= link_to @rental.user_id, user_path(@rental.user_id) %>
+</p>
 
-    <p>
-      <b>Barcode:</b>
-      <%= @rental.barcode_id %>
-    </p>
+<p>
+  <b>Barcode:</b>
+  <%= @rental.barcode_id %>
+</p>
 
-    <p>
-      <b>Renewals:</b>
-      <%= @rental.renewals %>
-    </p>
+<p>
+  <b>Renewals:</b>
+  <%= @rental.renewals %>
+</p>
 
-    <p>
-      <b>Return date:</b>
-      <%= @rental.return_date %>
-    </p>
+<p>
+  <b>Return date:</b>
+  <%= @rental.return_date %>
+</p>
 
-    <p>
-      <b>Rent date:</b>
-      <%= @rental.rent_date %>
-    </p>
+<p>
+  <b>Rent date:</b>
+  <%= @rental.rent_date %>
+</p>
 
-
+<% if user_signed_in? and current_user.category > 0 %>
     <%= link_to 'Edit', edit_rental_path(@rental) %> |
+<% end %>    
     <%= link_to 'Back', rentals_path %>
-
-<% else %>
-  <p> You do not have permission to view this page. </p>
-<% end %>
 
