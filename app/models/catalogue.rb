@@ -235,7 +235,7 @@ class Catalogue < ActiveRecord::Base
         sort_result = sort_result.map{|k,v| k}
         
         @books = sort_result
-
+        
         return @books
         
       else
