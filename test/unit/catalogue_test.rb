@@ -2,6 +2,9 @@ require 'test_helper'
 
 class CatalogueTest < ActiveSupport::TestCase
   def setup
+    Item.delete_all
+    Author.delete_all
+  
     @author1 = Author.create(:given_name => "J.R.R.", :surname => "Tolkien")
     @author2 = Author.create(:given_name => "Alberta", :surname => "Rosario")
     @author3 = Author.create(:given_name => "John", :surname => "Dude")
@@ -28,7 +31,6 @@ class CatalogueTest < ActiveSupport::TestCase
     @items = Catalogue.search(@params)
     
     assert (@items.include? @book1)
-    
   end
   
   test "should find a specific item when searching by genre" do
@@ -58,7 +60,6 @@ class CatalogueTest < ActiveSupport::TestCase
 
     @items = Catalogue.search(@params)
     
-    
     assert !(@items.include? @book3)
     assert (@items.include? @book2)
     assert (@items.include? @book1)
@@ -71,7 +72,6 @@ class CatalogueTest < ActiveSupport::TestCase
 
     @items = Catalogue.search(@params)
     
-    
     assert !(@items.include? @book3)
     assert (@items.include? @book2)
     assert (@items.include? @book1)
@@ -83,7 +83,6 @@ class CatalogueTest < ActiveSupport::TestCase
     @params[:search_type] = "isbn13"
 
     @items = Catalogue.search(@params)
-    
     
     assert !(@items.include? @book3)
     assert (@items.include? @book2)
