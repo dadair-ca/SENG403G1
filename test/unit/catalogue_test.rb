@@ -66,18 +66,6 @@ class CatalogueTest < ActiveSupport::TestCase
    
   end
   
-  test "should find a specific item when searching by author" do
-    @params[:search] = "J.R.R."
-    @params[:search_type] = "author"
-
-    @items = Catalogue.search(@params)
-    
-    assert !(@items.include? @book3)
-    assert (@items.include? @book2)
-    assert (@items.include? @book1)
-   
-  end
-  
   test "should find a specific item when searching by isbn13" do
     @params[:search] = 0000
     @params[:search_type] = "isbn13"
