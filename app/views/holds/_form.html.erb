@@ -19,7 +19,11 @@
 	</tr>
 	<tr>
 	    	<th><%= f.label :barcode_id %></th>
-    		<td><%= f.number_field :barcode_id, { :value => @hold.barcode_id, :readonly => true } %></td>
+    		<% if current_user.category > 0 %>
+    		    <td><%= f.number_field :barcode_id %></td>  
+    		<% else %>
+    		    <td><%= f.number_field :barcode_id, { :value => @hold.barcode_id, :readonly => true } %></td> 
+    		<% end %>
 	</tr>
 	<tr>
     		<th><%= f.label :start_date %></th>
