@@ -15,12 +15,12 @@ class CatalogueController < ApplicationController
                   :filter   => filter_type }))
                   
 		@authors    = Hash.new(0)
-    @genres     = Hash.new(0)
+        @genres     = Hash.new(0)
 		@years      = Hash.new(0)
 		@publishers = Hash.new(0)
     
     @items.each do |i|
-			authorname = i.author.given_name + ' ' + i.author.surname
+	  authorname = i.author.given_name + ' ' + i.author.surname
       @authors[authorname]     += 1
       @genres[i.genre]         += 1
       @years[i.year]           += 1

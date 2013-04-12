@@ -11,7 +11,7 @@ class Hold < ActiveRecord::Base
   validates_presence_of :start_date
   validates_presence_of :end_date
 
-  validates_uniqueness_of :barcode_id, :message => nil
+  validates_uniqueness_of :barcode_id
   
   validate :validate_user_id
 
