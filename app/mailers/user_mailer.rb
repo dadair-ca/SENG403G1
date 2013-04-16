@@ -9,7 +9,7 @@ class UserMailer < ActionMailer::Base
   def holdNotice_email(hold)
     @hold = hold
     @user = @hold.user
-    @item = @hold.item
+    @item = @hold.physical_item
     
     mail(:to => @user.email, :subject => "[WebLib] Hold Notice")
   end

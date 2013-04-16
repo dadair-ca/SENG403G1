@@ -14,11 +14,18 @@ class Hold < ActiveRecord::Base
   validates_uniqueness_of :barcode_id
   
   validate :validate_user_id
+  validate :validate_barcode_id
 
 private
   def validate_user_id
     if !User.exists?(self.user_id)
       errors.add(:user_id, "ID does not exist")
+    end
+  end
+
+  def validate_barcode_id
+    if !PhysicalItem.exists?(:barcode_id => self.barcode_id)
+      errors.add(:barcode_id, "No barcode avaliable for this item.")
     end
   end
 

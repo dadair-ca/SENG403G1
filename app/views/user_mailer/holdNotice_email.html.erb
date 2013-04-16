@@ -8,19 +8,19 @@
     <table class="vertical-table">
     <tr>
       <th>Patron Name:</th>
-      <td><%= @user.given_name %> <%= @user.surname %> (ID <%= @user.id %>)</td>
+      <td><%= @hold.user.given_name %> <%= @hold.user.surname %> (ID <%= @hold.user.id %>)</td>
     </tr>
     <tr>
       <th>Patron Email:</th>
-      <td><%= @user.email %></td>
+      <td><%= @hold.user.email %></td>
     </tr>
     <tr>
       <th>Item Title:</th>
-      <td><%= @item.title %></td>
+      <td><%= @hold.physical_item.item.title %></td>
     </tr>
     <tr>
       <th>Item Author:</th>
-      <td><%= @item.author.given_name + " " + @item.author.surname %></td>
+      <td><%= @hold.physical_item.item.author.given_name + " " + @hold.physical_item.item.author.surname %></td>
     </tr>
     <tr>
       <th>Start Hold Date:</th>
@@ -33,8 +33,8 @@
     </table>  
   
     <h2>WebLib</h2>
-    <p>Hi <%= @user.given_name %> <%= @user.surname %>,</p>
-    <p>The item <strong><%= @item.title %></strong> by <%= @item.author.given_name + ' ' + @item.author.surname %> is now on hold for 48 hours. Please pick up your item for rental by <%= @hold.end_date.strftime('%A, %B %d') %>.</p>
+    <p>Hi <%= @hold.user.given_name %> <%= @hold.user.surname %>,</p>
+    <p>The item <strong><%= @hold.physical_item.item.title %></strong> by <%= @hold.physical_item.item.author.given_name + ' ' + @hold.physical_item.item.author.surname %> is now on hold for 48 hours. Please pick up your item for rental by <%= @hold.end_date.strftime('%A, %B %d') %>.</p>
     <p>Thanks for using WebLib!</p>
   </body>
 </html>

@@ -72,7 +72,6 @@ class HoldsController < ApplicationController
   def create
     @hold = Hold.new(params[:hold])
     @user = @hold.user
-    @item = @hold.item
 
     respond_to do |format|
       if @hold.save

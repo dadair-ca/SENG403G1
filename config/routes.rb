@@ -8,7 +8,7 @@ SENG403G1::Application.routes.draw do
   
   post 'mailers/overdue_create' => 'mailers#overdue_create', :as => :send_overdue
   post 'mailers/recall_create' => 'mailers#recall_create', :as => :send_recall
-  post 'mailers/holdNotice_create' => 'mailers#holdNotice_create', :as => :send_holdNotice
+
   
   resources :rentals  do
     get 'mailers/overdue' => 'mailers#overdue', :on => :member
