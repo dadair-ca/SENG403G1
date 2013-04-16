@@ -15,12 +15,18 @@
   	<table class="vertical-form">
   	<tr>
     		<th><%= f.label :user_id %></th>
-    		<% if !@rental.physical_item.hold.nil? %>
-    		    <td><%= f.number_field :user_id, { :value => @rental.physical_item.hold.user_id, :readonly => true } %></td>
-    		<% elsif current_user.category > 0 %>
-    		    <td><%= f.number_field :user_id %></td>
+    		<% if current_user.category > 0 %>
+    		    <% if !@rental.physical_item.nil? and !@rental.physical_item.hold.nil?%>
+    		        <td><%= f.number_field :user_id, { :value => @rental.physical_item.hold.user_id } %></td>
+    		    <% else %>
+    		        <td><%= f.number_field :user_id %></td>
+    		    <% end %>    
     		<% else %>    
-    		    <td><%= f.number_field :user_id, { :readonly => true } %></td>    		
+    		    <% if !@rental.physical_item.nil? and !@rental.physical_item.hold.nil?%>
+    		        <td><%= f.number_field :user_id, { :value => @rental.physical_item.hold.user_id, :readonly => true } %></td>
+    		    <% else %>
+    		        <td><%= f.number_field :user_id, { :readonly => true } %></td> 
+    		    <% end %>       		
     		<% end %>    
 	</tr>
 	<tr>

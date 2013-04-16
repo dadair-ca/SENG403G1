@@ -28,5 +28,10 @@ private
     if !PhysicalItem.exists?(:barcode_id => self.barcode_id)
       errors.add(:barcode_id, "ID does not exist")
     end
+    if Hold.exists?(:barcode_id => self.barcode_id)
+      if !Hold.exists?(:barcode_id => self.barcode_id, :user_id => self.user_id)  
+        errors.add(:barcode_id, "ID is on currently hold and can only be rented to user with ID #{self.physical_item.hold.user_id}.")
+      end  
+    end    
   end
 end

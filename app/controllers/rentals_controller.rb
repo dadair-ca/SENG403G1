@@ -43,7 +43,7 @@ class RentalsController < ApplicationController
     
     if !params[:physical_item_id].nil?    
       @physical_item = PhysicalItem.find(params[:physical_item_id])
-      @rental.barcode_id = @physical_item.barcode_id
+      @rental.barcode_id = @physical_item.barcode_id  
     end
     
     respond_to do |format|
@@ -52,8 +52,7 @@ class RentalsController < ApplicationController
     end
     
     if !params[:physical_item_id].nil?    
-      @physical_item = PhysicalItem.find(params[:physical_item_id])
-      
+      @physical_item = PhysicalItem.find(params[:physical_item_id])      
       if !@physical_item.hold.nil?
         @physical_item.hold.destroy
       end
@@ -75,12 +74,18 @@ class RentalsController < ApplicationController
     @rental = Rental.new(params[:rental])
     
     respond_to do |format|
-      if @rental.save
-        format.html { redirect_to @rental, :notice => 'Rental was successfully created.' }
-        format.json { render :json => @rental, :status => :created, :location => @rental }
+      if @rental.save 
+        if !@rental.physical_item.hold.nil? and @rental.physical_item.hold.user_id == @rental.user_id
+          @rental.physical_item.hold.destroy  
+          format.html { redirect_to @rental, :notice => 'Rental was successfully created and hold was removed.' }
+          format.json { render :json => @rental, :status => :created, :location => @rental } 
+        else      
+          format.html { redirect_to @rental, :notice => 'Rental was successfully created.' }
+          format.json { render :json => @rental, :status => :created, :location => @rental }  
+        end        
       else
         format.html { render :action => "new" }
-        format.json { render :json => @rental.errors, :status => :unprocessable_entity }
+        format.json { render :json => @rental.errors, :status => :unprocessable_entity }      
       end
     end
   end
