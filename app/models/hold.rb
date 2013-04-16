@@ -7,7 +7,7 @@ class Hold < ActiveRecord::Base
   belongs_to :physical_item, :foreign_key => :barcode_id, :primary_key => :barcode_id
 
   validates_presence_of :user_id
-  validates_presence_of :barcode_id, :message => 'No copies are avaliable to hold at this time. Please try again later.'
+  validates_presence_of :barcode_id
   validates_presence_of :start_date
   validates_presence_of :end_date
 
@@ -24,9 +24,12 @@ private
   end
 
   def validate_barcode_id
-    if !PhysicalItem.exists?(:barcode_id => self.barcode_id)
-      errors.add(:barcode_id, "Not avaliable for this item.")
+    if !PhysicalItem.exists?(:barcode_id => self.barcode_id) or Rental.exists?(:barcode_id => self.barcode_id)
+      errors.add(:barcode_id, "Not avaliable for hold at this item.")
     end
+    if Rental.exists?(:barcode_id => self.barcode_id)
+      errors.add(:barcode_id, "is currently rented.")
+    end    
   end
 
 end
